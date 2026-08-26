@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://adrianpeticila.github.io/ai-babies/sitemap.xml
