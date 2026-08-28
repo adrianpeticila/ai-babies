@@ -581,7 +581,113 @@
       justify-content: space-between;
       gap: 2rem;
     }
+  
+    /* 2-Column Brutalist Dictionary Layout */
+    .dict-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .dict-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .dict-sidebar {
+      background: var(--bg-alt);
+      border: 2px solid var(--border-dark);
+      padding: 1.25rem;
+      position: sticky;
+      top: 80px;
+    }
+    .dict-sidebar-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    .dict-search-box {
+      width: 100%;
+      margin-bottom: 1.25rem;
+    }
+    .dict-categories-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .dict-cat-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--border-dark);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .dict-cat-btn:hover {
+      background: #f0f0f0;
+    }
+    .dict-cat-btn.active {
+      background: var(--border-dark);
+      color: #ffffff;
+    }
+    .dict-cat-btn.active .cat-pill {
+      background: #ffffff;
+      color: var(--border-dark);
+    }
+    .cat-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #e5e7eb;
+      color: #111827;
+      padding: 2px 6px;
+      border-radius: 0px;
+    }
+    .dict-status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid var(--border-dark);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .dict-view-title {
+      font-family: var(--font);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .dict-view-counter {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .dict-see-more-box {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .dict-see-more-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
   </style>
+  <meta property="og:image" content="https://aiforbabies.pages.dev/assets/ai-babies-banner.svg">
+  <meta name="twitter:image" content="https://aiforbabies.pages.dev/assets/ai-babies-banner.svg">
 </head>
 <body>
 
@@ -1131,62 +1237,129 @@
     let searchQuery = '';
 
     // Render terms grid
-    function renderTerms() {
+    
+    // --- DICTIONARY 2-COLUMN LOGIC ---
+    const FEATURED_TERM_IDS = [
+      "speculative-decoding",
+      "kv-cache",
+      "rag",
+      "react-pattern",
+      "moe",
+      "webmcp"
+    ];
+    let currentDictionaryCategory = 'Featured';
+
+    function selectDictionaryCategory(category, element) {
+      currentDictionaryCategory = category;
+      const searchInput = document.getElementById('term-search-input');
+      if (searchInput) searchInput.value = '';
+      
+      document.querySelectorAll('.dict-cat-btn').forEach(btn => btn.classList.remove('active'));
+      if (element) {
+        element.classList.add('active');
+      } else {
+        const btn = document.querySelector(`.dict-cat-btn[data-cat="${category}"]`);
+        if (btn) btn.classList.add('active');
+      }
+
+      renderDictionary();
+    }
+
+    function handleDictionarySearch() {
+      const input = document.getElementById('term-search-input');
+      if (!input) return;
+      const query = input.value.trim().toLowerCase();
+      
+      if (query.length > 0) {
+        document.querySelectorAll('.dict-cat-btn').forEach(btn => btn.classList.remove('active'));
+        renderDictionarySearch(query);
+      } else {
+        renderDictionary();
+      }
+    }
+
+    function renderDictionary() {
       const container = document.getElementById('terms-grid-container');
+      const counter = document.getElementById('terms-counter');
+      const viewTitle = document.getElementById('dict-view-title');
+      const seeMore = document.getElementById('dict-see-more-container');
       if (!container) return;
 
-      const filtered = CONCEPTS.filter(item => {
-        const matchesCat = (activeCategory === 'All' || item.category === activeCategory);
-        const q = searchQuery.toLowerCase();
-        const matchesSearch = !q || 
-          item.title.toLowerCase().includes(q) || 
-          item.tldr.toLowerCase().includes(q) ||
-          item.deep_dive.toLowerCase().includes(q) ||
-          item.category.toLowerCase().includes(q);
-        return matchesCat && matchesSearch;
-      });
+      let termsToDisplay = [];
 
-      document.getElementById('terms-counter').textContent = `Showing ${filtered.length} of 77 Terms`;
+      if (currentDictionaryCategory === 'Featured') {
+        termsToDisplay = TERMS.filter(t => FEATURED_TERM_IDS.includes(t.id) || [0, 11, 22, 33, 44, 66].includes(TERMS.indexOf(t))).slice(0, 6);
+        if (viewTitle) viewTitle.textContent = "Featured Concepts";
+        if (counter) counter.textContent = `Showing 6 of 77 terms`;
+        if (seeMore) seeMore.style.display = 'block';
+      } else if (currentDictionaryCategory === 'All') {
+        termsToDisplay = TERMS;
+        if (viewTitle) viewTitle.textContent = "All Engineering Terms";
+        if (counter) counter.textContent = `Showing all 77 terms`;
+        if (seeMore) seeMore.style.display = 'none';
+      } else {
+        termsToDisplay = TERMS.filter(t => t.category === currentDictionaryCategory);
+        if (viewTitle) viewTitle.textContent = currentDictionaryCategory;
+        if (counter) counter.textContent = `Showing ${termsToDisplay.length} terms in ${currentDictionaryCategory}`;
+        if (seeMore) seeMore.style.display = 'none';
+      }
 
-      if (filtered.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; padding: 3rem; text-align: center; font-family: var(--mono); color: var(--text-muted); border: 1px dashed var(--border);">No matching terms found. Try a different search query.</div>`;
+      container.innerHTML = termsToDisplay.map(renderTermCard).join('');
+    }
+
+    function renderDictionarySearch(query) {
+      const container = document.getElementById('terms-grid-container');
+      const counter = document.getElementById('terms-counter');
+      const viewTitle = document.getElementById('dict-view-title');
+      const seeMore = document.getElementById('dict-see-more-container');
+      if (!container) return;
+
+      if (seeMore) seeMore.style.display = 'none';
+
+      const matches = TERMS.filter(t => 
+        (t.name && t.name.toLowerCase().includes(query)) ||
+        (t.definition && t.definition.toLowerCase().includes(query)) ||
+        (t.architecture && t.architecture.toLowerCase().includes(query)) ||
+        (t.category && t.category.toLowerCase().includes(query))
+      );
+
+      if (viewTitle) viewTitle.textContent = `Search: "${query}"`;
+      if (counter) counter.textContent = `Found ${matches.length} matching terms`;
+
+      if (matches.length === 0) {
+        container.innerHTML = `
+          <div class="card" style="grid-column: 1/-1; text-align: center; padding: 2.5rem;">
+            <div style="font-family: var(--mono); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">NO TERMS FOUND</div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Zero matches for "${query}". Try searching for KV Cache, RAG, Speculative Decoding, or LoRA.</p>
+            <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="resetDictionarySearch()">Reset Search</button>
+          </div>
+        `;
         return;
       }
 
-      container.innerHTML = filtered.map(item => `
-        <div class="term-card" onclick="openTermModal('${item.slug}')">
-          <div>
-            <div class="term-header">
-              <div class="term-title">${item.title}</div>
-              <span class="term-cat-tag">${item.category}</span>
-            </div>
-            <p class="term-tldr">${item.tldr}</p>
-          </div>
-          <div class="term-footer">
-            <span>Read Architecture</span>
-            <span>-></span>
-          </div>
-        </div>
-      `).join('');
+      container.innerHTML = matches.map(renderTermCard).join('');
     }
 
-    function filterTerms() {
-      searchQuery = document.getElementById('term-search-input').value.trim();
-      renderTerms();
+    function scrollToCategoriesOrSearch() {
+      const sidebar = document.querySelector('.dict-sidebar');
+      if (sidebar) {
+        sidebar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const input = document.getElementById('term-search-input');
+        if (input) input.focus();
+      }
     }
 
-    function setCategoryFilter(cat, btn) {
-      activeCategory = cat;
-      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      renderTerms();
+    function resetDictionarySearch() {
+      const input = document.getElementById('term-search-input');
+      if (input) input.value = '';
+      selectDictionaryCategory('Featured', document.querySelector('.dict-cat-btn[data-cat="Featured"]'));
     }
 
-    function resetSearch() {
-      document.getElementById('term-search-input').value = '';
-      searchQuery = '';
-      setCategoryFilter('All', document.querySelector('.cat-tab'));
-    }
+    // Alias old filterTerms / setCategoryFilter for backward compatibility
+    function filterTerms() { handleDictionarySearch(); }
+    function setCategoryFilter(cat, elem) { selectDictionaryCategory(cat, elem); }
+    function resetSearch() { resetDictionarySearch(); }
+
 
     function openTermModal(slug) {
       const item = CONCEPTS.find(c => c.slug === slug);
@@ -1657,7 +1830,7 @@ High-Level Goal: Deliver reliable, production-grade ${feat} without technical de
 
     // Initial render
     document.addEventListener('DOMContentLoaded', () => {
-      renderTerms();
+      renderDictionary();
       generateAgentsSpec();
       calculateSpeculativeSpeed();
       generatePRDSpec();
