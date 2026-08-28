@@ -1306,6 +1306,26 @@
     </div>
   </div>
 
+  
+  <!-- Lead Capture / Engineering Dispatch -->
+  <section id="engineering-dispatch" style="margin: 4rem 0 2rem 0; border: 1px solid var(--border); padding: 2rem; background: var(--bg-card);">
+    <div style="max-width: 680px; margin: 0 auto; text-align: center;">
+      <div style="font-family: var(--mono); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">[ PRIVATE PROTOCOL ]</div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text);">THE ENGINEERING DISPATCH</h2>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5;">
+        Weekly deep dives into production multi-agent architectures, speculative decoding speedups, and prompt optimization benchmarks. Zero fluff. Pure signal.
+      </p>
+      
+      <form id="dispatch-form" onsubmit="handleDispatchSubscribe(event)" style="display: flex; gap: 0.5rem; max-width: 480px; margin: 0 auto; flex-wrap: wrap;">
+        <input type="email" id="dispatch-email" required placeholder="engineer@domain.com" style="flex: 1; min-width: 220px; padding: 0.75rem 1rem; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 0.85rem; outline: none;" />
+        <button type="submit" style="padding: 0.75rem 1.5rem; background: var(--text); color: var(--bg); border: 1px solid var(--text); font-family: var(--mono); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: opacity 0.2s;">
+          SUBSCRIBE
+        </button>
+      </form>
+      <div id="dispatch-feedback" style="display: none; margin-top: 1rem; font-family: var(--mono); font-size: 0.8rem; font-weight: 700;"></div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer>
     <div class="footer-content">
