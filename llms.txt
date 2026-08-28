@@ -1,15 +1,20 @@
 # AI for Babies
-> AI Explained for People with Actual Jobs. A high-contrast, developer-friendly engineering suite explaining LLMs, RAG architectures, Agent workflows, inference optimization, and marketing intelligence without fluff.
+> AI Explained for People with Actual Jobs. High-contrast, developer-friendly engineering suite explaining LLMs, RAG architectures, Agent workflows, inference optimization, and marketing intelligence without corporate fluff.
 
 ## Core Capabilities & Interactive Modules
-- [AI Dictionary](https://aiforbabies.pages.dev/#dictionary): 77+ categorized, deep-dive concepts covering Core LLM, Architecture, Agents, Inference, Data/RAG, Evaluation, Hardware/Ops, and Frameworks.
-- [Prompt Engine](https://aiforbabies.pages.dev/#prompt-engine): Interactive prompt diagnostic, template generator, and real-time rubric optimizer.
-- [RAG Interactive Course](https://aiforbabies.pages.dev/#rag-course): Visual step-by-step masterclass covering chunking, embeddings, similarity search, reranking, context injection, and hallucination mitigation.
-- [AGENTS.md Multi-Agent Spec Engine](https://aiforbabies.pages.dev/#agents-spec): Declarative system prompt specification generator, boundary validator, and verifier contract builder.
-- [Speculative Decoding Speed Lab](https://aiforbabies.pages.dev/#speculative-decoding): Interactive inference simulator demonstrating draft model speculation, parallel verification, acceptance rate math, and latency speedups.
-- [Agent Gym Workspace Simulator](https://aiforbabies.pages.dev/#agent-gym): Interactive agent playground with environment states, ReAct loops, bash tool harness, and circuit breakers.
-- [WebMCP Tool Scanner](https://aiforbabies.pages.dev/#webmcp-scanner): Discovery, schema inspector, and sandbox capability tester for Model Context Protocol tools.
-- [Marketing Intelligence Layer](https://aiforbabies.pages.dev/#marketing-intelligence): Agentic ICP positioning matrix, Cialdini persuasion levers, competitor teardown, and GEO/AIO search readiness audit.
+- [77 Essential AI Terms](https://aiforbabies.pages.dev/#dictionary): 77 categorized, deep-dive concepts covering Foundations, Prompting & Inference, RAG & Search, Agents & Multi-Agent, Performance & Speed, Evals & Benchmarks, and Protocols & WebMCP.
+- [Prompt Engine](https://aiforbabies.pages.dev/#prompt-engine): Diagnostic tool analyzing prompt quality against 8 production engineering rules.
+- [RAG Masterclass](https://aiforbabies.pages.dev/#rag-course): Hybrid BM25+Dense search, Cross-Encoder rerankers, and contextual retrieval pipelines.
+- [AGENTS.md Generator](https://aiforbabies.pages.dev/#agents-spec): Linux Foundation standard specification generator for autonomous coding agent governance.
+- [100k Tool Scaling](https://aiforbabies.pages.dev/#tool-scaling): Skill paging pattern and RAM memory management for massive toolsets.
+- [Speculative Decoding Lab](https://aiforbabies.pages.dev/#speculative-decoding): Mathematical simulator bypassing GPU DRAM memory bandwidth bottlenecks.
+- [Agent Gym](https://aiforbabies.pages.dev/#agent-gym): Synthetic task generation and Harbour evaluation frameworks.
+- [WebMCP Protocol Scanner](https://aiforbabies.pages.dev/#webmcp-scanner): Browser-side agent tools and client runtime integrations.
+- [Marketing Intelligence Layer](https://aiforbabies.pages.dev/#marketing-intelligence): 4-stage confidential knowledge distillation pipeline.
+- [AI Spec PRD Framework](https://aiforbabies.pages.dev/#spec-prd): Structured specification framework bridging product intent and agent execution.
 
-## Full LLM Knowledge Base
-- [Full Text Corpus](https://aiforbabies.pages.dev/llms-full.txt): Comprehensive documentation containing all dictionary definitions, architectural blueprints, and protocol specifications.\n
+## Technical Specifications
+- WebMCP Manifest: https://aiforbabies.pages.dev/.well-known/webmcp.json
+- Complete LLM Documentation: https://aiforbabies.pages.dev/llms-full.txt
+- Sitemap: https://aiforbabies.pages.dev/sitemap.xml
+- Robots: https://aiforbabies.pages.dev/robots.txt

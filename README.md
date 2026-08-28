@@ -2,45 +2,48 @@
 
 # AI for Babies
 
-> **AI Explained for People with Actual Jobs.**
-> Modern high-contrast engineering suite explaining LLMs, RAG architectures, Agent workflows, inference optimization, and marketing intelligence without corporate fluff.
+> **No hype. Pure signal.**
+> High-contrast developer-first engineering suite explaining LLMs, RAG architectures, Agent workflows, inference optimization, and marketing intelligence without corporate fluff.
 
 Live Platform: [https://aiforbabies.pages.dev](https://aiforbabies.pages.dev)
 Full LLM Documentation: [https://aiforbabies.pages.dev/llms-full.txt](https://aiforbabies.pages.dev/llms-full.txt)
+WebMCP Tool Spec: [https://aiforbabies.pages.dev/.well-known/webmcp.json](https://aiforbabies.pages.dev/.well-known/webmcp.json)
 
 ---
 
-## Architecture & Core Modules
+## Core Capabilities
 
-AI for Babies is a zero-dependency, ultra-fast, high-contrast engineering suite built with high-contrast UI primitives (clean typography, crisp borders, light mode default with dark mode toggle). It includes 8 interactive modules:
-
-1. **Interactive Prompt Engineering Suite** : Interactive diagnostic, template constructor, and real-time rubric optimizer for crafting production-ready system prompts (Few-Shot, CoT, ReAct, Tree of Thoughts, System Prompts).
-2. **Production RAG Architecture Course & Visual Flow** : Step-by-step interactive visualizer for document chunking, dense embeddings, vector search, cross-encoder reranking, context injection, and hallucination mitigation.
-3. **106-Term AI Dictionary** : Categorized, searchable, deep-dive reference covering Core LLM, Architecture, Agents, Inference, Data/RAG, Evaluation, Hardware/Ops, and Frameworks with interactive search and zero-dependency filters.
-4. **Multi-Agent Systems & AGENTS.md Specifications** : Declarative multi-agent system prompt generator, boundary validator, and verifier contract builder.
-5. **Inference Optimization & Token Speed Lab** : Interactive inference simulator demonstrating draft model speculation, parallel verification, acceptance rate mathematics, and latency speedups.
-6. **Agent Gym (Benchmark Interactive Playground)** : Interactive agent playground featuring environment state transitions, ReAct execution loops, bash tool harness, and circuit breakers.
-7. **WebMCP Tools Integration & Architecture** : Model Context Protocol discovery engine, JSON Schema inspector, and sandbox capability validator.
-8. **Marketing Intelligence & AI Operations** : Agentic ICP positioning matrix, Cialdini persuasion levers, competitor teardown, and GEO/AIO search readiness audit.
+1. **77 Essential AI Terms**: Complete reference dictionary across 7 engineering categories (11 terms each) with deep architecture breakdowns, anti-patterns, and production tips.
+2. **Prompt Engine Diagnostic**: Automated tool scoring prompts against 8 strict production rules (negative constraints, schemas, few-shots, token boundaries).
+3. **RAG Masterclass**: Foundations to production: Hybrid BM25+Dense retrieval, Reciprocal Rank Fusion, and Cross-Encoder reranking simulator.
+4. **AGENTS.md Linux Foundation Standard**: Specification generator creating standardized constitutions for autonomous coding agents.
+5. **100k Tool Scaling & RAM Paging**: Dynamic skill paging pattern preventing context bloat across massive tool libraries.
+6. **Speculative Decoding Speed Lab**: Mathematical latency simulator computing speedup factors bypassing GPU DRAM bandwidth bottlenecks.
+7. **Agent Gym & Environment Simulator**: Synthetic task generation and Harbour evaluation frameworks.
+8. **WebMCP Protocol Integration**: Browser-side tool exposure via `window.modelContext` and `/.well-known/webmcp.json`.
+9. **Marketing Intelligence Layer**: 4-stage pipeline distilling proprietary field experience into sanitized engineering assets.
+10. **AI Spec PRD Framework**: 6-pillar specification builder bridging product vision and autonomous execution.
 
 ---
 
-## Deployment
+## WebMCP Tools Implemented
 
-The site is statically served and hosted on Cloudflare Pages:
-```bash
-npx wrangler pages deploy . --project-name=aiforbabies
-```
+The platform natively implements 4 client-side WebMCP tools:
+- `search_dictionary`: Query all 77 categorized AI concepts.
+- `diagnose_prompt`: Audit prompts against 8 production rules.
+- `generate_agent_spec`: Build standardized AGENTS.md configurations.
+- `calculate_speculative_speed`: Compute speculative decoding speedups.
 
-## Metadata & LLM Readiness
+---
 
-- `sitemap.xml`: Complete URL map with section anchor definitions.
-- `robots.txt`: Explicit indexing rules and sitemap discovery.
-- `llms.txt`: Structured high-level index for AI crawlers.
-- `llms-full.txt`: Complete knowledge corpus for LLM ingest.
+## Design Philosophy
+
+- **Strict 2-Color Monochrome**: #FFFFFF background, #F9FAFB panels, #111827 high-contrast slate text and borders.
+- **Zero Third-Party Tracking**: No telemetry, no external ad scripts, no bloat.
+- **Agent First**: High-density semantic view for LLM web crawlers (`?agent=1` or `[Agent Mode]`).
 
 ---
 
 ## License
 
-MIT License. Built by [Adrian M. Peticila](https://github.com/adrianpeticila).
+MIT License. Open engineering standard.

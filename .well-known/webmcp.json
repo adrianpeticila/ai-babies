@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "webmcp_version": "1.0.0",
+  "app_name": "AI for Babies",
+  "description": "High-contrast developer-first AI engineering suite and reference platform.",
+  "tools": [
+    {
+      "name": "search_dictionary",
+      "description": "Search 77 categorized AI engineering concepts across Foundations, Prompting, RAG, Agents, Speed, Evals, and WebMCP.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword or conceptual phrase (e.g., 'Speculative Decoding', 'KV Cache', 'BM25')."
+          },
+          "category": {
+            "type": "string",
+            "description": "Optional category filter: 'Foundations', 'Prompting & Inference', 'RAG & Search', 'Agents & Multi-Agent', 'Performance & Speed', 'Evals & Benchmarks', 'Protocols & WebMCP'.",
+            "enum": [
+              "All",
+              "Foundations",
+              "Prompting & Inference",
+              "RAG & Search",
+              "Agents & Multi-Agent",
+              "Performance & Speed",
+              "Evals & Benchmarks",
+              "Protocols & WebMCP"
+            ]
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "diagnose_prompt",
+      "description": "Diagnose an AI prompt against 8 strict production engineering rules (negative constraints, few-shot examples, JSON schemas, role clarity, context placement, stop sequences, boundary rules, token efficiency).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "prompt_text": {
+            "type": "string",
+            "description": "Raw prompt text to evaluate."
+          }
+        },
+        "required": [
+          "prompt_text"
+        ]
+      }
+    },
+    {
+      "name": "generate_agent_spec",
+      "description": "Generate an open Linux Foundation compliant AGENTS.md specification file for a repository.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "description": "Project or repository name."
+          },
+          "tech_stack": {
+            "type": "string",
+            "description": "Primary tech stack (e.g. 'Python, FastAPI, Docker, SQLite')."
+          },
+          "dev_command": {
+            "type": "string",
+            "description": "Development server start command."
+          },
+          "test_command": {
+            "type": "string",
+            "description": "Test execution command."
+          },
+          "always_rules": {
+            "type": "string",
+            "description": "Autonomous actions allowed without confirmation."
+          },
+          "ask_rules": {
+            "type": "string",
+            "description": "Actions requiring explicit human confirmation."
+          },
+          "never_rules": {
+            "type": "string",
+            "description": "Strict forbidden actions."
+          }
+        },
+        "required": [
+          "project_name",
+          "tech_stack",
+          "dev_command",
+          "test_command"
+        ]
+      }
+    },
+    {
+      "name": "calculate_speculative_speed",
+      "description": "Calculate theoretical speedup and token throughput for speculative decoding based on draft model parameters, target model size, draft length gamma, and acceptance rate alpha.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "target_params_b": {
+            "type": "number",
+            "description": "Target model size in billions of parameters (e.g. 70)."
+          },
+          "draft_params_b": {
+            "type": "number",
+            "description": "Draft model size in billions of parameters (e.g. 2)."
+          },
+          "draft_length_gamma": {
+            "type": "integer",
+            "description": "Number of speculative tokens proposed per step (typically 3 to 8)."
+          },
+          "acceptance_rate_alpha": {
+            "type": "number",
+            "description": "Draft token acceptance rate between 0.0 and 1.0 (e.g. 0.75)."
+          },
+          "memory_bandwidth_gb_s": {
+            "type": "number",
+            "description": "GPU memory bandwidth in GB/s (e.g. 2000 for A100, 3350 for H100)."
+          }
+        },
+        "required": [
+          "target_params_b",
+          "draft_params_b",
+          "draft_length_gamma",
+          "acceptance_rate_alpha"
+        ]
+      }
+    }
+  ]
+}

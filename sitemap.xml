@@ -16,54 +16,72 @@
     <loc>https://aiforbabies.pages.dev/#prompt-engine</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/#rag-course</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/#agents-spec</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aiforbabies.pages.dev/#tool-scaling</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/#speculative-decoding</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/#agent-gym</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/#webmcp-scanner</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/#marketing-intelligence</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aiforbabies.pages.dev/#spec-prd</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aiforbabies.pages.dev/.well-known/webmcp.json</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/llms.txt</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://aiforbabies.pages.dev/llms-full.txt</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>
