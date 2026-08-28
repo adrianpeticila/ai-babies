@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aiforbabies.pages.dev/sitemap.xml\n
+Sitemap: https://aiforbabies.pages.dev/sitemap.xml
