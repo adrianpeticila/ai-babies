@@ -1,3 +1,15 @@
-# https://adrianpeticila.github.io/ai-babies
+# AI for Babies
+> AI Explained for People with Actual Jobs. A high-contrast, developer-friendly engineering suite explaining LLMs, RAG architectures, Agent workflows, inference optimization, and marketing intelligence without fluff.
 
-- [AI for Babies - AI Explained for People with Actual Jobs](https://adrianpeticila.github.io/ai-babies)
+## Core Capabilities & Interactive Modules
+- [AI Dictionary](https://aiforbabies.pages.dev/#dictionary): 77+ categorized, deep-dive concepts covering Core LLM, Architecture, Agents, Inference, Data/RAG, Evaluation, Hardware/Ops, and Frameworks.
+- [Prompt Engine](https://aiforbabies.pages.dev/#prompt-engine): Interactive prompt diagnostic, template generator, and real-time rubric optimizer.
+- [RAG Interactive Course](https://aiforbabies.pages.dev/#rag-course): Visual step-by-step masterclass covering chunking, embeddings, similarity search, reranking, context injection, and hallucination mitigation.
+- [AGENTS.md Multi-Agent Spec Engine](https://aiforbabies.pages.dev/#agents-spec): Declarative system prompt specification generator, boundary validator, and verifier contract builder.
+- [Speculative Decoding Speed Lab](https://aiforbabies.pages.dev/#speculative-decoding): Interactive inference simulator demonstrating draft model speculation, parallel verification, acceptance rate math, and latency speedups.
+- [Agent Gym Workspace Simulator](https://aiforbabies.pages.dev/#agent-gym): Interactive agent playground with environment states, ReAct loops, bash tool harness, and circuit breakers.
+- [WebMCP Tool Scanner](https://aiforbabies.pages.dev/#webmcp-scanner): Discovery, schema inspector, and sandbox capability tester for Model Context Protocol tools.
+- [Marketing Intelligence Layer](https://aiforbabies.pages.dev/#marketing-intelligence): Agentic ICP positioning matrix, Cialdini persuasion levers, competitor teardown, and GEO/AIO search readiness audit.
+
+## Full LLM Knowledge Base
+- [Full Text Corpus](https://aiforbabies.pages.dev/llms-full.txt): Comprehensive documentation containing all dictionary definitions, architectural blueprints, and protocol specifications.\n
