@@ -1,6 +1,6 @@
-# https://adrianpeticila.github.io/ai-babies - full content for LLMs
+# https://aiforbabies.pages.dev - full content for LLMs
 
-## https://adrianpeticila.github.io/ai-babies
+## https://aiforbabies.pages.dev
 
 AI for Babies - AI Explained for People with Actual Jobs
 
