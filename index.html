@@ -1,93 +1,323 @@
-```html
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossar AI pentru decizii operaționale fără jargon</title>
-    <meta name="description" content="Abonament lunar la newsletter și glossar AI automatizat. Înțelegi conceptele AI în maximum 150 de cuvinte, aplicabil instant în rolul tău curent. Ideal pentru manageri ne-tehnici, CMO, directori HR și fondatori." />
-    <meta property="og:title" content="Glossar AI pentru decizii operaționale fără jargon" />
-    <meta property="og:description" content="Abonament lunar la newsletter și glossar AI automatizat. Înțelegi conceptele AI în maximum 150 de cuvinte, aplicabil instant în rolul tău curent. Ideal pentru manageri ne-tehnici, CMO, directori HR și fondatori." />
-    <meta property="og:url" content="https://ai-babies.github.io/glossar-ai/" />
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI for Babies - AI Explained for People with Actual Jobs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { dark: '#070913', card: '#0E1326', border: '#1E293B', accent: '#38BDF8', glow: '#6366F1' }
+          }
         }
-        header {
-            background-color: #1a1a1a;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            color: #ffffff;
-        }
-        h2 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: #ffffff;
-        }
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            padding: 50px;
-            justify-content: center;
-        }
-        .feature {
-            background-color: #1a1a1a;
-            border-radius: 8px;
-            padding: 20px;
-            width: max-content;
-        }
-        .pricing {
-            text-align: center;
-            padding: 50px;
-            background-color: #252525;
-        }
-        .cta {
-            text-align: center;
-            padding: 30px;
-            background-color: #1a1a1a;
-        }
-        .cta a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 4px;
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #070913; color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Glossar AI pentru decizii opera\u021bionale f\u0103r\u0103 jargon","url":"https://adrianpeticila.github.io/ai-babies/","isPartOf":{"@id":"https://adrianpeticila.github.io/ai-babies/"}}
+{"@context":"https://schema.org","@type":"WebPage","name":"AI for Babies - AI Explained for People with Actual Jobs","url":"https://adrianpeticila.github.io/ai-babies/","isPartOf":{"@id":"https://adrianpeticila.github.io/ai-babies/"}}
 </script>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-<header>
-    <h1>Glossar AI pentru decizii operaționale fără jargon</h1>
-    <p class="subheadline">Înțelegi conceptele AI în maximum 150 de cuvinte, aplicabil instant în rolul tău curent</p>
-</header>
+  <!-- Header -->
+  <header class="border-b border-slate-800/80 bg-brand-dark/90 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">🤖</span>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            AI for Babies <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono">v2.0 Dual</span>
+          </h1>
+          <p class="text-xs text-slate-400">AI explained for people who have actual jobs.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="modeToggle" onclick="toggleMode()" class="text-xs font-mono px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-700 text-slate-300 transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="modeLabel">Agent Mode: OFF</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-<section class="features">
-    <div class="feature">Actualizări generate constant pe newsletter și glossar</div>
-    <div class="feature">Analogii absurde pentru înțelegere rapidă a conceptelor AI</div>
-    <div class="feature">Distribuit săptămânal prin email și accesibil public pe site-urile GitHub Pages</div>
-    <div class="feature">Ideal pentru manageri ne-tehnici, CMO, directori HR și fondatori</div>
-</section>
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full space-y-12">
 
-<section class="pricing">
-    <h2>Preț: 29 EUR/lună</h2>
-    <p>Pentru manageri ne-tehnici, CMO, directori HR și fondatori care necesită literație AI pentru decizii operaționale.</p>
-</section>
+    <!-- Hero / Intro -->
+    <section class="text-center space-y-4 max-w-3xl mx-auto pt-4">
+      <h2 class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 tracking-tight">
+        Zero Jargon. Real Clarity.
+      </h2>
+      <p class="text-slate-400 text-base sm:text-lg">
+        Learn how language models, context windows, and autonomous agents actually work without needing a computer science degree.
+      </p>
+    </section>
 
-<section class="cta">
-    <a href="CONTACT">Descărcați acum</a>
-</section>
+    <!-- Agent Mode Banner (Hidden by default) -->
+    <section id="agentBanner" class="hidden p-6 rounded-2xl bg-cyan-950/20 border border-cyan-500/30 text-cyan-200 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="font-mono text-sm font-bold flex items-center gap-2 text-cyan-400">
+          <span>⚡</span> MACHINE INTERFACE (AGENT CITIZEN PROTOCOL)
+        </h3>
+        <span class="text-xs font-mono text-cyan-500/80">x402 Enabled</span>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        This site provides full machine discoverability for autonomous agents and IDE assistants. Access machine context or connect to our MCP Server:
+      </p>
+      <div class="flex flex-wrap gap-2 text-xs font-mono pt-1">
+        <a href="/llms.txt" class="px-2.5 py-1 bg-cyan-900/40 hover:bg-cyan-900/70 border border-cyan-500/40 rounded text-cyan-300">/llms.txt</a>
+        <a href="/llms-full.txt" class="px-2.5 py-1 bg-cyan-900/40 hover:bg-cyan-900/70 border border-cyan-500/40 rounded text-cyan-300">/llms-full.txt</a>
+        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-slate-300">mcp: stdio (server/mcp_server.py)</span>
+      </div>
+    </section>
 
+    <!-- Interactive Glossary Section -->
+    <section class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white">The 6 Pillars Glossary</h3>
+          <p class="text-xs text-slate-400">Click any card to inspect the breakdown.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="text" id="searchBox" oninput="filterCards()" placeholder="Search concepts (e.g. MCP, Tokens)..." class="bg-slate-900/90 border border-slate-700 text-xs px-3 py-2 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 w-full sm:w-64">
+        </div>
+      </div>
+
+      <!-- Pillars Tabs -->
+      <div class="flex flex-wrap gap-1.5" id="pillarTabs">
+        <button onclick="setPillar('all')" class="pillar-btn active px-3 py-1 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">All (6)</button>
+        <button onclick="setPillar('The Engine')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Engine</button>
+        <button onclick="setPillar('The Wires')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Wires</button>
+        <button onclick="setPillar('The Brain')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Brain</button>
+        <button onclick="setPillar('The Society')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Society</button>
+        <button onclick="setPillar('The Armor')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Armor</button>
+        <button onclick="setPillar('The Output')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Output</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <!-- Card: MCP -->
+        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Wires" data-name="model context protocol mcp">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">The Wires</span>
+            <span class="text-xs text-slate-500 font-mono">#01</span>
+          </div>
+          <h4 class="text-base font-bold text-white">Model Context Protocol (MCP)</h4>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div><strong class="text-slate-400">What:</strong> An open standard to connect AI models to external tools and internal data.</div>
+            <div><strong class="text-slate-400">Analogy:</strong> The universal USB-C port for artificial intelligence.</div>
+            <div><strong class="text-slate-400">Why it matters:</strong> Connect your tools once and use them with any modern AI agent.</div>
+            <div class="pt-1 border-t border-slate-800 text-cyan-300 font-medium">Takeaway: Standard protocols beat vendor lock-in every time.</div>
+          </div>
+        </div>
+
+        <!-- Card: Tokens -->
+        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Engine" data-name="tokens token">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">The Engine</span>
+            <span class="text-xs text-slate-500 font-mono">#02</span>
+          </div>
+          <h4 class="text-base font-bold text-white">Tokens</h4>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div><strong class="text-slate-400">What:</strong> The atomic pieces of words that language models read and write.</div>
+            <div><strong class="text-slate-400">Analogy:</strong> Lego bricks or syllables of machine language.</div>
+            <div><strong class="text-slate-400">Why it matters:</strong> Token count directly dictates your cloud bills and model speed.</div>
+            <div class="pt-1 border-t border-slate-800 text-purple-300 font-medium">Takeaway: Tokens are compute currency. Keep context trimmed.</div>
+          </div>
+        </div>
+
+        <!-- Card: Context Window -->
+        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Engine" data-name="context window memory">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">The Engine</span>
+            <span class="text-xs text-slate-500 font-mono">#03</span>
+          </div>
+          <h4 class="text-base font-bold text-white">Context Window</h4>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div><strong class="text-slate-400">What:</strong> The maximum number of tokens an AI can see at one time.</div>
+            <div><strong class="text-slate-400">Analogy:</strong> The size of the physical desk where the AI is working.</div>
+            <div><strong class="text-slate-400">Why it matters:</strong> When overloaded, earlier instructions drop off or degrade.</div>
+            <div class="pt-1 border-t border-slate-800 text-purple-300 font-medium">Takeaway: A bigger desk helps, but a clean desk prevents errors.</div>
+          </div>
+        </div>
+
+        <!-- Card: Skills & Steering -->
+        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Brain" data-name="skills steering rule persona">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">The Brain</span>
+            <span class="text-xs text-slate-500 font-mono">#04</span>
+          </div>
+          <h4 class="text-base font-bold text-white">Skills & Rules Hierarchy</h4>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div><strong class="text-slate-400">What:</strong> Modular instruction folders loaded only when specifically needed.</div>
+            <div><strong class="text-slate-400">Analogy:</strong> Standard Operating Procedure manuals stored on a bookshelf.</div>
+            <div><strong class="text-slate-400">Why it matters:</strong> Keeps the main context tiny while enabling deep expertise on demand.</div>
+            <div class="pt-1 border-t border-slate-800 text-emerald-300 font-medium">Takeaway: Load knowledge surgically, not all at once.</div>
+          </div>
+        </div>
+
+        <!-- Card: Multi-Agent Loops -->
+        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Society" data-name="multi agent orchestrator worker verifier">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">The Society</span>
+            <span class="text-xs text-slate-500 font-mono">#05</span>
+          </div>
+          <h4 class="text-base font-bold text-white">Orchestrator-Worker Loops</h4>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div><strong class="text-slate-400">What:</strong> Dividing a complex task between specialized sub-agents.</div>
+            <div><strong class="text-slate-400">Analogy:</strong> A general contractor managing an electrician and a plumber.</div>
+            <div><strong class="text-slate-400">Why it matters:</strong> Prevents one giant context from getting tangled and confused.</div>
+            <div class="pt-1 border-t border-slate-800 text-amber-300 font-medium">Takeaway: Specialized small agents beat one monolithic prompt.</div>
+          </div>
+        </div>
+
+        <!-- Card: Canaries & Verification -->
+        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Armor" data-name="armor canary verifier testing failure">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">The Armor</span>
+            <span class="text-xs text-slate-500 font-mono">#06</span>
+          </div>
+          <h4 class="text-base font-bold text-white">Falsifiable Verifiers</h4>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div><strong class="text-slate-400">What:</strong> Independent deterministic checks that must be able to fail.</div>
+            <div><strong class="text-slate-400">Analogy:</strong> A smoke detector that you deliberately test with test smoke.</div>
+            <div><strong class="text-slate-400">Why it matters:</strong> A verification step that cannot fail is just decorative theater.</div>
+            <div class="pt-1 border-t border-slate-800 text-rose-300 font-medium">Takeaway: The verifier must never be the producer.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- JulieDx Style Diagnostic Evaluator -->
+    <section class="bg-brand-card border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>🩺</span> Prompt & Workflow Diagnostic Evaluator
+          </h3>
+          <p class="text-xs text-slate-400">JulieDx style root-cause audit for agent instructions and prompts.</p>
+        </div>
+        <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 border border-slate-700">Diagnostic Engine</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="space-y-3">
+          <label class="text-xs font-medium text-slate-300">Paste your prompt, task description, or agent rule:</label>
+          <textarea id="diagInput" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono" placeholder="Example: You are an expert copywriter. Write a blog post about AI in business. Make it engaging..."></textarea>
+          <button onclick="runDiagnostic()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-black font-bold text-xs tracking-wide transition-all shadow-lg shadow-cyan-500/10">
+            RUN DIAGNOSTIC AUDIT
+          </button>
+        </div>
+
+        <div id="diagResult" class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-center items-center text-center text-slate-500 text-xs space-y-2">
+          <span class="text-2xl">📋</span>
+          <p>Enter your prompt and click Run Diagnostic to see your architectural grade and root-cause fixes.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 space-y-2">
+    <p>AI for Babies &copy; 2026. Built for clarity and speed under adrianpeticila.</p>
+    <p class="font-mono text-[11px] text-slate-600">Dual Interface: Human Web / Agent MCP Protocol</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    let activePillar = 'all';
+
+    function toggleMode() {
+      const banner = document.getElementById('agentBanner');
+      const label = document.getElementById('modeLabel');
+      if (banner.classList.contains('hidden')) {
+        banner.classList.remove('hidden');
+        label.innerText = 'Agent Mode: ON';
+      } else {
+        banner.classList.add('hidden');
+        label.innerText = 'Agent Mode: OFF';
+      }
+    }
+
+    function setPillar(pillar) {
+      activePillar = pillar;
+      document.querySelectorAll('.pillar-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-cyan-500/20', 'text-cyan-400', 'border-cyan-500/30');
+        btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+        if ((pillar === 'all' && btn.innerText.startsWith('All')) || btn.innerText === pillar) {
+          btn.classList.add('active', 'bg-cyan-500/20', 'text-cyan-400', 'border-cyan-500/30');
+          btn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+        }
+      });
+      filterCards();
+    }
+
+    function filterCards() {
+      const q = document.getElementById('searchBox').value.toLowerCase();
+      document.querySelectorAll('.concept-card').forEach(card => {
+        const pillar = card.getAttribute('data-pillar');
+        const name = card.getAttribute('data-name');
+        const matchesPillar = (activePillar === 'all' || pillar === activePillar);
+        const matchesSearch = (!q || name.includes(q) || card.innerText.toLowerCase().includes(q));
+        card.style.display = (matchesPillar && matchesSearch) ? 'block' : 'none';
+      });
+    }
+
+    function runDiagnostic() {
+      const text = document.getElementById('diagInput').value.trim();
+      const res = document.getElementById('diagResult');
+      if (!text) {
+        res.innerHTML = '<span class="text-amber-400">Please enter some text first.</span>';
+        return;
+      }
+
+      let score = 'A';
+      let issues = [];
+
+      if (text.length < 30) {
+        score = 'D';
+        issues.push('Prompt is too underspecified. Add concrete inputs, outputs, and constraints.');
+      }
+      if (text.toLowerCase().includes('make it engaging') || text.toLowerCase().includes('be creative')) {
+        if (score === 'A') score = 'B';
+        issues.push('Vague subjective steering detected. Replace with measurable format rules or structural patterns.');
+      }
+      if (!text.toLowerCase().includes('return') && !text.toLowerCase().includes('format') && !text.toLowerCase().includes('output')) {
+        if (score === 'A') score = 'B-';
+        issues.push('Missing explicit output schema or structure constraints.');
+      }
+
+      if (issues.length === 0) {
+        issues.push('Solid structural clarity, specific constraints, and clear objective.');
+      }
+
+      res.className = 'bg-slate-900 border border-slate-700 rounded-xl p-5 text-left text-xs space-y-3';
+      res.innerHTML = `
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <span class="text-[11px] font-mono uppercase text-slate-400">Diagnostic Grade</span>
+            <div class="text-3xl font-black ${score.startsWith('A') ? 'text-emerald-400' : score.startsWith('B') ? 'text-cyan-400' : 'text-amber-400'}">${score}</div>
+          </div>
+          <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-300">Falsifiable Rubric</span>
+        </div>
+        <div class="space-y-2">
+          <div class="font-bold text-slate-200 text-xs">Root-Cause Analysis & Fixes:</div>
+          <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
+            ${issues.map(i => `<li>${i}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+  </script>
 </body>
 </html>
-```

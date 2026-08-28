@@ -2,14 +2,111 @@
 
 ## https://adrianpeticila.github.io/ai-babies
 
-```html
+AI for Babies - AI Explained for People with Actual Jobs
+
+  
+  
+  
+
+  
+
+  
+
+    
+
+      
+
+        
+🤖
+
+        
+
+          
+
+            AI for Babies 
+v2.0 Dual
+
+          
+
+          
+AI explained for people who have actual jobs.
+
+        
+
+      
+
+      
+
+        
+
+          
+
+          
+Agent Mode: OFF
+
+        
+
+      
+
+    
+
+  
+
+  
+
+  
+
+    
+
+    
+
+      
+
+        Zero Jargon. Real Clarity.
+      
+
+      
+
+        Learn how language models, context windows, and autonomous agents actually work without needing a computer science degree.
+      
 
     
 
     
 
     
-Glossar AI pentru decizii operaționale fără jargon
+
+      
+
+        
+
+          
+⚡
+ MACHINE INTERFACE (AGENT CITIZEN PROTOCOL)
+        
+
+        
+x402 Enabled
+
+      
+
+      
+
+        This site provides full machine discoverability for autonomous agents and IDE assistants. Access machine context or connect to our MCP Server:
+      
+
+      
+
+        
+/llms.txt
+
+        
+/llms-full.txt
+
+        
+mcp: stdio (server/mcp_server.py)
+
+      
 
     
 
@@ -17,35 +114,370 @@ Glossar AI pentru decizii operaționale fără jargon
 
     
 
-    
+      
+
+        
+
+          
+The 6 Pillars Glossary
+
+          
+Click any card to inspect the breakdown.
+
+        
+
+        
+
+          
+
+        
+
+      
+
+      
+
+      
+
+        
+All (6)
+
+        
+The Engine
+
+        
+The Wires
+
+        
+The Brain
+
+        
+The Society
+
+        
+The Armor
+
+        
+The Output
+
+      
+
+      
+
+      
+
+        
+
+        
+
+          
+
+            
+The Wires
+
+            
+#01
+
+          
+
+          
+Model Context Protocol (MCP)
+
+          
+
+            
+
+What:
+ An open standard to connect AI models to external tools and internal data.
+
+            
+
+Analogy:
+ The universal USB-C port for artificial intelligence.
+
+            
+
+Why it matters:
+ Connect your tools once and use them with any modern AI agent.
+
+            
+Takeaway: Standard protocols beat vendor lock-in every time.
+
+          
+
+        
+
+        
+
+        
+
+          
+
+            
+The Engine
+
+            
+#02
+
+          
+
+          
+Tokens
+
+          
+
+            
+
+What:
+ The atomic pieces of words that language models read and write.
+
+            
+
+Analogy:
+ Lego bricks or syllables of machine language.
+
+            
+
+Why it matters:
+ Token count directly dictates your cloud bills and model speed.
+
+            
+Takeaway: Tokens are compute currency. Keep context trimmed.
+
+          
+
+        
+
+        
+
+        
+
+          
+
+            
+The Engine
+
+            
+#03
+
+          
+
+          
+Context Window
+
+          
+
+            
+
+What:
+ The maximum number of tokens an AI can see at one time.
+
+            
+
+Analogy:
+ The size of the physical desk where the AI is working.
+
+            
+
+Why it matters:
+ When overloaded, earlier instructions drop off or degrade.
+
+            
+Takeaway: A bigger desk helps, but a clean desk prevents errors.
+
+          
+
+        
+
+        
+
+        
+
+          
+
+            
+The Brain
+
+            
+#04
+
+          
+
+          
+Skills & Rules Hierarchy
+
+          
+
+            
+
+What:
+ Modular instruction folders loaded only when specifically needed.
+
+            
+
+Analogy:
+ Standard Operating Procedure manuals stored on a bookshelf.
+
+            
+
+Why it matters:
+ Keeps the main context tiny while enabling deep expertise on demand.
+
+            
+Takeaway: Load knowledge surgically, not all at once.
+
+          
+
+        
+
+        
+
+        
+
+          
+
+            
+The Society
+
+            
+#05
+
+          
+
+          
+Orchestrator-Worker Loops
+
+          
+
+            
+
+What:
+ Dividing a complex task between specialized sub-agents.
+
+            
+
+Analogy:
+ A general contractor managing an electrician and a plumber.
+
+            
+
+Why it matters:
+ Prevents one giant context from getting tangled and confused.
+
+            
+Takeaway: Specialized small agents beat one monolithic prompt.
+
+          
+
+        
+
+        
+
+        
+
+          
+
+            
+The Armor
+
+            
+#06
+
+          
+
+          
+Falsifiable Verifiers
+
+          
+
+            
+
+What:
+ Independent deterministic checks that must be able to fail.
+
+            
+
+Analogy:
+ A smoke detector that you deliberately test with test smoke.
+
+            
+
+Why it matters:
+ A verification step that cannot fail is just decorative theater.
+
+            
+Takeaway: The verifier must never be the producer.
+
+          
+
+        
+
+      
 
     
 
     
-Glossar AI pentru decizii operaționale fără jargon
 
     
-Înțelegi conceptele AI în maximum 150 de cuvinte, aplicabil instant în rolul tău curent
+
+      
+
+        
+
+          
+
+            
+🩺
+ Prompt & Workflow Diagnostic Evaluator
+          
+
+          
+JulieDx style root-cause audit for agent instructions and prompts.
+
+        
+
+        
+Diagnostic Engine
+
+      
+
+      
+
+        
+
+          
+Paste your prompt, task description, or agent rule:
+
+          
+
+          
+
+            RUN DIAGNOSTIC AUDIT
+          
+
+        
+
+        
+
+          
+📋
+
+          
+Enter your prompt and click Run Diagnostic to see your architectural grade and root-cause fixes.
+
+        
+
+      
 
     
-Actualizări generate constant pe newsletter și glossar
+
+  
+
+  
+
+  
 
     
-Analogii absurde pentru înțelegere rapidă a conceptelor AI
+AI for Babies © 2026. Built for clarity and speed under adrianpeticila.
 
     
-Distribuit săptămânal prin email și accesibil public pe site-urile GitHub Pages
-
-    
-Ideal pentru manageri ne-tehnici, CMO, directori HR și fondatori
-
-    
-Preț: 29 EUR/lună
-
-    
-Pentru manageri ne-tehnici, CMO, directori HR și fondatori care necesită literație AI pentru decizii operaționale.
-
-    
-Descărcați acum
-
-```
+Dual Interface: Human Web / Agent MCP Protocol

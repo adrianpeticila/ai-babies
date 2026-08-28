@@ -1,3 +1,3 @@
 # https://adrianpeticila.github.io/ai-babies
 
-- [Glossar AI pentru decizii operaționale fără jargon](https://adrianpeticila.github.io/ai-babies)
+- [AI for Babies - AI Explained for People with Actual Jobs](https://adrianpeticila.github.io/ai-babies)
