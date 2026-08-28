@@ -1,245 +1,354 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI for Babies - AI Explained for People with Actual Jobs</title>
+  <meta name="description" content="A high-contrast, developer-friendly guide explaining LLMs, context windows, MCP, and agent architectures without fluff.">
+  <link rel="canonical" href="https://aiforbabies.pages.dev/">
+
+  <!-- OpenGraph / Social -->
+  <meta property="og:title" content="AI for Babies - AI Explained for People with Actual Jobs">
+  <meta property="og:description" content="Zero jargon, real clarity. The 6 pillars of modern AI and prompt diagnostics.">
+  <meta property="og:url" content="https://aiforbabies.pages.dev/">
+  <meta property="og:type" content="website">
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            brand: { dark: '#070913', card: '#0E1326', border: '#1E293B', accent: '#38BDF8', glow: '#6366F1' }
+          fontFamily: {
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
           }
         }
       }
     }
   </script>
-  <style>
-    body { background-color: #070913; color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-  </style>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"AI for Babies - AI Explained for People with Actual Jobs","url":"https://aiforbabies.pages.dev/","isPartOf":{"@id":"https://aiforbabies.pages.dev/"}}
-</script>
-</head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800/80 bg-brand-dark/90 sticky top-0 z-50 backdrop-blur-md">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+  <!-- Theme Initialization Script (Light Mode as Default) -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+
+  <style>
+    ::selection {
+      background-color: #111827;
+      color: #F9FAFB;
+    }
+    .dark ::selection {
+      background-color: #38BDF8;
+      color: #030712;
+    }
+    .brutalist-card {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .brutalist-card:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "AI for Babies - AI Explained for People with Actual Jobs",
+    "url": "https://aiforbabies.pages.dev/",
+    "author": {
+      "@type": "Person",
+      "name": "Adrian Peticila",
+      "url": "https://github.com/adrianpeticila"
+    }
+  }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-[#F9F9FB] text-neutral-900 dark:bg-[#0D1117] dark:text-neutral-100 font-sans antialiased transition-colors duration-200">
+
+  <!-- 11ty-Style Top Header -->
+  <header class="border-b border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-[#161B22]/90 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <span class="text-2xl">🤖</span>
-        <div>
-          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            AI for Babies <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono">v2.0 Dual</span>
-          </h1>
-          <p class="text-xs text-slate-400">AI explained for people who have actual jobs.</p>
-        </div>
+        <a href="https://aiforbabies.pages.dev/" class="flex items-center gap-2 group">
+          <span class="text-2xl select-none group-hover:rotate-6 transition-transform">🤖</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-black tracking-tight text-neutral-900 dark:text-white uppercase font-mono">AI for Babies</span>
+              <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700">v2.1</span>
+            </div>
+            <p class="text-[11px] text-neutral-500 dark:text-neutral-400 hidden sm:block">AI explained for people who have actual jobs.</p>
+          </div>
+        </a>
       </div>
-      <div class="flex items-center gap-3">
-        <button id="modeToggle" onclick="toggleMode()" class="text-xs font-mono px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-700 text-slate-300 transition-colors flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="modeLabel">Agent Mode: OFF</span>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="modeToggle" onclick="toggleAgentMode()" class="text-xs font-mono px-2.5 py-1.5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="agentModeLabel" class="hidden sm:inline">Agent Mode: OFF</span>
+          <span class="sm:hidden">Agent</span>
+        </button>
+
+        <button onclick="toggleTheme()" aria-label="Toggle Theme" class="p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-mono rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-800 dark:text-neutral-200 transition-colors flex items-center gap-1.5">
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel" class="hidden sm:inline font-semibold">Dark</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full space-y-12">
+  <!-- Main Content Container -->
+  <main class="max-w-5xl mx-auto px-4 py-8 sm:py-12 flex-1 w-full space-y-12">
 
-    <!-- Hero / Intro -->
-    <section class="text-center space-y-4 max-w-3xl mx-auto pt-4">
-      <h2 class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 tracking-tight">
-        Zero Jargon. Real Clarity.
-      </h2>
-      <p class="text-slate-400 text-base sm:text-lg">
-        Learn how language models, context windows, and autonomous agents actually work without needing a computer science degree.
+    <!-- 11ty Hero Banner -->
+    <section class="space-y-4 text-center sm:text-left border-b border-neutral-200 dark:border-neutral-800 pb-10">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800/80 text-neutral-800 dark:text-neutral-300 text-xs font-mono font-bold">
+        <span>⚡</span> BRUTALIST CLARITY * ZERO JARGON
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-neutral-900 dark:text-white uppercase leading-tight font-mono">
+        AI Explained for People with Actual Jobs.
+      </h1>
+      <p class="text-neutral-600 dark:text-neutral-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+        Understand LLMs, context windows, tokens, protocols, and autonomous agent loops without academic gatekeeping or marketing fluff.
       </p>
+
+      <div class="pt-2 flex flex-wrap items-center gap-2 text-xs font-mono">
+        <span class="px-2 py-1 bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300 rounded border border-neutral-300 dark:border-neutral-700">Quick Endpoint:</span>
+        <a href="/llms.txt" class="px-2.5 py-1 bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-blue-600 dark:text-sky-400 font-bold border border-neutral-300 dark:border-neutral-700 rounded underline">/llms.txt</a>
+        <a href="/llms-full.txt" class="px-2.5 py-1 bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-blue-600 dark:text-sky-400 font-bold border border-neutral-300 dark:border-neutral-700 rounded underline">/llms-full.txt</a>
+        <a href="#diagnostic" class="px-2.5 py-1 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold rounded border border-neutral-900 dark:border-white hover:opacity-90">Jump to Prompt Diagnostic &rarr;</a>
+      </div>
     </section>
 
-    <!-- Agent Mode Banner (Hidden by default) -->
-    <section id="agentBanner" class="hidden p-6 rounded-2xl bg-cyan-950/20 border border-cyan-500/30 text-cyan-200 space-y-3">
-      <div class="flex items-center justify-between">
-        <h3 class="font-mono text-sm font-bold flex items-center gap-2 text-cyan-400">
+    <!-- Agent Mode Banner -->
+    <section id="agentBanner" class="hidden p-5 rounded-lg bg-blue-50 dark:bg-sky-950/30 border-2 border-blue-500 dark:border-sky-500/50 text-neutral-900 dark:text-sky-200 space-y-3 font-mono">
+      <div class="flex items-center justify-between border-b border-blue-200 dark:border-sky-800/60 pb-2">
+        <h2 class="text-xs sm:text-sm font-black flex items-center gap-2 text-blue-800 dark:text-sky-400">
           <span>⚡</span> MACHINE INTERFACE (AGENT CITIZEN PROTOCOL)
-        </h3>
-        <span class="text-xs font-mono text-cyan-500/80">x402 Enabled</span>
+        </h2>
+        <span class="text-[11px] px-2 py-0.5 rounded bg-blue-200/60 dark:bg-sky-900/60 text-blue-900 dark:text-sky-300 font-bold">x402 Ready</span>
       </div>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        This site provides full machine discoverability for autonomous agents and IDE assistants. Access machine context or connect to our MCP Server:
+      <p class="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed font-sans">
+        This platform exposes full machine discoverability for autonomous agents and IDE tools. Access structured context directly:
       </p>
-      <div class="flex flex-wrap gap-2 text-xs font-mono pt-1">
-        <a href="/llms.txt" class="px-2.5 py-1 bg-cyan-900/40 hover:bg-cyan-900/70 border border-cyan-500/40 rounded text-cyan-300">/llms.txt</a>
-        <a href="/llms-full.txt" class="px-2.5 py-1 bg-cyan-900/40 hover:bg-cyan-900/70 border border-cyan-500/40 rounded text-cyan-300">/llms-full.txt</a>
-        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-slate-300">mcp: stdio (server/mcp_server.py)</span>
+      <div class="flex flex-wrap gap-2 text-xs pt-1">
+        <a href="/llms.txt" class="px-2.5 py-1 bg-white dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 border border-blue-300 dark:border-sky-700 rounded text-blue-700 dark:text-sky-300 font-semibold">GET /llms.txt</a>
+        <a href="/llms-full.txt" class="px-2.5 py-1 bg-white dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 border border-blue-300 dark:border-sky-700 rounded text-blue-700 dark:text-sky-300 font-semibold">GET /llms-full.txt</a>
+        <span class="px-2.5 py-1 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded text-neutral-700 dark:text-neutral-300">mcp: stdio (server/mcp_server.py)</span>
       </div>
     </section>
 
-    <!-- Interactive Glossary Section -->
+    <!-- 6 Pillars Glossary -->
     <section class="space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-neutral-200 dark:border-neutral-800 pb-4">
         <div>
-          <h3 class="text-xl font-bold text-white">The 6 Pillars Glossary</h3>
-          <p class="text-xs text-slate-400">Click any card to inspect the breakdown.</p>
+          <div class="text-xs font-mono font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Reference Architecture</div>
+          <h2 class="text-2xl font-black text-neutral-900 dark:text-white font-mono">The 6 Pillars Glossary</h2>
         </div>
-        <div class="flex items-center gap-2">
-          <input type="text" id="searchBox" oninput="filterCards()" placeholder="Search concepts (e.g. MCP, Tokens)..." class="bg-slate-900/90 border border-slate-700 text-xs px-3 py-2 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 w-full sm:w-64">
+        <div>
+          <input type="text" id="searchBox" oninput="filterCards()" placeholder="Search concepts (e.g. MCP, Tokens)..." class="w-full sm:w-72 bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 text-xs px-3 py-2 rounded focus:outline-none focus:border-neutral-900 dark:focus:border-white font-mono text-neutral-900 dark:text-white placeholder-neutral-400">
         </div>
       </div>
 
-      <!-- Pillars Tabs -->
       <div class="flex flex-wrap gap-1.5" id="pillarTabs">
-        <button onclick="setPillar('all')" class="pillar-btn active px-3 py-1 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">All (6)</button>
-        <button onclick="setPillar('The Engine')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Engine</button>
-        <button onclick="setPillar('The Wires')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Wires</button>
-        <button onclick="setPillar('The Brain')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Brain</button>
-        <button onclick="setPillar('The Society')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Society</button>
-        <button onclick="setPillar('The Armor')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Armor</button>
-        <button onclick="setPillar('The Output')" class="pillar-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">The Output</button>
+        <button onclick="setPillar('all')" class="pillar-btn active px-3 py-1 text-xs font-mono font-bold rounded border-2 border-neutral-900 dark:border-white bg-neutral-900 text-white dark:bg-white dark:text-neutral-900">All (6)</button>
+        <button onclick="setPillar('The Engine')" class="pillar-btn px-3 py-1 text-xs font-mono font-bold rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#161B22] text-neutral-700 dark:text-neutral-300 hover:border-neutral-500">The Engine</button>
+        <button onclick="setPillar('The Wires')" class="pillar-btn px-3 py-1 text-xs font-mono font-bold rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#161B22] text-neutral-700 dark:text-neutral-300 hover:border-neutral-500">The Wires</button>
+        <button onclick="setPillar('The Brain')" class="pillar-btn px-3 py-1 text-xs font-mono font-bold rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#161B22] text-neutral-700 dark:text-neutral-300 hover:border-neutral-500">The Brain</button>
+        <button onclick="setPillar('The Society')" class="pillar-btn px-3 py-1 text-xs font-mono font-bold rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#161B22] text-neutral-700 dark:text-neutral-300 hover:border-neutral-500">The Society</button>
+        <button onclick="setPillar('The Armor')" class="pillar-btn px-3 py-1 text-xs font-mono font-bold rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#161B22] text-neutral-700 dark:text-neutral-300 hover:border-neutral-500">The Armor</button>
+        <button onclick="setPillar('The Output')" class="pillar-btn px-3 py-1 text-xs font-mono font-bold rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#161B22] text-neutral-700 dark:text-neutral-300 hover:border-neutral-500">The Output</button>
       </div>
 
-      <!-- Cards Grid -->
       <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-        <!-- Card: MCP -->
-        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Wires" data-name="model context protocol mcp">
+        <!-- Card #01 -->
+        <div class="concept-card brutalist-card bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 p-5 rounded-lg space-y-3" data-pillar="The Wires" data-name="model context protocol mcp wires integration tools">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">The Wires</span>
-            <span class="text-xs text-slate-500 font-mono">#01</span>
+            <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-700">The Wires</span>
+            <span class="text-xs text-neutral-400 font-mono font-bold">#01</span>
           </div>
-          <h4 class="text-base font-bold text-white">Model Context Protocol (MCP)</h4>
-          <div class="space-y-2 text-xs text-slate-300">
-            <div><strong class="text-slate-400">What:</strong> An open standard to connect AI models to external tools and internal data.</div>
-            <div><strong class="text-slate-400">Analogy:</strong> The universal USB-C port for artificial intelligence.</div>
-            <div><strong class="text-slate-400">Why it matters:</strong> Connect your tools once and use them with any modern AI agent.</div>
-            <div class="pt-1 border-t border-slate-800 text-cyan-300 font-medium">Takeaway: Standard protocols beat vendor lock-in every time.</div>
+          <h3 class="text-base font-bold text-neutral-900 dark:text-white font-mono">Model Context Protocol (MCP)</h3>
+          <div class="space-y-2 text-xs text-neutral-600 dark:text-neutral-300">
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">What:</strong> An open standard to connect AI models to external tools and internal databases.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Analogy:</strong> The universal USB-C port for artificial intelligence.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Why it matters:</strong> Connect your tools once and use them with any modern AI agent.</div>
+            <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 text-sky-700 dark:text-sky-400 font-bold font-mono">Takeaway: Standard protocols beat vendor lock-in every time.</div>
           </div>
         </div>
 
-        <!-- Card: Tokens -->
-        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Engine" data-name="tokens token">
+        <!-- Card #02 -->
+        <div class="concept-card brutalist-card bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 p-5 rounded-lg space-y-3" data-pillar="The Engine" data-name="tokens token compute currency engine">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">The Engine</span>
-            <span class="text-xs text-slate-500 font-mono">#02</span>
+            <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 border border-purple-300 dark:border-purple-700">The Engine</span>
+            <span class="text-xs text-neutral-400 font-mono font-bold">#02</span>
           </div>
-          <h4 class="text-base font-bold text-white">Tokens</h4>
-          <div class="space-y-2 text-xs text-slate-300">
-            <div><strong class="text-slate-400">What:</strong> The atomic pieces of words that language models read and write.</div>
-            <div><strong class="text-slate-400">Analogy:</strong> Lego bricks or syllables of machine language.</div>
-            <div><strong class="text-slate-400">Why it matters:</strong> Token count directly dictates your cloud bills and model speed.</div>
-            <div class="pt-1 border-t border-slate-800 text-purple-300 font-medium">Takeaway: Tokens are compute currency. Keep context trimmed.</div>
+          <h3 class="text-base font-bold text-neutral-900 dark:text-white font-mono">Tokens</h3>
+          <div class="space-y-2 text-xs text-neutral-600 dark:text-neutral-300">
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">What:</strong> The atomic pieces of words that language models read and write.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Analogy:</strong> Lego bricks or syllables of machine language.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Why it matters:</strong> Token count directly dictates your cloud bills and model speed.</div>
+            <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 text-purple-700 dark:text-purple-400 font-bold font-mono">Takeaway: Tokens are compute currency. Keep context trimmed.</div>
           </div>
         </div>
 
-        <!-- Card: Context Window -->
-        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Engine" data-name="context window memory">
+        <!-- Card #03 -->
+        <div class="concept-card brutalist-card bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 p-5 rounded-lg space-y-3" data-pillar="The Engine" data-name="context window memory retention engine">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">The Engine</span>
-            <span class="text-xs text-slate-500 font-mono">#03</span>
+            <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 border border-purple-300 dark:border-purple-700">The Engine</span>
+            <span class="text-xs text-neutral-400 font-mono font-bold">#03</span>
           </div>
-          <h4 class="text-base font-bold text-white">Context Window</h4>
-          <div class="space-y-2 text-xs text-slate-300">
-            <div><strong class="text-slate-400">What:</strong> The maximum number of tokens an AI can see at one time.</div>
-            <div><strong class="text-slate-400">Analogy:</strong> The size of the physical desk where the AI is working.</div>
-            <div><strong class="text-slate-400">Why it matters:</strong> When overloaded, earlier instructions drop off or degrade.</div>
-            <div class="pt-1 border-t border-slate-800 text-purple-300 font-medium">Takeaway: A bigger desk helps, but a clean desk prevents errors.</div>
+          <h3 class="text-base font-bold text-neutral-900 dark:text-white font-mono">Context Window</h3>
+          <div class="space-y-2 text-xs text-neutral-600 dark:text-neutral-300">
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">What:</strong> The maximum number of tokens an AI can process at one time.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Analogy:</strong> The physical surface area of the desk where the AI works.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Why it matters:</strong> When overloaded, earlier instructions drop off or degrade in precision.</div>
+            <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 text-purple-700 dark:text-purple-400 font-bold font-mono">Takeaway: A bigger desk helps, but a clean desk prevents hallucinations.</div>
           </div>
         </div>
 
-        <!-- Card: Skills & Steering -->
-        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Brain" data-name="skills steering rule persona">
+        <!-- Card #04 -->
+        <div class="concept-card brutalist-card bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 p-5 rounded-lg space-y-3" data-pillar="The Brain" data-name="skills steering rules brain instructions sop">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">The Brain</span>
-            <span class="text-xs text-slate-500 font-mono">#04</span>
+            <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">The Brain</span>
+            <span class="text-xs text-neutral-400 font-mono font-bold">#04</span>
           </div>
-          <h4 class="text-base font-bold text-white">Skills & Rules Hierarchy</h4>
-          <div class="space-y-2 text-xs text-slate-300">
-            <div><strong class="text-slate-400">What:</strong> Modular instruction folders loaded only when specifically needed.</div>
-            <div><strong class="text-slate-400">Analogy:</strong> Standard Operating Procedure manuals stored on a bookshelf.</div>
-            <div><strong class="text-slate-400">Why it matters:</strong> Keeps the main context tiny while enabling deep expertise on demand.</div>
-            <div class="pt-1 border-t border-slate-800 text-emerald-300 font-medium">Takeaway: Load knowledge surgically, not all at once.</div>
+          <h3 class="text-base font-bold text-neutral-900 dark:text-white font-mono">Skills & Rules Hierarchy</h3>
+          <div class="space-y-2 text-xs text-neutral-600 dark:text-neutral-300">
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">What:</strong> Modular instruction folders loaded only when specifically invoked.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Analogy:</strong> Standard Operating Procedure binders kept neatly on a shelf.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Why it matters:</strong> Keeps the base prompt concise while unlocking deep specialized knowledge on demand.</div>
+            <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 text-emerald-700 dark:text-emerald-400 font-bold font-mono">Takeaway: Load knowledge surgically, never all at once.</div>
           </div>
         </div>
 
-        <!-- Card: Multi-Agent Loops -->
-        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Society" data-name="multi agent orchestrator worker verifier">
+        <!-- Card #05 -->
+        <div class="concept-card brutalist-card bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 p-5 rounded-lg space-y-3" data-pillar="The Society" data-name="multi agent orchestrator worker loops society subagents">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">The Society</span>
-            <span class="text-xs text-slate-500 font-mono">#05</span>
+            <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700">The Society</span>
+            <span class="text-xs text-neutral-400 font-mono font-bold">#05</span>
           </div>
-          <h4 class="text-base font-bold text-white">Orchestrator-Worker Loops</h4>
-          <div class="space-y-2 text-xs text-slate-300">
-            <div><strong class="text-slate-400">What:</strong> Dividing a complex task between specialized sub-agents.</div>
-            <div><strong class="text-slate-400">Analogy:</strong> A general contractor managing an electrician and a plumber.</div>
-            <div><strong class="text-slate-400">Why it matters:</strong> Prevents one giant context from getting tangled and confused.</div>
-            <div class="pt-1 border-t border-slate-800 text-amber-300 font-medium">Takeaway: Specialized small agents beat one monolithic prompt.</div>
+          <h3 class="text-base font-bold text-neutral-900 dark:text-white font-mono">Orchestrator-Worker Loops</h3>
+          <div class="space-y-2 text-xs text-neutral-600 dark:text-neutral-300">
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">What:</strong> Dividing a multi-step job between specialized sub-agents with bounded scope.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Analogy:</strong> A general contractor supervising a certified electrician and a plumber.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Why it matters:</strong> Eliminates single-thread context bloat and prevents hallucination spirals.</div>
+            <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 text-amber-700 dark:text-amber-400 font-bold font-mono">Takeaway: Specialized small agents beat monolithic mega-prompts.</div>
           </div>
         </div>
 
-        <!-- Card: Canaries & Verification -->
-        <div class="concept-card bg-brand-card border border-brand-border hover:border-cyan-500/50 p-5 rounded-xl space-y-3 transition-all" data-pillar="The Armor" data-name="armor canary verifier testing failure">
+        <!-- Card #06 -->
+        <div class="concept-card brutalist-card bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 p-5 rounded-lg space-y-3" data-pillar="The Armor" data-name="armor canary verifier testing failure falsifiable armor">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">The Armor</span>
-            <span class="text-xs text-slate-500 font-mono">#06</span>
+            <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-700">The Armor</span>
+            <span class="text-xs text-neutral-400 font-mono font-bold">#06</span>
           </div>
-          <h4 class="text-base font-bold text-white">Falsifiable Verifiers</h4>
-          <div class="space-y-2 text-xs text-slate-300">
-            <div><strong class="text-slate-400">What:</strong> Independent deterministic checks that must be able to fail.</div>
-            <div><strong class="text-slate-400">Analogy:</strong> A smoke detector that you deliberately test with test smoke.</div>
-            <div><strong class="text-slate-400">Why it matters:</strong> A verification step that cannot fail is just decorative theater.</div>
-            <div class="pt-1 border-t border-slate-800 text-rose-300 font-medium">Takeaway: The verifier must never be the producer.</div>
+          <h3 class="text-base font-bold text-neutral-900 dark:text-white font-mono">Falsifiable Verifiers</h3>
+          <div class="space-y-2 text-xs text-neutral-600 dark:text-neutral-300">
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">What:</strong> Independent deterministic checks that must be able to fail and catch errors.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Analogy:</strong> A smoke detector that you regularly trigger with test smoke.</div>
+            <div><strong class="text-neutral-900 dark:text-neutral-100 font-mono">Why it matters:</strong> A verification step that cannot fail is merely decorative theater.</div>
+            <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 text-rose-700 dark:text-rose-400 font-bold font-mono">Takeaway: The verifier must never be the producer.</div>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- JulieDx Style Diagnostic Evaluator -->
-    <section class="bg-brand-card border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-4">
+    <!-- Diagnostic Section -->
+    <section id="diagnostic" class="bg-white dark:bg-[#161B22] border-2 border-neutral-300 dark:border-neutral-700 rounded-lg p-6 sm:p-8 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-200 dark:border-neutral-800 pb-4">
         <div>
-          <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          <div class="text-xs font-mono font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Diagnostic Engine</div>
+          <h2 class="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white font-mono flex items-center gap-2">
             <span>🩺</span> Prompt & Workflow Diagnostic Evaluator
-          </h3>
-          <p class="text-xs text-slate-400">JulieDx style root-cause audit for agent instructions and prompts.</p>
+          </h2>
         </div>
-        <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 border border-slate-700">Diagnostic Engine</span>
+        <span class="text-xs font-mono px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700 font-semibold self-start sm:self-auto">JulieDx Engine v1.2</span>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="space-y-3">
-          <label class="text-xs font-medium text-slate-300">Paste your prompt, task description, or agent rule:</label>
-          <textarea id="diagInput" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono" placeholder="Example: You are an expert copywriter. Write a blog post about AI in business. Make it engaging..."></textarea>
-          <button onclick="runDiagnostic()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-black font-bold text-xs tracking-wide transition-all shadow-lg shadow-cyan-500/10">
-            RUN DIAGNOSTIC AUDIT
-          </button>
+          <label for="diagInput" class="block text-xs font-mono font-bold text-neutral-700 dark:text-neutral-300">
+            Paste your prompt, agent rule, or system instruction:
+          </label>
+          <textarea id="diagInput" rows="7" class="w-full bg-neutral-50 dark:bg-neutral-900 border-2 border-neutral-300 dark:border-neutral-700 rounded p-3 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-neutral-900 dark:focus:border-white font-mono" placeholder="Example: You are an expert copywriter. Write a blog post about AI in business. Make it engaging and creative..."></textarea>
+          
+          <div class="flex gap-2">
+            <button onclick="runDiagnostic()" class="flex-1 py-2.5 px-4 rounded bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-neutral-900 font-mono font-bold text-xs tracking-wider uppercase transition-colors">
+              RUN DIAGNOSTIC AUDIT
+            </button>
+            <button onclick="loadSamplePrompt()" class="py-2.5 px-3 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-mono text-xs border border-neutral-300 dark:border-neutral-700">
+              Load Sample
+            </button>
+          </div>
         </div>
 
-        <div id="diagResult" class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-center items-center text-center text-slate-500 text-xs space-y-2">
-          <span class="text-2xl">📋</span>
-          <p>Enter your prompt and click Run Diagnostic to see your architectural grade and root-cause fixes.</p>
+        <div id="diagResult" class="bg-neutral-50 dark:bg-neutral-900/60 border-2 border-dashed border-neutral-300 dark:border-neutral-700 rounded p-6 flex flex-col justify-center items-center text-center text-neutral-500 dark:text-neutral-400 text-xs space-y-2 font-mono">
+          <span class="text-3xl select-none">📋</span>
+          <p class="max-w-xs">Enter your prompt and click Run Diagnostic to generate a falsifiable rubric grade and root-cause fixes.</p>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 space-y-2">
-    <p>AI for Babies &copy; 2026. Built for clarity and speed under adrianpeticila.</p>
-    <p class="font-mono text-[11px] text-slate-600">Dual Interface: Human Web / Agent MCP Protocol</p>
+  <!-- 11ty Footer -->
+  <footer class="border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#161B22] py-8 text-center text-xs text-neutral-500 dark:text-neutral-400 space-y-2">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+      <div>
+        <p class="font-bold text-neutral-800 dark:text-neutral-200">AI for Babies &copy; 2026</p>
+        <p class="text-[11px] text-neutral-500">Author: <a href="https://github.com/adrianpeticila" target="_blank" rel="noopener noreferrer" class="underline hover:text-neutral-900 dark:hover:text-white">Adrian Peticila</a></p>
+      </div>
+      <div class="flex items-center gap-3 text-[11px]">
+        <a href="/llms.txt" class="underline hover:text-neutral-900 dark:hover:text-white">/llms.txt</a>
+        <span class="text-neutral-300 dark:border-neutral-700">•</span>
+        <a href="/llms-full.txt" class="underline hover:text-neutral-900 dark:hover:text-white">/llms-full.txt</a>
+        <span class="text-neutral-300 dark:border-neutral-700">•</span>
+        <a href="/sitemap.xml" class="underline hover:text-neutral-900 dark:hover:text-white">sitemap</a>
+      </div>
+    </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Interactive Logic -->
   <script>
     let activePillar = 'all';
 
-    function toggleMode() {
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeUI(isDark);
+    }
+
+    function updateThemeUI(isDark) {
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      if (isDark) {
+        icon.innerText = '☀️';
+        label.innerText = 'Light';
+      } else {
+        icon.innerText = '🌙';
+        label.innerText = 'Dark';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      updateThemeUI(isDark);
+    });
+
+    function toggleAgentMode() {
       const banner = document.getElementById('agentBanner');
-      const label = document.getElementById('modeLabel');
+      const label = document.getElementById('agentModeLabel');
       if (banner.classList.contains('hidden')) {
         banner.classList.remove('hidden');
         label.innerText = 'Agent Mode: ON';
@@ -252,18 +361,19 @@
     function setPillar(pillar) {
       activePillar = pillar;
       document.querySelectorAll('.pillar-btn').forEach(btn => {
-        btn.classList.remove('active', 'bg-cyan-500/20', 'text-cyan-400', 'border-cyan-500/30');
-        btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+        btn.classList.remove('active', 'border-2', 'border-neutral-900', 'dark:border-white', 'bg-neutral-900', 'text-white', 'dark:bg-white', 'dark:text-neutral-900');
+        btn.classList.add('border', 'border-neutral-300', 'dark:border-neutral-700', 'bg-white', 'dark:bg-[#161B22]', 'text-neutral-700', 'dark:text-neutral-300');
+        
         if ((pillar === 'all' && btn.innerText.startsWith('All')) || btn.innerText === pillar) {
-          btn.classList.add('active', 'bg-cyan-500/20', 'text-cyan-400', 'border-cyan-500/30');
-          btn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+          btn.classList.add('active', 'border-2', 'border-neutral-900', 'dark:border-white', 'bg-neutral-900', 'text-white', 'dark:bg-white', 'dark:text-neutral-900');
+          btn.classList.remove('border', 'border-neutral-300', 'dark:border-neutral-700', 'bg-white', 'dark:bg-[#161B22]', 'text-neutral-700', 'dark:text-neutral-300');
         }
       });
       filterCards();
     }
 
     function filterCards() {
-      const q = document.getElementById('searchBox').value.toLowerCase();
+      const q = document.getElementById('searchBox').value.toLowerCase().trim();
       document.querySelectorAll('.concept-card').forEach(card => {
         const pillar = card.getAttribute('data-pillar');
         const name = card.getAttribute('data-name');
@@ -273,48 +383,78 @@
       });
     }
 
+    function loadSamplePrompt() {
+      document.getElementById('diagInput').value = "You are a professional assistant. Please summarize this document and make it engaging for readers. Return the key points.";
+    }
+
     function runDiagnostic() {
-      const text = document.getElementById('diagInput').value.trim();
+      const input = document.getElementById('diagInput').value.trim();
       const res = document.getElementById('diagResult');
-      if (!text) {
-        res.innerHTML = '<span class="text-amber-400">Please enter some text first.</span>';
+      if (!input) {
+        res.className = 'bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-400 dark:border-amber-600 rounded p-4 text-left text-xs font-mono text-amber-800 dark:text-amber-200';
+        res.innerHTML = '<span class="font-bold">Error:</span> Please paste a prompt or instruction first.';
         return;
       }
 
       let score = 'A';
       let issues = [];
+      let recommendations = [];
 
-      if (text.length < 30) {
+      if (input.length < 35) {
         score = 'D';
-        issues.push('Prompt is too underspecified. Add concrete inputs, outputs, and constraints.');
+        issues.push('High underspecification risk: instruction is under 35 characters.');
+        recommendations.push('Add clear operational objectives, explicit constraints, and deterministic input boundaries.');
       }
-      if (text.toLowerCase().includes('make it engaging') || text.toLowerCase().includes('be creative')) {
+      if (input.toLowerCase().includes('engaging') || input.toLowerCase().includes('creative') || input.toLowerCase().includes('friendly')) {
         if (score === 'A') score = 'B';
-        issues.push('Vague subjective steering detected. Replace with measurable format rules or structural patterns.');
+        issues.push('Subjective steering detected ("engaging" / "creative"). Models interpret subjective tags inconsistently.');
+        recommendations.push('Replace emotional descriptors with structural criteria (e.g., bulleted executive summary, max 300 words).');
       }
-      if (!text.toLowerCase().includes('return') && !text.toLowerCase().includes('format') && !text.toLowerCase().includes('output')) {
+      if (!input.toLowerCase().includes('return') && !input.toLowerCase().includes('format') && !input.toLowerCase().includes('json') && !input.toLowerCase().includes('output') && !input.toLowerCase().includes('schema')) {
         if (score === 'A') score = 'B-';
-        issues.push('Missing explicit output schema or structure constraints.');
+        issues.push('Missing explicit output schema or return format definition.');
+        recommendations.push('Specify the output syntax explicitly (e.g., JSON schema, Markdown tables, or tagged sections).');
+      }
+      if (!input.toLowerCase().includes('must') && !input.toLowerCase().includes('do not') && !input.toLowerCase().includes('never') && !input.toLowerCase().includes('only')) {
+        if (score === 'A') score = 'B+';
+        issues.push('Weak boundary enforcement: zero negative constraints or guardrails found.');
+        recommendations.push('Add negative constraints specifying what the model must never hallucinate or assume.');
       }
 
       if (issues.length === 0) {
-        issues.push('Solid structural clarity, specific constraints, and clear objective.');
+        score = 'A+';
+        issues.push('Excellent prompt structural clarity, concrete constraints, and deterministic output definition.');
+        recommendations.push('Prompt is ready for production agent worker loops.');
       }
 
-      res.className = 'bg-slate-900 border border-slate-700 rounded-xl p-5 text-left text-xs space-y-3';
+      let badgeColor = score.startsWith('A') 
+        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700' 
+        : score.startsWith('B') 
+        ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border-sky-300 dark:border-sky-700' 
+        : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border-amber-300 dark:border-amber-700';
+
+      res.className = 'bg-white dark:bg-[#161B22] border-2 border-neutral-900 dark:border-white rounded-lg p-5 text-left text-xs font-mono space-y-4';
       res.innerHTML = `
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-3">
           <div>
-            <span class="text-[11px] font-mono uppercase text-slate-400">Diagnostic Grade</span>
-            <div class="text-3xl font-black ${score.startsWith('A') ? 'text-emerald-400' : score.startsWith('B') ? 'text-cyan-400' : 'text-amber-400'}">${score}</div>
+            <span class="text-[10px] uppercase font-bold text-neutral-500 dark:text-neutral-400">Diagnostic Result</span>
+            <div class="text-3xl font-black text-neutral-900 dark:text-white font-mono">${score}</div>
           </div>
-          <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-300">Falsifiable Rubric</span>
+          <span class="text-xs px-2.5 py-1 rounded font-bold border ${badgeColor}">Falsifiable Rubric</span>
         </div>
-        <div class="space-y-2">
-          <div class="font-bold text-slate-200 text-xs">Root-Cause Analysis & Fixes:</div>
-          <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
-            ${issues.map(i => `<li>${i}</li>`).join('')}
-          </ul>
+        <div class="space-y-3 font-sans">
+          <div>
+            <div class="font-bold text-neutral-900 dark:text-neutral-100 text-xs uppercase font-mono pb-1">Identified Issues:</div>
+            <ul class="space-y-1 text-neutral-600 dark:text-neutral-300 list-disc list-inside text-xs">
+              ${issues.map(i => `<li>${i}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800">
+            <div class="font-bold text-neutral-900 dark:text-neutral-100 text-xs uppercase font-mono pb-1">Actionable Fixes:</div>
+            <ul class="space-y-1 text-neutral-600 dark:text-neutral-300 list-disc list-inside text-xs">
+              ${recommendations.map(r => `<li>${r}</li>`).join('')}
+            </ul>
+          </div>
         </div>
       `;
     }
