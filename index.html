@@ -9,7 +9,7 @@
 
   <!-- OpenGraph / Social Meta -->
   <meta property="og:title" content="AI for Babies - AI Explained for People with Actual Jobs">
-  <meta property="og:description" content="Modern brutalist engineering suite explaining LLMs, RAG, multi-agent specs, inference speedups, and WebMCP tools without fluff.">
+  <meta property="og:description" content="Modern high-contrast engineering suite explaining LLMs, RAG, multi-agent specs, inference speedups, and WebMCP tools without fluff.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aiforbabies.pages.dev/">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,6 +26,30 @@
 
   <style>
     :root {
+      --bg: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #F1F5F9;
+      --border: #0F172A;
+      --border-strong: #000000;
+      --text: #0F172A;
+      --text-muted: #475569;
+      --text-dim: #64748B;
+      --accent-orange: #ff5500;
+      --accent-green: #059669;
+      --accent-yellow: #d97706;
+      --accent-cyan: #0284c7;
+      --accent-purple: #7c3aed;
+      --accent-red: #e11d48;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --brutal-shadow: 4px 4px 0px #000000;
+      --brutal-shadow-sm: 2px 2px 0px #000000;
+      --brutal-shadow-orange: 4px 4px 0px var(--accent-orange);
+      --brutal-shadow-green: 4px 4px 0px var(--accent-green);
+    }
+
+    html.dark {
       --bg: #0d0e12;
       --bg-surface: #14161f;
       --bg-card: #1a1d28;
@@ -35,18 +59,6 @@
       --text: #f0f2f8;
       --text-muted: #9aa2bc;
       --text-dim: #656d8a;
-      --accent-orange: #ff5500;
-      --accent-green: #00e599;
-      --accent-yellow: #ffcc00;
-      --accent-cyan: #00d4ff;
-      --accent-purple: #b55fe6;
-      --accent-red: #ff3366;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'Space Mono', monospace;
-      --brutal-shadow: 4px 4px 0px #000000;
-      --brutal-shadow-sm: 2px 2px 0px #000000;
-      --brutal-shadow-orange: 4px 4px 0px var(--accent-orange);
-      --brutal-shadow-green: 4px 4px 0px var(--accent-green);
     }
 
     *, *::before, *::after {
@@ -70,7 +82,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Global Typography & Brutalist Primitives */
+    /* Global Typography & High-contrast Primitives */
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-sans);
       font-weight: 800;
@@ -93,7 +105,7 @@
       color: inherit;
     }
 
-    /* Brutalist Badge & Buttons */
+    /* High-contrast Badge & Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -187,7 +199,7 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(13, 14, 18, 0.95);
+      background: var(--bg-surface);
       backdrop-filter: blur(8px);
       border-bottom: 2px solid var(--border);
     }
@@ -862,7 +874,7 @@
 
     /* Footer */
     .site-footer {
-      background: #08090c;
+      background: var(--bg-surface);
       border-top: 2px solid var(--border);
       padding: 3.5rem 0 2rem 0;
     }
@@ -934,8 +946,22 @@
       transform: translateY(0);
     }
   </style>
+
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aiforbabies_theme');
+        if (t === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
 </head>
-<body>
+<body class="bg-[#F8FAFC] text-[#0F172A] font-sans antialiased">
 
   <!-- Site Navigation Header -->
   <header class="site-header">
@@ -2154,6 +2180,24 @@ ${tools.map(t => `- ${t}`).join('\n')}
         }[m];
       });
     }
-  </script>
+  
+    function toggleTheme() {
+      var isDark = document.documentElement.classList.toggle('dark');
+      try {
+        localStorage.setItem('aiforbabies_theme', isDark ? 'dark' : 'light');
+      } catch (e) {}
+      updateThemeButtons();
+    }
+
+    function updateThemeButtons() {
+      var isDark = document.documentElement.classList.contains('dark');
+      var btns = document.querySelectorAll('.theme-toggle-btn');
+      btns.forEach(function(btn) {
+        btn.innerHTML = isDark ? '☀️ <span class="hidden sm:inline">LIGHT</span>' : '🌙 <span class="hidden sm:inline">DARK</span>';
+      });
+    }
+    document.addEventListener('DOMContentLoaded', updateThemeButtons);
+
+</script>
 </body>
 </html>
