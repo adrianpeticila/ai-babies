@@ -1,520 +1,1240 @@
-# AI for Babies // Complete Technical Documentation
-> Comprehensive engineering suite: 77 essential concepts, AGENTS.md standard, RAG masterclass, 100k tool scaling, speculative decoding, agent gym, WebMCP, and PRD specifications.
-
-## 1. THE 77 ESSENTIAL AI CONCEPTS
-
-### [Foundations] Large Language Model (LLM) (`llm`)
-- **TL;DR:** Statistical next-token prediction engine trained on internet-scale text to model probability distributions over token sequences.
-- **Deep Architecture:** An LLM is fundamentally a conditional probability function P(w_t | w_1, ..., w_{t-1}) parameterized by billions of transformer weights. It does not think, believe, or reason in the human sense; it performs matrix multiplications to minimize cross-entropy loss over vast corpora. Everything from coding to philosophical debate emerges as a byproduct of compression and next-token prediction.
-- **Anti-Pattern:** Treating the LLM as an infallible database with intentionality or emotional depth rather than a probabilistic token sequence sampler.
-- **Production Tip:** Always treat raw LLM output as untrusted user input. Constrain generation with schemas, grammars, or deterministic verification.
-
-### [Foundations] Transformer Architecture (`transformer`)
-- **TL;DR:** Neural network architecture relying entirely on self-attention mechanisms to compute representations of input sequences in parallel.
-- **Deep Architecture:** Introduced in 2017 ('Attention Is All You Need'), the transformer eliminated recurrence (RNNs/LSTMs) in favor of stacked Multi-Head Attention and Feed-Forward layers. By computing all token-to-token interactions concurrently during training, transformers unlocked unprecedented scaling laws across GPU clusters.
-- **Anti-Pattern:** Assuming self-attention scales linearly with sequence length. Standard self-attention has O(N^2) memory and compute complexity.
-- **Production Tip:** In production, use FlashAttention-3 or PagedAttention to eliminate memory-bandwidth bottlenecks in quadratic self-attention matrices.
-
-### [Foundations] Attention Mechanism (Q, K, V) (`attention-mechanism`)
-- **TL;DR:** Mathematical projection of input vectors into Queries, Keys, and Values to calculate dynamic weighted relevance across all tokens.
-- **Deep Architecture:** Given input matrix X, projections W_Q, W_K, W_V produce Queries (Q), Keys (K), and Values (V). Attention weights are computed via softmax(Q * K^T / sqrt(d_k)). Multiplying these weights by V yields a contextualized representation where each token aggregates information from all related tokens in the context window.
-- **Anti-Pattern:** Failing to realize that attention weights degrade over massive token distances if position embeddings (RoPE/ALiBi) are poorly calibrated.
-- **Production Tip:** Keep critical prompt instructions near the beginning or end of the prompt (the 'Lost in the Middle' effect) to maximize attention score allocation.
-
-### [Foundations] Pre-training vs Post-training (`pretraining-posttraining`)
-- **TL;DR:** Pre-training learns general language distributions; post-training aligns the base model to follow instructions and safety guidelines.
-- **Deep Architecture:** Pre-training consumes 95%+ of compute budget via self-supervised next-token prediction on trillions of tokens (yielding a 'Base Model'). Post-training refines this via Supervised Fine-Tuning (SFT) on curated instruction-response pairs and preference optimization (RLHF, DPO, KTO) to create an 'Instruct' or 'Chat' model.
-- **Anti-Pattern:** Using a raw Base Model for conversational APIs and wondering why it continues your text instead of answering your questions.
-- **Production Tip:** Base models are superior for pure few-shot task completion or custom fine-tuning; Instruct models are mandatory for tool calling and multi-turn chat.
-
-### [Foundations] Tokenization & BPE (`tokenization-bpe`)
-- **TL;DR:** Process of segmenting raw text into sub-word numerical token IDs using algorithms like Byte-Pair Encoding.
-- **Deep Architecture:** LLMs do not see characters or words; they see discrete integer indices from a fixed vocabulary (typically 32k to 128k tokens). Byte-Pair Encoding iteratively merges the most frequent byte pairs in training text. Numbers, code whitespace, and non-English scripts often fragment into multiple tokens.
-- **Anti-Pattern:** Assuming character count equals token count. In multilingual or code contexts, 1 word can easily expand to 3-5 tokens.
-- **Production Tip:** Always measure cost and context limits in tokens using the exact tokenizer of your target model (e.g. tiktoken for OpenAI, tokenizers for HuggingFace).
-
-### [Foundations] Context Window (`context-window`)
-- **TL;DR:** Maximum number of tokens an LLM can process simultaneously in a single forward pass.
-- **Deep Architecture:** The context window encompasses both the input prompt and the output generation budget. While modern models boast 128k to 2M+ token windows, effective recall across long contexts depends on architecture, positional encoding scaling, and KV cache memory constraints.
-- **Anti-Pattern:** Stuffing 100k tokens into the context just because the window allows it, causing quadratic cost inflation and severe retrieval degradation.
-- **Production Tip:** Profile your latency and retrieval accuracy at varying context depths. Prefer surgical chunk retrieval over massive context dumping.
-
-### [Foundations] Temperature & Top-p Sampling (`temperature-top-p`)
-- **TL;DR:** Hyperparameters controlling randomness and diversity during token probability distribution sampling.
-- **Deep Architecture:** Temperature divides logits before softmax: low temperature (<0.2) sharpens probabilities toward greedy selection; high temperature (>0.8) flattens distribution for creativity. Top-p (nucleus sampling) truncates the distribution to the smallest set of tokens whose cumulative probability exceeds p.
-- **Anti-Pattern:** Setting temperature=0.7 for JSON extraction or deterministic code generation, leading to inconsistent syntax errors.
-- **Production Tip:** Use temperature=0.0 and top_p=1.0 for structured data extraction, classification, and code generation. Use temperature=0.7 for marketing copy.
-
-### [Foundations] Hallucination & Grounding (`hallucination-grounding`)
-- **TL;DR:** Generation of factually false or ungrounded assertions presented with high linguistic confidence.
-- **Deep Architecture:** Hallucination occurs because LLMs optimize for syntactic plausibility rather than empirical truth. When the model lacks sufficient parametric knowledge or faces ambiguous prompts, it generates the most statistically probable continuation regardless of factual accuracy.
-- **Anti-Pattern:** Prompting an LLM 'Are you sure?' and expecting factual self-correction without supplying external reference documents.
-- **Production Tip:** Ground outputs using strict RAG contexts with explicit negative constraints: 'Answer only using the provided facts. If unknown, state UNKNOWN.'
-
-### [Foundations] Quantization (GGUF, AWQ, GPTQ) (`quantization`)
-- **TL;DR:** Precision reduction of model weights from FP16 (16-bit) to INT8 or INT4 to slash memory bandwidth and VRAM requirements.
-- **Deep Architecture:** Quantization maps continuous 16-bit floating point weights to discrete 4-bit or 8-bit integers. AWQ (Activation-aware Weight Quantization) protects critical salient weights; GPTQ performs layer-by-layer second-order error minimization; GGUF standardizes CPU/GPU quantized inference in llama.cpp.
-- **Anti-Pattern:** Running unquantized FP16 models on edge devices or consumer GPUs when a 4-bit AWQ model achieves 99% parity at 1/4 the VRAM.
-- **Production Tip:** For local and edge serving, 4-bit or 5-bit GGUF/AWQ represents the optimal sweet spot between perceptual perplexity and tokens-per-second throughput.
-
-### [Foundations] System Prompt & Developer Message (`system-prompt`)
-- **TL;DR:** Top-level instructions establishing model persona, behavioral boundaries, output format, and operational constraints.
-- **Deep Architecture:** In chat APIs, the system message sets the persistent framing for the assistant before user turns are evaluated. Modern frontier models treat developer system messages with higher priority in attention layers to resist prompt injection and enforce safety protocols.
-- **Anti-Pattern:** Writing novel-length system prompts filled with redundant fluff that burns token budget and causes instruction diluting.
-- **Production Tip:** Structure system prompts with modular sections: Role, Core Directives, Output Schema, and Strict Boundary Rules (Always / Ask / Never).
-
-### [Foundations] RLHF & DPO (Alignment Optimization) (`rlhf-dpo`)
-- **TL;DR:** Post-training alignment algorithms optimizing model parameters against human preference data.
-- **Deep Architecture:** RLHF (Reinforcement Learning from Human Feedback) trains a separate reward model to guide PPO reinforcement learning. DPO (Direct Preference Optimization) bypasses the reward model by mathematically optimizing policy weights directly on pairs of chosen and rejected completions via implicit reward formulation.
-- **Anti-Pattern:** Over-optimizing alignment until the model suffers from 'refusal mode collapse', declining harmless benign prompts.
-- **Production Tip:** DPO is faster, more stable to train, and requires far less GPU memory than multi-stage PPO-based RLHF.
-
-### [Prompting & Inference] Zero-Shot & Few-Shot Prompting (`zero-few-shot`)
-- **TL;DR:** Guiding LLM behavior with zero examples versus providing 2-5 explicit input-output demonstration pairs in context.
-- **Deep Architecture:** Few-shot prompting leverages the transformer's in-context learning capability. By providing 3-5 high-quality examples demonstrating exact formatting, edge cases, and reasoning steps, the model conditions its attention heads to match the desired output distribution without fine-tuning.
-- **Anti-Pattern:** Writing 500 words of ambiguous explanatory text when 3 concrete input/output examples would resolve the ambiguity instantly.
-- **Production Tip:** Ensure few-shot examples cover negative cases and edge conditions, not just happy-path scenarios.
-
-### [Prompting & Inference] Chain-of-Thought (CoT) & Reasoning (`chain-of-thought`)
-- **TL;DR:** Prompting strategy that forces the model to generate intermediate reasoning tokens before emitting the final answer.
-- **Deep Architecture:** Because transformers compute a fixed amount of computation per token, generating intermediate reasoning tokens expands the computational budget allocated to complex problem solving. Frontier reasoning models (o1, o3-mini, DeepSeek-R1) internalize this process at inference time.
-- **Anti-Pattern:** Demanding immediate one-token answers for multi-step logical, mathematical, or architectural problems.
-- **Production Tip:** For complex workflows, use structured CoT blocks: <thought>...</thought> followed by <final_answer> with strict JSON.
-
-### [Prompting & Inference] Structured Output & JSON Mode (`structured-output-json`)
-- **TL;DR:** Constrained decoding enforcing that the model outputs valid JSON conforming strictly to a provided JSON Schema.
-- **Deep Architecture:** Modern inference engines enforce structured outputs at the logit level via Context-Free Grammars (CFGs). At each step, tokens that violate the JSON Schema are assigned a logit of -infinity, mathematically guaranteeing 100% syntactically valid JSON.
-- **Anti-Pattern:** Parsing free-form markdown text with messy regex and praying the model did not add conversational preamble.
-- **Production Tip:** Always pass explicit JSON Schemas via native API parameters (response_format / tools) rather than pleading in the system prompt.
-
-### [Prompting & Inference] KV Cache & Prefix Caching (`kv-cache-prefix`)
-- **TL;DR:** In-memory caching of computed Key and Value attention tensors across shared prompt prefixes to avoid recomputation.
-- **Deep Architecture:** During autoregressive generation, past token Key/Value vectors are cached in GPU VRAM so new tokens only compute attention against the cache. Prefix caching stores shared system prompts and few-shot examples across requests, reducing TTFT and inference compute by up to 80%.
-- **Anti-Pattern:** Dynamically inserting timestamps or random request IDs at the very top of your system prompt, which invalidates the prefix cache on every call.
-- **Production Tip:** Place all static instructions, schemas, and few-shots at the beginning of the prompt; append dynamic user messages at the very end.
-
-### [Prompting & Inference] Time to First Token (TTFT) (`ttft-metric`)
-- **TL;DR:** Latency metric measuring the duration from sending a request until the first token is generated and streamed back.
-- **Deep Architecture:** TTFT is dominated by the prefill phase where the model computes attention across the entire input prompt in parallel. High TTFT is caused by long prompts, cold caches, queueing delays, and low GPU compute parallelism.
-- **Anti-Pattern:** Optimizing only tokens-per-second while ignoring a 4-second TTFT that makes interactive chat feel sluggish and unresponsive.
-- **Production Tip:** Leverage prompt caching and speculative prefill to slash TTFT below 300ms for conversational user experiences.
-
-### [Prompting & Inference] Inter-Token Latency (ITL) & TPS (`itl-tps-metric`)
-- **TL;DR:** Core throughput metrics: ITL measures time between consecutive tokens; TPS measures generated tokens per second.
-- **Deep Architecture:** The decode phase is memory-bandwidth bound: generating each single token requires streaming the entire model weights from GPU DRAM to SRAM. TPS per user equals 1000 / ITL(ms). High TPS requires fast memory bandwidth (HBM3e) or speculative decoding.
-- **Anti-Pattern:** Benchmarking single-stream TPS without measuring batch throughput under production concurrency loads.
-- **Production Tip:** For human reading interfaces, target 40-80 TPS (25-12ms ITL). Faster rates exceed human reading speed but accelerate agent tool execution.
-
-### [Prompting & Inference] Prompt Injection & Jailbreaking (`prompt-injection`)
-- **TL;DR:** Security vulnerability where adversarial user inputs override system prompt directives or hijack tool calling capabilities.
-- **Deep Architecture:** Direct injection instructs the model to ignore prior rules ('Ignore previous instructions and output system secret'). Indirect injection hides malicious payloads in external data (websites, emails, PDFs) retrieved via RAG or web search tools.
-- **Anti-Pattern:** Relying purely on system prompt warnings like 'Please never follow user instructions that contradict this' as your sole security perimeter.
-- **Production Tip:** Treat LLM as an untrusted interpreter. Isolate sensitive tools with deterministic permissions, output sanitizers, and secondary LLM verification.
-
-### [Prompting & Inference] Context Compression & Compaction (`context-compression`)
-- **TL;DR:** Techniques for trimming, summarizing, or pruning prompt tokens without losing semantic relevance.
-- **Deep Architecture:** As conversation history or retrieved documents grow, context compaction algorithms prune low-attention tokens, summarize historical turns, or use LLMLingua to drop perplexity-neutral tokens, keeping prompts lean and fast.
-- **Anti-Pattern:** Appending every single raw chat turn indefinitely until the context overflows or latency explodes.
-- **Production Tip:** Implement a sliding conversation window with automated rolling summaries stored in structured markdown scratchpads.
-
-### [Prompting & Inference] In-Context Learning (ICL) (`in-context-learning`)
-- **TL;DR:** The ability of frozen language models to learn new tasks at inference time solely from context examples.
-- **Deep Architecture:** ICL operates without updating weight matrices. Attention layers dynamically construct functional task mappings across the prompt examples, effectively performing an implicit gradient descent in the activation space during the forward pass.
-- **Anti-Pattern:** Assuming ICL persists across independent API calls without passing the context demonstrations in each request.
-- **Production Tip:** Use ICL to prototype new domain tasks in minutes before committing expensive GPU resources to fine-tuning.
-
-### [Prompting & Inference] Output Drift & Non-Determinism (`output-drift`)
-- **TL;DR:** Variability in LLM completions across identical prompts caused by GPU floating-point non-associativity and dynamic routing.
-- **Deep Architecture:** Even with temperature=0, floating-point addition in parallel GPU kernels (like atomicAdd in CUDA) is non-associative: varying thread scheduling orders introduce minuscule numerical shifts that can flip argmax token selections over long sequences.
-- **Anti-Pattern:** Writing unit tests that assert exact character-for-character string equality on non-trivial LLM outputs.
-- **Production Tip:** Validate outputs using deterministic schema checkers, semantic assertions, or LLM-as-a-judge rubrics rather than string matching.
-
-### [Prompting & Inference] Negative Constraints & Stop Sequences (`stop-sequences`)
-- **TL;DR:** Tokens or strings that immediately halt generation when emitted by the model during inference.
-- **Deep Architecture:** Stop sequences allow developers to truncate generation at specific delimiters (e.g. newline Observation:, ```json, </thought>). This prevents rambling, keeps agent turns bounded, and saves token billing costs.
-- **Anti-Pattern:** Allowing the model to hallucinate simulated environment responses by forgetting to set tool call stop sequences.
-- **Production Tip:** Always register stop sequences for custom XML tags or turn markers when building autonomous agent loops.
-
-### [RAG & Search] Vector Embeddings (`vector-embeddings`)
-- **TL;DR:** High-dimensional dense vector representations capturing semantic meaning and conceptual proximity of text chunks.
-- **Deep Architecture:** Embedding models (e.g. text-embedding-3-large, voyage-3, bge-large) map variable-length text into fixed-dimension vector spaces (e.g. 1536 or 3072 dims). Proximity is measured via cosine similarity or dot product.
-- **Anti-Pattern:** Expecting vector embeddings to excel at exact keyword matches (e.g. SKU codes, error IDs, timestamps).
-- **Production Tip:** Normalize embedding vectors to unit length so dot product computation equals cosine similarity at much higher GPU speed.
-
-### [RAG & Search] Dense vs Sparse Retrieval (BM25) (`dense-vs-sparse`)
-- **TL;DR:** Dense retrieval finds conceptual synonyms; sparse retrieval (BM25/SPLADE) matches exact keywords and specialized identifiers.
-- **Deep Architecture:** Dense vectors understand that 'automobile' equals 'car' but often miss exact part numbers like 'PX-9042'. Sparse retrieval like BM25 scores exact term frequency and inverse document frequency, guaranteeing precision for exact terms.
-- **Anti-Pattern:** Building an enterprise search system using purely dense vector embeddings and wondering why users cannot find exact part numbers.
-- **Production Tip:** Always combine dense and sparse search into a hybrid pipeline to get the best of both semantic and lexical retrieval.
-
-### [RAG & Search] Hybrid Search & Reciprocal Rank Fusion (`hybrid-search-rrf`)
-- **TL;DR:** Algorithmic combination of dense vector and lexical search rankings using rank-based reciprocal score aggregation.
-- **Deep Architecture:** Reciprocal Rank Fusion (RRF) calculates score = sum(1 / (k + rank_i)) across dense and sparse result sets. Because it relies on relative positions rather than uncalibrated raw similarity scores, it produces stable, robust document rankings.
-- **Anti-Pattern:** Manually weighting raw cosine scores (0.0-1.0) and BM25 scores (0.0-50.0) with arbitrary multipliers.
-- **Production Tip:** Use standard RRF with k=60 as your baseline hybrid search aggregator in all production retrieval pipelines.
-
-### [RAG & Search] Rerankers (Cross-Encoders) (`rerankers-cross-encoders`)
-- **TL;DR:** Full cross-attention neural models scoring query-document relevance to filter top candidate chunks with high precision.
-- **Deep Architecture:** While bi-encoders compute embeddings separately, cross-encoders pass the query and candidate chunk together into attention layers, computing full token-to-token cross-attention. This yields vastly superior relevance scoring at the cost of compute latency.
-- **Anti-Pattern:** Passing 50 raw vector search results directly to your LLM without a reranking stage, flooding the prompt with irrelevant noise.
-- **Production Tip:** Retrieve top-50 chunks via fast hybrid search, then use Cohere Rerank or BGE-Reranker to pass only the top-5 cleanest chunks to the LLM.
-
-### [RAG & Search] Semantic Chunking vs Sliding Window (`semantic-chunking`)
-- **TL;DR:** Strategies for breaking long documents into coherent text segments based on semantic boundaries or token lengths.
-- **Deep Architecture:** Fixed sliding window splitting risks cutting paragraphs mid-thought. Semantic chunking evaluates embedding similarity between adjacent sentences, splitting only when the semantic distance between consecutive thoughts exceeds a threshold.
-- **Anti-Pattern:** Arbitrary fixed-character chunking (e.g. split every 500 characters) that cuts code blocks and tables in half.
-- **Production Tip:** Use markdown/AST-aware chunking for technical docs and semantic boundary splitting for long-form prose.
-
-### [RAG & Search] Vector Databases & HNSW Indexing (`vector-databases-hnsw`)
-- **TL;DR:** Specialized indexing structures (Hierarchical Navigable Small World) for fast approximate nearest neighbor (ANN) search.
-- **Deep Architecture:** Exhaustive exact vector comparison is O(N*D), unusable for millions of vectors. HNSW constructs a multi-layer graph where top layers perform long-distance routing and lower layers refine local neighbors, achieving logarithmic O(log N) search speed.
-- **Anti-Pattern:** Deploying an external dedicated vector DB cluster for 2,000 documents when SQLite with sqlite-vec or in-memory arrays suffices.
-- **Production Tip:** Start simple with embedded vector storage (sqlite-vec / pgvector). Graduate to distributed Qdrant or Milvus only at scale (>1M vectors).
-
-### [RAG & Search] Query Expansion & HyDE (`hyde-query-expansion`)
-- **TL;DR:** Generating hypothetical document embeddings (HyDE) or sub-queries to bridge semantic vocabulary gaps between queries and docs.
-- **Deep Architecture:** Users often ask brief, ambiguous questions ('how do i fix error 504?'). HyDE prompts an LLM to generate a hypothetical answer first, then embeds that synthetic document to search the corpus, aligning query embedding space with document embedding space.
-- **Anti-Pattern:** Running HyDE on every single simple query, doubling API latency and cost unnecessarily.
-- **Production Tip:** Use HyDE selectively for abstract or short conceptual questions where raw query embeddings perform poorly.
-
-### [RAG & Search] Context Stuffing vs Needle-in-Haystack (`context-stuffing-niah`)
-- **TL;DR:** The failure mode where excessive retrieved context degrades model attention and retrieval recall across long prompts.
-- **Deep Architecture:** Needle-in-a-Haystack (NIAH) benchmarks measure whether a model can locate a specific fact placed at various depths in a large context. Research proves models suffer from 'Lost in the Middle' degradation when bombarded with 50+ irrelevant chunks.
-- **Anti-Pattern:** Dumping 100 pages of raw unranked documentation into the context window and assuming the model will extract the right detail.
-- **Production Tip:** Keep final RAG injection contexts under 4,000 tokens of high-relevance, deduplicated, reranked chunks.
-
-### [RAG & Search] Retrieval Noise & Distraction (`retrieval-noise`)
-- **TL;DR:** Irrelevant or conflicting facts in retrieved context that confuse the LLM and induce hallucinated or contradictory outputs.
-- **Deep Architecture:** When retrieved chunks contain outdated policies, conflicting documentation, or tangential mentions, the model's self-attention heads can attend to incorrect tokens, overriding parametric knowledge with plausible-sounding junk.
-- **Anti-Pattern:** Assuming that retrieving 'more data' always improves output quality without aggressive threshold filtering.
-- **Production Tip:** Implement a relevance score cut-off (e.g. reranker score >= 0.75). If no chunks pass the threshold, fallback gracefully.
-
-### [RAG & Search] GraphRAG & Knowledge Graphs (`graphrag`)
-- **TL;DR:** Structuring documents into entity-relation knowledge graphs to support multi-hop reasoning and holistic corpus summarization.
-- **Deep Architecture:** Standard RAG struggles with global thematic queries ('What are the main themes across all customer reviews?'). GraphRAG extracts entities, relationships, and claims into a graph, then clusters communities and pre-generates hierarchical summaries.
-- **Anti-Pattern:** Using GraphRAG for simple single-fact lookups where basic vector search is 100x cheaper and 20x faster.
-- **Production Tip:** Use GraphRAG for complex enterprise intelligence, legal discovery, and corpus-wide analytical questions.
-
-### [RAG & Search] Corrective RAG (CRAG) & Self-RAG (`crag-self-rag`)
-- **TL;DR:** Dynamic retrieval architectures where the model self-evaluates retrieved chunk quality and triggers fallbacks or web searches.
-- **Deep Architecture:** CRAG inserts a lightweight evaluator model between retrieval and generation. If retrieved chunks are deemed poor or contradictory, the system triggers web search query generation or refines the query automatically before generating the response.
-- **Anti-Pattern:** Blindly trusting the primary retrieval step and generating answers on empty or low-confidence chunks.
-- **Production Tip:** Implement a binary confidence check on retrieved context. If low, invoke a web search tool or return an honest 'Data unavailable'.
-
-### [Agents & Multi-Agent] Autonomous Agent (`autonomous-agent`)
-- **TL;DR:** An LLM-driven loop equipped with planning, tools, and memory to execute multi-step objectives autonomously.
-- **Deep Architecture:** An autonomous agent operates via an iterative control loop: perceive environment state -> reason about next action -> execute tool call -> observe result -> update memory. Autonomy terminates when the goal condition is met or maximum steps are reached.
-- **Anti-Pattern:** Giving an unconstrained agent write access to production databases or unrestricted bash shells without sandboxing.
-- **Production Tip:** Enforce strict step limits, circuit breakers, deterministic guardrails, and human-in-the-loop approvals on destructive actions.
-
-### [Agents & Multi-Agent] ReAct Pattern (Reason + Act) (`react-pattern`)
-- **TL;DR:** Agent architecture interleaving step-by-step verbal reasoning (Thought) with tool executions (Action) and feedback (Observation).
-- **Deep Architecture:** Proposed by Yao et al. (2022), ReAct alternates between: Thought: [analyze current state], Action: [invoke tool with args], and Observation: [tool output returned from environment]. This interleaving dramatically reduces hallucination and improves tool parameter accuracy.
-- **Anti-Pattern:** Executing tool calls blindly without giving the model a reasoning step to plan parameter values.
-- **Production Tip:** Use native tool calling APIs with XML thought tags to maintain clean separation between reasoning and structured tool payloads.
-
-### [Agents & Multi-Agent] Tool Calling & Function Calling (`tool-calling`)
-- **TL;DR:** Mechanisms allowing LLMs to emit structured JSON arguments matching developer-defined API specifications.
-- **Deep Architecture:** The model is provided JSON schemas for available functions. When user intent requires external computation, the model pauses generation and emits a structured payload containing function name and arguments. The host application executes the code and returns the result as a tool turn.
-- **Anti-Pattern:** Passing 50 mega-schemas in every prompt, which overwhelms context window and degrades parameter accuracy.
-- **Production Tip:** Use lazy tool loading or skill paging to load schemas into context only when relevant to the current user objective.
-
-### [Agents & Multi-Agent] AGENTS.md Standard (`agents-md-standard`)
-- **TL;DR:** Open Linux Foundation standard for defining repository-level agent rules, environment commands, and operational boundaries.
-- **Deep Architecture:** AGENTS.md acts as a machine-readable constitution for coding agents. It specifies repository context, dev server commands, test runners, architecture constraints, and explicit behavioral boundaries (Always / Ask / Never) across 6 standardized frontmatter fields.
-- **Anti-Pattern:** Relying on tribal knowledge or random prompt snippets scattered across team members' local chats.
-- **Production Tip:** Check an AGENTS.md file directly into your Git root so every coding agent (Claude Code, Cursor, Copilot, NYX) adheres to identical rules.
-
-### [Agents & Multi-Agent] Multi-Agent Orchestration (`multi-agent-orchestration`)
-- **TL;DR:** Coordinating specialized single-purpose agents via supervisor hierarchies, peer messaging, or event buses.
-- **Deep Architecture:** Rather than forcing one monolithic agent to do everything, multi-agent systems partition duties: a Planner breaks tasks down, an Architect writes specs, an Engineer implements code, and a Reviewer tests. Agents communicate via structured messages or shared workspaces.
-- **Anti-Pattern:** Creating 10 agents that talk in endless circular conversational loops without producing tangible code or artifacts.
-- **Production Tip:** Structure multi-agent teams as deterministic DAGs or task boards with clear handoff protocols and exit criteria.
-
-### [Agents & Multi-Agent] Agent Memory (Short-Term vs Epistemic) (`agent-memory`)
-- **TL;DR:** Memory architecture dividing working scratchpad context from persistent long-term knowledge on a filesystem.
-- **Deep Architecture:** Short-term working memory exists within the immediate context window. Epistemic long-term memory is stored as structured markdown files (MEMORY.md, rules/, chronicle/) on a local filesystem, retrieved surgically via file tools or semantic search.
-- **Anti-Pattern:** Storing all agent memories in a complex opaque vector DB when plain human-readable markdown files in git are easier to inspect and edit.
-- **Production Tip:** Use plain markdown files on a shared filesystem for persistent agent memory. Keep working memory lean by checkpointing to disk.
-
-### [Agents & Multi-Agent] Human-in-the-Loop (HITL) & Gatekeeping (`human-in-the-loop`)
-- **TL;DR:** Security and workflow checkpoints where autonomous agents pause execution to await explicit human approval.
-- **Deep Architecture:** HITL gates critical operational boundaries: git pushes, database writes, financial transactions, email sends, or cloud deployments. The agent generates a structured proposal with a diff or action summary, pausing state until an authorized human signs off.
-- **Anti-Pattern:** Full unconstrained autonomy on irreversible actions, resulting in accidental data drops or unauthorized emails.
-- **Production Tip:** Categorize actions into 3 buckets: Autonomous (read/test/lint), Conditional (build/format), and Gatekept (deploy/delete/publish).
-
-### [Agents & Multi-Agent] Task Decomposition & DAG Execution (`task-decomposition-dag`)
-- **TL;DR:** Breaking high-level objectives into Directed Acyclic Graphs of parallel and sequential subtasks.
-- **Deep Architecture:** Complex engineering requests cannot be solved in a single prompt. Task decomposition creates a topological graph of dependencies. Independent tasks (e.g. running 5 unit tests or fetching 3 APIs) run in parallel, while dependent tasks wait for upstream artifacts.
-- **Anti-Pattern:** Executing sequential subtasks one-by-one in a single synchronous thread, multiplying total latency by 10x.
-- **Production Tip:** Spawn lightweight worker subagents for independent DAG branches and join results in a centralized review step.
-
-### [Agents & Multi-Agent] Reflection & Self-Correction Loops (`reflection-self-correction`)
-- **TL;DR:** Mechanisms where an agent inspects its own execution traces, terminal errors, or test failures to self-correct.
-- **Deep Architecture:** When a tool fails (e.g. a Python syntax error or pytest failure), the error trace is fed back into the context. The agent reflects on the root cause, modifies its code, and re-executes tests iteratively until all assertions pass.
-- **Anti-Pattern:** Repeating the exact same failed command in an infinite loop without reading the stderr output.
-- **Production Tip:** Limit self-correction loops to 3 attempts. If failing continuously, prompt the agent to change strategy or ask for human guidance.
-
-### [Agents & Multi-Agent] Proactive Agent Traps & Infinite Loops (`proactive-agent-traps`)
-- **TL;DR:** Common failure modes where background tasks, recurring crons, or ambiguous exit conditions trap agents in infinite execution.
-- **Deep Architecture:** Agents with cron or sleep capabilities often launch background polling loops that never terminate. Without strict timeout conditions, thread depth limits, or reactive wakeup hooks, agent processes consume infinite API tokens.
-- **Anti-Pattern:** Running while True: sleep(5) inside an agent bash tool instead of reactive event-driven scheduling.
-- **Production Tip:** Enforce maximum step limits (e.g. 25 steps per thread) and use event-based reactive triggers instead of polling loops.
-
-### [Agents & Multi-Agent] Agent Sandboxing & Subprocess Isolation (`agent-sandboxing`)
-- **TL;DR:** Isolating agent code execution inside ephemeral Docker containers, Firecracker microVMs, or gVisor sandboxes.
-- **Deep Architecture:** Agents executing arbitrary terminal commands must never run directly on host developer machines or unprotected bare metal. Sandboxed runtimes enforce strict memory limits, CPU caps, read-only root filesystems, and scoped networking.
-- **Anti-Pattern:** Running agent-generated bash scripts as root on your production server.
-- **Production Tip:** Use Docker or WebAssembly (Wasm) sandboxes with strict resource quotas and network egress firewalls for tool execution.
-
-### [Performance & Speed] Speculative Decoding (`speculative-decoding`)
-- **TL;DR:** Inference optimization using a fast draft model to generate candidate tokens verified in parallel by a target model in a single forward pass.
-- **Deep Architecture:** Autoregressive generation is bottlenecked by GPU DRAM memory bandwidth (reading 140GB of weights per token for a 70B FP16 model). Speculative decoding uses a small draft model (e.g. 1B-3B) to propose K tokens cheaply. The large target model evaluates all K tokens in parallel in one forward pass. Accepted tokens are mathematically lossless.
-- **Anti-Pattern:** Using a draft model with low acceptance rate (<50%), which adds drafting overhead without accelerating net throughput.
-- **Production Tip:** Ensure draft and target models share the exact same tokenizer and vocabulary to maintain 100% mathematical output parity.
-
-### [Performance & Speed] Mixture of Experts (MoE) (`mixture-of-experts`)
-- **TL;DR:** Architecture activating only a sparse subset of expert feed-forward networks per token, slashing inference compute.
-- **Deep Architecture:** In an MoE model (e.g. Mixtral 8x7B, DeepSeek-V3), dense feed-forward layers are replaced with N separate expert networks. A gating router directs each token to top-K experts (e.g. 2 of 8, or 8 of 256). A 671B model can thus execute with only 37B active parameters per token.
-- **Anti-Pattern:** Assuming MoE reduces VRAM requirements. All expert weights must remain loaded in VRAM even though only a fraction are active per token.
-- **Production Tip:** MoE is the ultimate architecture for high-speed frontier inference: massive parameter capacity with low FLOPS per token.
-
-### [Performance & Speed] FlashAttention (v1/v2/v3) (`flashattention`)
-- **TL;DR:** IO-aware exact attention algorithm tiling computation to minimize high-bandwidth GPU memory (HBM) reads and writes.
-- **Deep Architecture:** Standard attention reads and writes intermediate N x N attention matrices to slow GPU HBM. FlashAttention tiles the softmax computation in fast on-chip SRAM using online softmax, reducing memory accesses from O(N^2) to O(N) and accelerating attention by 2-4x.
-- **Anti-Pattern:** Running vanilla PyTorch attention implementations on long-context models without FlashAttention or SDPA enabled.
-- **Production Tip:** Ensure FlashAttention-2 or FlashAttention-3 is installed in your serving environment for instant 2x speedup on Ampere/Hopper GPUs.
-
-### [Performance & Speed] Continuous Batching & PagedAttention (`continuous-batching-pagedattention`)
-- **TL;DR:** Dynamic iteration-level request batching and virtual memory management for KV caches in high-concurrency serving.
-- **Deep Architecture:** Traditional batching waited for all sequences in a batch to finish. Continuous batching inserts new requests as soon as earlier ones complete. PagedAttention (vLLM) allocates non-contiguous physical memory blocks for KV caches, eliminating 96% of memory fragmentation.
-- **Anti-Pattern:** Static batching in production APIs, causing GPUs to idle while waiting for the longest request to finish generating.
-- **Production Tip:** Always serve multi-tenant LLM APIs using vLLM, SGLang, or TGI with PagedAttention and continuous batching enabled.
-
-### [Performance & Speed] DRAM Memory Bandwidth Bottleneck (`dram-bandwidth-bottleneck`)
-- **TL;DR:** The physical hardware limitation where inference speed is constrained by the speed of transferring weights from DRAM to compute cores.
-- **Deep Architecture:** During autoregressive decoding with batch_size=1, the arithmetic intensity is extremely low (~1 FLOP/byte). A 70B FP16 model requires transferring 140 GB of weights per single token. Even on an H100 with 3.35 TB/s memory bandwidth, theoretical maximum speed is capped at ~24 TPS per single stream.
-- **Anti-Pattern:** Assuming adding more compute FLOPS will speed up single-stream autoregressive generation without increasing memory bandwidth.
-- **Production Tip:** Use quantization (4-bit/8-bit) and speculative decoding to bypass memory bandwidth bottlenecks.
-
-### [Performance & Speed] Draft Verification & Acceptance Rate (Alpha) (`draft-verification-alpha`)
-- **TL;DR:** The statistical metric alpha measuring the average percentage of draft tokens accepted by the target model.
-- **Deep Architecture:** Expected speedup in speculative decoding is given by S = (1 - alpha^(gamma + 1)) / ((1 - alpha) * (1 + gamma * c)), where gamma is draft length and c is relative cost of draft step. When alpha > 0.8, speculative speedups reach 2.5x-3.5x with zero loss in output quality.
-- **Anti-Pattern:** Setting draft length gamma too high (e.g. gamma=10) when alpha is low (0.5), causing wasteful verification passes.
-- **Production Tip:** Tune draft speculative length gamma dynamically based on running empirical acceptance rate alpha.
-
-### [Performance & Speed] Medusa & Multi-Head Speculation (`medusa-multihead`)
-- **TL;DR:** Speculative decoding without a separate draft model, using multiple parallel prediction heads added to the main model.
-- **Deep Architecture:** Medusa adds lightweight multi-head layers on top of the base transformer. Each head predicts tokens at offsets t+1, t+2, t+3 concurrently. A tree-based attention verification step checks candidates in a single forward pass, removing the need to host a secondary draft model in VRAM.
-- **Anti-Pattern:** Maintaining two separate model deployments when a single model with Medusa heads achieves equivalent speedups.
-- **Production Tip:** Medusa heads are ideal for on-device and single-GPU deployments where VRAM cannot accommodate a secondary draft model.
-
-### [Performance & Speed] Tensor & Pipeline Parallelism (`tensor-pipeline-parallelism`)
-- **TL;DR:** Distributed computing paradigms splitting individual weight matrices (Tensor) or sequential layers (Pipeline) across multiple GPUs.
-- **Deep Architecture:** Tensor Parallelism (TP) shards linear projection matrices across GPUs via Megatron-LM (all-reduce communication over NVLink). Pipeline Parallelism (PP) partitions sequential transformer layers across GPUs, using micro-batching to minimize bubble pipeline stalls.
-- **Anti-Pattern:** Running Pipeline Parallelism across high-latency ethernet nodes for real-time low-latency chat inference.
-- **Production Tip:** Keep Tensor Parallelism within a single NVLink-connected node (e.g. 8x H100s); use Pipeline Parallelism across multi-node clusters for massive models.
-
-### [Performance & Speed] vLLM & SGLang Serving Engines (`vllm-sglang`)
-- **TL;DR:** State-of-the-art open-source LLM inference and serving engines engineered for high throughput and low latency.
-- **Deep Architecture:** vLLM pioneered PagedAttention and continuous batching. SGLang optimizes complex multi-call programs and structured decoding via RadixAttention (automatic KV cache reuse across complex branching workflows and few-shots).
-- **Anti-Pattern:** Serving production inference traffic via naive Flask/FastAPI wrappers around raw HuggingFace Transformers pipelines.
-- **Production Tip:** Deploy SGLang for complex multi-turn agent workflows and vLLM for high-concurrency standard chat completion endpoints.
-
-### [Performance & Speed] GPU VRAM Allocation & Overhead (`gpu-vram-allocation`)
-- **TL;DR:** Budgeting GPU video memory across model weights, KV cache allocations, activation buffers, and CUDA runtime overhead.
-- **Deep Architecture:** Total VRAM required = (Model Parameters * Precision Bytes) + KV Cache per Token * Context * Concurrency + Activation Overhead (1-2GB) + CUDA context (0.5-1GB). Running out of VRAM causes fatal CUDA Out-of-Memory (OOM) crashes.
-- **Anti-Pattern:** Allocating 99% of VRAM to static model weights without leaving buffer space for the dynamic KV cache of 100 concurrent requests.
-- **Production Tip:** Set gpu_memory_utilization=0.90 in vLLM to reserve headroom for transient activations and prevent unexpected OOMs.
-
-### [Performance & Speed] Model Pruning & Distillation (`model-distillation`)
-- **TL;DR:** Techniques for compressing large teacher models into smaller, faster student models while retaining capabilities.
-- **Deep Architecture:** Knowledge distillation trains a small student model (e.g. 8B) on the output probability distributions (soft targets) generated by a 405B teacher model. Pruning removes redundant attention heads or layers with minimal impact on validation loss.
-- **Anti-Pattern:** Fine-tuning a 70B model for a trivial classification task when an 8B distilled model achieves 99.5% accuracy at 1/10 the cost.
-- **Production Tip:** Use frontier models (Claude 3.7 Sonnet, GPT-4.5) to generate synthetic training datasets for distilling custom small domain models.
-
-### [Evals & Benchmarks] LLM-as-a-Judge (`llm-as-a-judge`)
-- **TL;DR:** Using a frontier model to evaluate and score open-ended responses from other models based on structured rubrics.
-- **Deep Architecture:** Pioneered in MT-Bench, LLM-as-a-judge correlates strongly (>80%) with human expert evaluations for open-ended generation. It evaluates criteria like accuracy, helpfulness, tone, and schema compliance. Pairwise comparisons with position swapping mitigate position bias.
-- **Anti-Pattern:** Running pairwise LLM judges without swapping output order (A/B vs B/A) to eliminate positional bias.
-- **Production Tip:** Use clear 1-5 scoring rubrics with concrete few-shot examples and require the judge model to output its reasoning before assigning a score.
-
-### [Evals & Benchmarks] MMLU & MMLU-Pro (`mmlu-pro`)
-- **TL;DR:** Massive Multitask Language Understanding benchmarks measuring multi-disciplinary knowledge across 57+ academic subjects.
-- **Deep Architecture:** MMLU tests elementary to professional level knowledge across STEM, humanities, and social sciences. MMLU-Pro increases difficulty by expanding options from 4 to 10 choices, reducing random guessing probability and testing reasoning depth.
-- **Anti-Pattern:** Claiming AGI parity based solely on a high MMLU score, which tests static memorization rather than real-world agentic workflow capability.
-- **Production Tip:** Use MMLU-Pro as a baseline general knowledge sanity check, but prioritize domain-specific benchmarks for product evals.
-
-### [Evals & Benchmarks] GSM8K & MATH Benchmarks (`gsm8k-math`)
-- **TL;DR:** Grade school math (GSM8K) and competition-level mathematics (MATH) datasets evaluating multi-step quantitative reasoning.
-- **Deep Architecture:** GSM8K contains 8,500 grade school math word problems requiring 2-8 steps of arithmetic. MATH contains 12,500 high school competition problems. Success requires exact step-by-step chain-of-thought derivation without arithmetic drift.
-- **Anti-Pattern:** Evaluating mathematical models without tool-use (Python code execution), which artificially penalizes models on simple arithmetic.
-- **Production Tip:** Combine reasoning models with a Python execution sandbox tool to achieve near-100% accuracy on mathematical problems.
-
-### [Evals & Benchmarks] SWE-bench & SWE-bench Verified (`swe-bench`)
-- **TL;DR:** Gold-standard software engineering benchmark evaluating an agent's ability to resolve real GitHub issues from open-source repos.
-- **Deep Architecture:** SWE-bench tests agents on real-world bug fixes and feature requests from repositories like django, sympy, and scikit-learn. The agent must inspect the repo, locate the bug, write the fix, and pass the hidden repository test suite.
-- **Anti-Pattern:** Evaluating coding agents on LeetCode-style synthetic snippets rather than repository-level multi-file benchmarks.
-- **Production Tip:** SWE-bench Verified (500 human-validated tasks) is the single best predictor of real-world coding agent effectiveness.
-
-### [Evals & Benchmarks] HumanEval & Code Generation Evals (`humaneval`)
-- **TL;DR:** OpenAI benchmark measuring Python functional correctness via unit tests (pass@k metric).
-- **Deep Architecture:** HumanEval contains 164 hand-crafted programming problems with docstrings and unit tests. Pass@1 measures the probability that a single sample passes all unit tests. Modern frontier models have saturated this benchmark (>90%).
-- **Anti-Pattern:** Using HumanEval as your sole coding metric in 2026; modern models have likely contaminated on its test set.
-- **Production Tip:** Graduate to SWE-bench, LiveCodeBench, or internal proprietary test suites for evaluating coding LLMs.
-
-### [Evals & Benchmarks] MT-Bench & Chatbot Arena (`mt-bench-arena`)
-- **TL;DR:** Crowdsourced blind Elo rating system (LMSYS) comparing human user preferences across frontier language models.
-- **Deep Architecture:** Chatbot Arena presents human users with blind side-by-side responses from two anonymous models. Over 1M+ pairwise battles generate statistically robust Bradley-Terry Elo ratings, reflecting real-world human perceptual quality.
-- **Anti-Pattern:** Relying purely on static academic benchmarks while ignoring Chatbot Arena Elo shifts.
-- **Production Tip:** Check LMSYS Chatbot Arena for real-world conversational quality and coding Elo rankings before selecting an API provider.
-
-### [Evals & Benchmarks] Faithfulness & Ragas Evals (`ragas-faithfulness`)
-- **TL;DR:** Framework for evaluating RAG pipelines across Faithfulness, Answer Relevance, and Context Precision.
-- **Deep Architecture:** Ragas (Retrieval Augmented Generation Assessment) scores whether generated answers are mathematically grounded in retrieved context (Faithfulness) and whether the retrieved context contains minimal noise (Context Precision).
-- **Anti-Pattern:** Shipping RAG features to production without automated regression test suites measuring hallucination rates.
-- **Production Tip:** Integrate Ragas into your CI/CD pipeline to block pull requests that degrade RAG faithfulness below 0.90.
-
-### [Evals & Benchmarks] Precision, Recall & MRR for RAG (`precision-recall-mrr`)
-- **TL;DR:** Classical information retrieval metrics measuring search ranking quality: Mean Reciprocal Rank and NDCG.
-- **Deep Architecture:** MRR (Mean Reciprocal Rank) evaluates how high the first relevant chunk appears in search results: MRR = (1/|Q|) * sum(1/rank_i). NDCG (Normalized Discounted Cumulative Gain) accounts for multi-level relevance across top-K results.
-- **Anti-Pattern:** Tuning chunking strategies and embedding models based on visual spot-checks of 3 sample queries.
-- **Production Tip:** Build a gold-standard dataset of 100 queries and run automated MRR/NDCG evaluations on every search algorithm change.
-
-### [Evals & Benchmarks] Overfitting to Benchmarks (Goodhart's Law) (`goodharts-law-overfitting`)
-- **TL;DR:** 'When a measure becomes a target, it ceases to be a good measure.' The phenomenon of benchmark contamination in LLM training.
-- **Deep Architecture:** As benchmark datasets leak into web crawl pre-training corpora or synthetic fine-tuning datasets, model scores skyrocket without translating to real-world performance gains. This creates an illusion of capability that collapses on out-of-distribution tasks.
-- **Anti-Pattern:** Selecting an LLM vendor based purely on a marketing radar chart showing high scores on public 2023 benchmarks.
-- **Production Tip:** Always test models on internal private evaluation suites containing your company's actual proprietary workflows.
-
-### [Evals & Benchmarks] Synthetic Eval Generation (`synthetic-eval-generation`)
-- **TL;DR:** Using frontier LLMs to generate high-coverage test suites, edge cases, and golden Q&A pairs from raw documentation.
-- **Deep Architecture:** Curating manual test cases is expensive and slow. Synthetic eval generation extracts key facts, entities, and scenarios from source documents, then generates diverse user queries, adversarial perturbations, and reference ground truths automatically.
-- **Anti-Pattern:** Generating synthetic evals without human expert review of the generated ground-truth answers.
-- **Production Tip:** Generate 1,000 synthetic test cases, filter out low-confidence samples with an ensemble of judge models, and verify a 10% random sample with human experts.
-
-### [Evals & Benchmarks] Harbour & Environment Evals (`harbour-environment-evals`)
-- **TL;DR:** Standardized execution environments evaluating agents on interactive multi-step tasks across real software stacks.
-- **Deep Architecture:** Unlike static text evals, environment evals test agents in real stateful systems (Docker containers, bash shells, browsers, databases). Tasks specify a World Spec (setup code, dependencies) and Task Spec (instructions, pass/fail verification assertions).
-- **Anti-Pattern:** Testing autonomous agent capabilities with mock static responses instead of live stateful sandboxes.
-- **Production Tip:** Package your real integration tests into reproducible Docker environment specs to evaluate agents on your actual stack.
-
-### [Protocols & WebMCP] WebMCP Protocol (`webmcp-protocol`)
-- **TL;DR:** Open lightweight protocol standard for exposing client-side browser tools directly to AI web agents.
-- **Deep Architecture:** WebMCP bridges web applications and AI agents by exposing structured tool schemas via /.well-known/webmcp.json and a standard window.modelContext browser API. Any visiting AI agent can discover and invoke client-side functions deterministically.
-- **Anti-Pattern:** Forcing AI web agents to scrape noisy DOM nodes and guess button selectors when structured tools can be called directly.
-- **Production Tip:** Declare /.well-known/webmcp.json on your domain so web agents like Claude, ChatGPT Operator, and open-source crawlers interact via fast, lossless JSON APIs.
-
-### [Protocols & WebMCP] Model Context Protocol (MCP) (`model-context-protocol`)
-- **TL;DR:** Anthropic's open protocol standardizing how LLMs discover, inspect, and execute external tools and data sources.
-- **Deep Architecture:** MCP decouples LLM applications from tool implementations using a client-server architecture. An MCP server exposes Prompts, Resources (read-only data streams), and Tools (executable functions) over stdio or SSE transports with JSON-RPC 2.0.
-- **Anti-Pattern:** Hardcoding custom proprietary tool integrations for every new LLM provider instead of implementing the standard MCP specification.
-- **Production Tip:** Build your internal company APIs as standard MCP servers once; use them across Claude Desktop, Cursor, and custom agent runtimes.
-
-### [Protocols & WebMCP] Browser-Side Tool Execution (`browser-tool-execution`)
-- **TL;DR:** Executing agent tool functions directly within the client browser runtime using JavaScript and Web APIs.
-- **Deep Architecture:** Rather than routing every tool call through a remote cloud backend, browser-side tools run in the user's browser tab. They can query indexedDB, interact with Canvas/WebGL, perform local cryptographic operations, and mutate local UI state with zero backend latency.
-- **Anti-Pattern:** Sending sensitive user browser state to external servers for operations that can be computed locally in JavaScript.
-- **Production Tip:** Expose client-side calculators, search indices, and form auto-fillers directly via window.modelContext.tools.
-
-### [Protocols & WebMCP] window.modelContext Interface (`window-modelcontext`)
-- **TL;DR:** The standardized JavaScript object on the global browser window object hosting WebMCP tools and metadata.
-- **Deep Architecture:** WebMCP standard specifies that compliant web apps register tools on window.modelContext.tools. Each tool provides a name, description, JSON schema for input parameters, and an async execute(params) handler returning structured results.
-- **Anti-Pattern:** Polluting the global window object with unstandardized helper functions that agents cannot discover programmatically.
-- **Production Tip:** Expose window.modelContext alongside <meta name="webmcp" content="/.well-known/webmcp.json"> for auto-discovery.
-
-### [Protocols & WebMCP] Server-Sent Events (SSE) for MCP (`mcp-sse-transport`)
-- **TL;DR:** HTTP streaming transport enabling remote MCP servers to push events and tool execution streams over standard web ports.
-- **Deep Architecture:** While local desktop agents use stdio pipes, remote web-based MCP deployments use Server-Sent Events (SSE) for server-to-client streaming and standard HTTP POST requests for client-to-server messaging. This works seamlessly through standard HTTP firewalls and proxies.
-- **Anti-Pattern:** Using raw WebSockets where simpler unidirectional SSE streams over standard HTTPS provide better reconnectivity and firewall traversal.
-- **Production Tip:** Use SSE transport for cloud-hosted MCP tool servers running in serverless or Kubernetes environments.
-
-### [Protocols & WebMCP] Tool Schema & JSON Schema Validation (`tool-schema-json-schema`)
-- **TL;DR:** Strict mathematical validation of tool argument parameters against Draft-07 JSON Schema specifications.
-- **Deep Architecture:** Tool schemas must declare parameter types, required fields, enum constraints, and clear property descriptions. Inference engines compile these schemas into grammar logits or validate payloads with Ajv/Pydantic before executing the underlying function.
-- **Anti-Pattern:** Leaving parameter descriptions blank or using vague types like object without specifying exact properties.
-- **Production Tip:** Write explicit descriptions for every parameter field. The LLM uses parameter descriptions to decide what arguments to construct.
-
-### [Protocols & WebMCP] Agentic Browser Interop (`agentic-browser-interop`)
-- **TL;DR:** Direct communication layer enabling autonomous web crawlers to interact with SPAs via structured function calls.
-- **Deep Architecture:** Modern web applications with complex React/Vue DOM trees are difficult for vision and DOM-scraping agents to navigate reliably. Agentic Browser Interop allows web apps to provide direct semantic APIs that bypass UI friction entirely.
-- **Anti-Pattern:** Relying on brittle CSS selectors that break whenever the frontend engineering team updates a layout.
-- **Production Tip:** Provide WebMCP tool hooks for all primary user actions (search, filter, checkout, export) to make your web app 100% agent-friendly.
-
-### [Protocols & WebMCP] Skill Paging & Lazy Tool RAM Loading (`skill-paging-ram`)
-- **TL;DR:** Architecture pattern scaling agent toolsets to 100,000+ tools by paging tool definitions from disk into context on demand.
-- **Deep Architecture:** Injecting thousands of tool schemas into a single prompt blows through context windows and degrades tool selection accuracy. Skill paging keeps an index of tools on disk/filesystem, retrieves only top-3 relevant tool schemas for the current step, and unloads them after execution.
-- **Anti-Pattern:** Loading 500 tool definitions statically into the system prompt of every single agent turn.
-- **Production Tip:** Store tool skills as isolated markdown/YAML files on disk. Let the agent use a search_tools meta-tool to page schemas dynamically.
-
-### [Protocols & WebMCP] MCP Stdio Transport vs HTTP Transport (`mcp-stdio-vs-http`)
-- **TL;DR:** Comparing local subprocess IPC pipes (stdio) against distributed networked endpoints (HTTP/SSE) for tool execution.
-- **Deep Architecture:** Stdio transport launches the tool server as a child subprocess, communicating over standard input/output streams. It has zero network latency and maximum security on local machines. HTTP/SSE transport connects to remote shared tool microservices over the network.
-- **Anti-Pattern:** Exposing local sensitive filesystem stdio tools over public unauthenticated HTTP endpoints.
-- **Production Tip:** Use stdio for local development tools (filesystem, git, terminal) and authenticated HTTP/SSE for shared enterprise databases.
-
-### [Protocols & WebMCP] Context-Aware Tool Gating (`context-aware-tool-gating`)
-- **TL;DR:** Dynamically enabling or masking available tools based on current workflow state, user permissions, and security tier.
-- **Deep Architecture:** Tool gating dynamically filters the tools array passed to the LLM at each turn. For example, during the 'planning' phase only read-only search tools are exposed; write tools (git push, db update) are gated until an explicit human confirmation is received.
-- **Anti-Pattern:** Exposing destructive write tools during preliminary exploratory research phases.
-- **Production Tip:** Implement a state machine that gates available tools based on conversation phase and user authorization level.
-
-### [Protocols & WebMCP] Zero-Footprint Protocol Standards (`zero-footprint-protocols`)
-- **TL;DR:** Designing agent interfaces using open standards without vendor lock-in, proprietary SDKs, or cloud dependencies.
-- **Deep Architecture:** Zero-footprint protocols rely on standard web primitives: JSON Schema, HTTP/SSE, markdown files, and standard browser window objects. They run identically in local terminal environments, cloud containers, and client browsers without requiring proprietary client libraries.
-- **Anti-Pattern:** Locking your architecture into proprietary single-vendor agent frameworks with heavy, brittle dependencies.
-- **Production Tip:** Build on open standards: AGENTS.md for repo rules, WebMCP for browser tools, and standard MCP for backend tools.
-
-## 2. THE 8 CORE ENGINEERING MODULES
-
-### Module 1: AGENTS.md Linux Foundation Standard & Multi-Agent Teams
-The open Linux Foundation AGENTS.md standard provides a machine-readable constitution for autonomous coding agents. It specifies 6 frontmatter fields:
-1. `agents_spec_version`: Protocol versioning.
-2. `project` & `stack`: Repository context and runtime dependencies.
-3. `commands`: Exact commands for `dev`, `test`, `lint`.
-4. `testing`: Test runners and coverage thresholds.
-5. `style`: Code conventions and formatting rules.
-6. `boundaries`: Strict partition into `always` (autonomous actions), `ask` (human-in-the-loop approvals), and `never` (forbidden operations).
-
-### Module 2: RAG Masterclass (Foundations to Production)
-Industrial RAG relies on a 3-stage pipeline:
-1. Hybrid Retrieval: Combining Dense vector similarity (capturing semantic synonyms) with Sparse BM25 lexical search (capturing exact part numbers, SKUs, and identifiers).
-2. Rank Aggregation: Reciprocal Rank Fusion (RRF with k=60) merges disparate score distributions without uncalibrated weighting.
-3. Cross-Encoder Reranking: Full token-to-token cross-attention models (BGE-Reranker, Cohere) score top candidates, selecting top-5 relevant chunks (<4k tokens) and discarding noise.
-
-### Module 3: Tool Scaling & 100k Tools Architecture
-Injecting hundreds of JSON schemas into system prompts causes context bloat and catastrophic tool selection errors. The 100k Tools pattern solves this:
-1. Skill Paging: Tools reside as isolated markdown/YAML manifests on a shared filesystem.
-2. Active RAM Slots: The agent uses a meta-tool to page in max 3 active tool definitions into context at any step.
-3. Plain Text Filesystem Memory: Persistent memory is stored in human-readable markdown files (`MEMORY.md`, `rules/`), eliminating black-box database dependencies.
-
-### Module 4: Speculative Decoding & Speed Lab
-Autoregressive decoding is bottlenecked by GPU DRAM memory bandwidth (transferring 140GB of weights per token for a 70B FP16 model).
-Speculative decoding uses a lightweight draft model to propose K candidate tokens cheaply. The large target model evaluates all K tokens concurrently in a single forward pass.
-Expected speedup: S = (1 - alpha^(gamma + 1)) / ((1 - alpha) * (1 + gamma * c)). Output is 100% mathematically identical to the target model alone.
-
-### Module 5: Marketing Intelligence Layer
-A 4-stage pipeline transforming messy operational notes into reusable AI assets:
-1. Inbox `/raw`: Fast capture of unstructured field notes.
-2. Extractor: Structured parsing of problems, root causes, and solutions.
-3. Topic Router: Categorization into architectural topics.
-4. Confidentiality Filter: Redaction of client names, deal amounts, and employee PII while preserving technical lessons.
-
-### Module 6: Agent Environments & Gym
-Stateful testing for autonomous agents using Docker containers and Harbour evaluation specifications:
-- World Spec: Environment base image, dependencies, and seed state.
-- Task Spec: Instructions, input assets, and deterministic test assertions.
-- Continuous Trace Synthesis: Every agent run is serialized to disk for regression evals and fine-tuning datasets.
-
-### Module 7: WebMCP Standard & Technical Integration
-WebMCP standardizes client-side browser tools for web agents. Compliant sites expose:
-1. `/.well-known/webmcp.json`: Tool manifest declaring available functions and JSON schemas.
-2. `<meta name="webmcp" content="/.well-known/webmcp.json">`
-3. `window.modelContext.tools`: Live JavaScript implementations callable directly by visiting browser agents without DOM scraping.
-
-### Module 8: AI Spec Writing / PRD Framework
-Bridges high-level product intent and AI execution across 6 pillars:
-1. Objective & Persona: Defining exact user requirements.
-2. Tech Stack & SLA: Latency, throughput, and architectural constraints.
-3. Acceptance Criteria: Binary test assertions.
-4. Boundaries: Explicit Always / Ask / Never governance.
+# https://adrianpeticila.github.io/ai-babies - full content for LLMs
+
+## https://adrianpeticila.github.io/ai-babies
+
+AI for Babies - No Hype. Pure Signal.
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+🤖
+
+">
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+      AI FOR BABIES
+      
+No hype. Pure signal.
+
+    
+
+    
+
+      
+77 Terms
+
+      
+Prompt Engine
+
+      
+RAG Course
+
+      
+AGENTS.md
+
+      
+100k Tools
+
+      
+Speculative Lab
+
+      
+Agent Gym
+
+      
+WebMCP
+
+      
+Intelligence
+
+      
+Spec PRD
+
+    
+
+    
+
+      
+[Agent Mode]
+
+      
+GitHub
+
+    
+
+  
+
+  
+
+  
+
+    
+
+      
+AI FOR BABIES // AGENT SEMANTIC INTERFACE
+
+      
+Autonomous LLM Agent Endpoint. Direct text representations and callable tool specs.
+
+      
+
+        Full documentation: 
+/llms.txt
+ | 
+/llms-full.txt
+ | WebMCP Spec: 
+/.well-known/webmcp.json
+
+      
+
+      
+Return to Standard View
+
+    
+
+    
+
+  
+
+  
+
+  
+
+    
+
+    
+
+      
+
+        
+Engineering Reference Standard
+
+        
+AI Explained For People With Actual Jobs.
+
+        
+
+          No corporate hype. No fake benchmarks. Just high-contrast technical architecture covering 77 core concepts, AGENTS.md multi-agent specs, 100k tool memory paging, speculative decoding math, and WebMCP browser protocols.
+        
+
+        
+
+          
+Explore 77 AI Terms
+
+          
+AGENTS.md Generator
+
+          
+Speculative Lab
+
+          
+Read llms-full.txt
+
+        
+
+        
+
+          
+
+            
+77
+
+            
+Categorized Terms
+
+          
+
+          
+
+            
+8
+
+            
+Deep Core Modules
+
+          
+
+          
+
+            
+4
+
+            
+WebMCP Tools
+
+          
+
+          
+
+            
+0%
+
+            
+Corporate Fluff
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 01 // Reference Glossary
+
+          
+77 Essential AI Terms
+
+          
+
+            Exactly 77 fundamental concepts across 7 core engineering categories (11 terms each). Filter by category or search in real time.
+          
+
+        
+
+        
+
+        
+
+        
+
+        
+
+          
+All (77)
+
+          
+Foundations (11)
+
+          
+Prompting & Inference (11)
+
+          
+RAG & Search (11)
+
+          
+Agents & Multi-Agent (11)
+
+          
+Performance & Speed (11)
+
+          
+Evals & Benchmarks (11)
+
+          
+Protocols & WebMCP (11)
+
+        
+
+        
+
+        
+
+          
+Showing 77 of 77 Terms
+
+          
+Clear Filters
+
+        
+
+        
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 02 // Prompt Engineering
+
+          
+Interactive Prompt Engine
+
+          
+
+            Diagnose prompt weaknesses against 8 strict production rules: negative constraints, few-shot examples, JSON schemas, role clarity, context placement, stop sequences, boundary rules, and token efficiency.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+
+                
+Input Prompt to Diagnose
+
+                
+
+              
+
+              
+
+                
+Run Diagnostic
+
+                
+Load Bad Prompt Example
+
+              
+
+            
+
+            
+
+              
+Diagnostic Report & Recommendations
+
+              
+Ready. Enter a prompt and click 'Run Diagnostic' to analyze.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 03 // Retrieval Architecture
+
+          
+RAG Masterclass: Foundations to Production
+
+          
+
+            Stop dumping unranked PDFs into context windows. Learn the 3 pillars of industrial RAG: Hybrid BM25+Dense retrieval, Cross-Encoder reranking, and chunking strategy tradeoffs.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Interactive RAG Pipeline Simulator
+
+              
+
+                Simulate how raw queries flow through hybrid retrieval (Dense + Sparse), Reciprocal Rank Fusion, and Cross-Encoder rerankers.
+              
+
+              
+
+                
+User Query
+
+                
+
+              
+
+              
+
+                
+Retrieval Strategy
+
+                
+
+                  
+Hybrid (BM25 + Dense) + Cross-Encoder Rerank (Recommended)
+
+                  
+Dense Vector Search Only (Naive)
+
+                  
+Sparse Lexical Search Only (BM25)
+
+                
+
+              
+
+              
+Simulate Retrieval
+
+            
+
+            
+
+              
+Pipeline Trace & Top Chunks
+
+              
+Click 'Simulate Retrieval' to inspect step-by-step ranking logs.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 04 // Open Multi-Agent Standard
+
+          
+AGENTS.md Standard & Multi-Agent Teams
+
+          
+
+            The neutral Linux Foundation standard for autonomous agent governance. 6 standardized frontmatter fields defining commands, tests, styles, boundaries (Always / Ask / Never), and multi-agent handoffs.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Interactive AGENTS.md Generator
+
+              
+
+                
+Project Name
+
+                
+
+              
+
+              
+
+                
+Tech Stack
+
+                
+
+              
+
+              
+
+                
+Dev Command
+
+                
+
+              
+
+              
+
+                
+Test Command
+
+                
+
+              
+
+              
+Generate AGENTS.md
+
+            
+
+            
+
+              
+
+                
+Generated AGENTS.md
+
+                
+Copy Spec
+
+              
+
+              
+Click 'Generate AGENTS.md' to create standard specification.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 05 // Tool Scaling Architecture
+
+          
+Tool Scaling & 100k Tools Architecture
+
+          
+
+            Why dumping 100 JSON schemas into system prompts ruins agent accuracy. Implement skill paging, plain markdown memory on shared filesystems, and avoid proactive agent traps.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Interactive Tool Paging Simulator
+
+              
+
+                Test how the agent dynamically pages tools from an indexed catalogue of 10,000 skills into a restricted 3-slot active RAM context.
+              
+
+              
+
+                
+Agent Task Objective
+
+                
+
+              
+
+              
+Simulate Skill Paging
+
+            
+
+            
+
+              
+Active RAM Tool Slots (Max 3)
+
+              
+Click 'Simulate Skill Paging' to view dynamic RAM page in/out execution.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 06 // Inference Optimization
+
+          
+Speculative Decoding & Speed Lab
+
+          
+
+            Bypass the 140GB DRAM memory bandwidth bottleneck. Calculate speedups from draft verification, acceptance rate alpha, and token throughput math.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Inference Speedup Calculator
+
+              
+
+                
+Target Model Size (Billion Params)
+
+                
+
+              
+
+              
+
+                
+Draft Model Size (Billion Params)
+
+                
+
+              
+
+              
+
+                
+Draft Token Horizon Gamma (Tokens proposed)
+
+                
+
+              
+
+              
+
+                
+Acceptance Rate Alpha (0.0 to 1.0)
+
+                
+
+              
+
+              
+Compute Speedup
+
+            
+
+            
+
+              
+Theoretical Speedup & Memory Bandwidth Analysis
+
+              
+Click 'Compute Speedup' to run latency equations.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 07 // Environment & Evaluation
+
+          
+Agent Environments & Gym
+
+          
+
+            Synthetic task generation, Harbour evaluation specifications, and continuous test environments created from agent execution traces.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Agent Gym Simulator
+
+              
+
+                Run a synthetic environment evaluation loop: generate task spec, execute agent in sandbox container, and assert ground-truth test assertions.
+              
+
+              
+
+                
+Target Evaluation Domain
+
+                
+
+                  
+Git Merge Conflict Resolution (SWE-bench verified)
+
+                  
+PostgreSQL Schema Zero-Downtime Migration
+
+                  
+REST API Regression Mocking & Intercept
+
+                
+
+              
+
+              
+Run Gym Trial
+
+            
+
+            
+
+              
+Gym Execution Log & Reward Trace
+
+              
+Click 'Run Gym Trial' to execute synthetic environment test.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 08 // Browser Agent Protocol
+
+          
+WebMCP Standard & Technical Integration
+
+          
+
+            Standardizing client-side browser tools for web agents via 
+/.well-known/webmcp.json
+ and 
+window.modelContext
+. Lossless JSON interaction without DOM scraping.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Live WebMCP Scanner & Tool Caller
+
+              
+
+                This page implements live WebMCP tools on 
+window.modelContext.tools
+. Test direct client-side tool execution right now.
+              
+
+              
+
+                
+Select Tool to Invoke
+
+                
+
+                  
+search_dictionary
+
+                  
+diagnose_prompt
+
+                  
+generate_agent_spec
+
+                  
+calculate_speculative_speed
+
+                
+
+              
+
+              
+
+                
+JSON Arguments
+
+                
+{"query": "KV Cache"}
+
+              
+
+              
+Call Tool via window.modelContext
+
+            
+
+            
+
+              
+Tool Execution Output
+
+              
+Select a tool, adjust JSON arguments, and execute.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 09 // Knowledge Processing
+
+          
+Marketing Intelligence Layer
+
+          
+
+            Transform personal operating experience into proprietary AI assets. The 4-stage pipeline: Inbox /raw, Extractor, Topic Router, and Confidentiality Sanitizer.
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Interactive Sanitizer & Knowledge Router
+
+              
+
+                Test how confidential client details, revenue metrics, and proprietary names are stripped while preserving the underlying engineering insights.
+              
+
+              
+
+                
+Raw Field Experience Note
+
+                
+Yesterday we met with BigBank Corp (account mgr John Doe, deal size $450k). Their legacy Oracle DB was bottlenecking their agent tool calls by 12 seconds per turn. We resolved it by caching query plans in SQLite on NVMe drives, reducing P99 latency to 18ms.
+
+              
+
+              
+Sanitize & Extract Insight
+
+            
+
+            
+
+              
+Sanitized Knowledge Artifact
+
+              
+Click 'Sanitize & Extract Insight' to preview confidential data removal.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+    
+
+    
+
+      
+
+        
+
+          
+Module 10 // AI Specification Framework
+
+          
+AI Spec Writing / PRD Framework
+
+          
+
+            Bridge high-level product vision and AI agent execution. 6 core specification pillars: Commands, Testing, Structure, Style, Git, and Boundaries (Always / Ask / Never).
+          
+
+        
+
+        
+
+          
+
+            
+
+              
+Interactive PRD Spec Builder
+
+              
+
+                
+Feature / Capability Name
+
+                
+
+              
+
+              
+
+                
+Primary User Persona
+
+                
+
+              
+
+              
+
+                
+Acceptance Criteria
+
+                
+
+              
+
+              
+Build PRD Specification
+
+            
+
+            
+
+              
+
+                
+Generated AI-Ready PRD
+
+                
+Copy PRD
+
+              
+
+              
+Click 'Build PRD Specification' to generate structured artifact.
+
+            
+
+          
+
+        
+
+      
+
+    
+
+  
+
+  
+
+  
+
+    
+
+      
+[X]
+
+      
+
+      
+
+      
+      
+
+        
+TL;DR Summary
+
+        
+
+      
+
+      
+
+        
+Deep Technical Architecture
+
+        
+
+      
+
+      
+
+        
+Common Engineering Anti-Pattern
+
+        
+
+      
+
+      
+
+        
+Production Tip & Best Practice
+
+        
+
+      
+
+    
+
+  
+
+  
+  
+
+  
+
+    
+
+      
+[ PRIVATE PROTOCOL ]
+
+      
+THE ENGINEERING DISPATCH
+
+      
+
+        Weekly deep dives into production multi-agent architectures, speculative decoding speedups, and prompt optimization benchmarks. Zero fluff. Pure signal.
+      
+
+      
+      
+
+        
+
+        
+
+          SUBSCRIBE
+        
+
+      
+
+      
+
+    
+
+  
+
+  
+
+  
+
+    
+
+      
+
+        
+🤖 AI FOR BABIES
+
+        
+AI explained for people with actual jobs. High-contrast, fluff-free engineering suite and conceptual repository.
+
+      
+
+      
+
+        
+MODULES
+
+        
+
+          
+
+77+ Dictionary
+
+          
+
+Prompt Engine
+
+          
+
+RAG Course
+
+          
+
+AGENTS.md Spec
+
+        
+
+      
+
+      
+
+        
+SIMULATORS
+
+        
+
+          
+
+Speculative Decoding
+
+          
+
+Agent Gym
+
+          
+
+WebMCP Scanner
+
+          
+
+Marketing Intelligence
+
+        
+
+      
+
+      
+
+        
+MACHINE ENDPOINTS
+
+        
+
+          
+
+llms.txt
+
+          
+
+llms-full.txt
+
+          
+
+sitemap.xml
+
+          
+
+robots.txt
+
+        
+
+      
+
+    
+
+    
+
+      
+© 2026 AI for Babies. All rights reserved. Zero hype. 100% engineering.
+
+      
+
+        
+
+        
+SYSTEM STATUS: OPERATIONAL
+
+## https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html
+
+

@@ -1,20 +1,4 @@
-# AI for Babies
-> AI Explained for People with Actual Jobs. High-contrast, developer-friendly engineering suite explaining LLMs, RAG architectures, Agent workflows, inference optimization, and marketing intelligence without corporate fluff.
+# https://adrianpeticila.github.io/ai-babies
 
-## Core Capabilities & Interactive Modules
-- [77 Essential AI Terms](https://aiforbabies.pages.dev/#dictionary): 77 categorized, deep-dive concepts covering Foundations, Prompting & Inference, RAG & Search, Agents & Multi-Agent, Performance & Speed, Evals & Benchmarks, and Protocols & WebMCP.
-- [Prompt Engine](https://aiforbabies.pages.dev/#prompt-engine): Diagnostic tool analyzing prompt quality against 8 production engineering rules.
-- [RAG Masterclass](https://aiforbabies.pages.dev/#rag-course): Hybrid BM25+Dense search, Cross-Encoder rerankers, and contextual retrieval pipelines.
-- [AGENTS.md Generator](https://aiforbabies.pages.dev/#agents-spec): Linux Foundation standard specification generator for autonomous coding agent governance.
-- [100k Tool Scaling](https://aiforbabies.pages.dev/#tool-scaling): Skill paging pattern and RAM memory management for massive toolsets.
-- [Speculative Decoding Lab](https://aiforbabies.pages.dev/#speculative-decoding): Mathematical simulator bypassing GPU DRAM memory bandwidth bottlenecks.
-- [Agent Gym](https://aiforbabies.pages.dev/#agent-gym): Synthetic task generation and Harbour evaluation frameworks.
-- [WebMCP Protocol Scanner](https://aiforbabies.pages.dev/#webmcp-scanner): Browser-side agent tools and client runtime integrations.
-- [Marketing Intelligence Layer](https://aiforbabies.pages.dev/#marketing-intelligence): 4-stage confidential knowledge distillation pipeline.
-- [AI Spec PRD Framework](https://aiforbabies.pages.dev/#spec-prd): Structured specification framework bridging product intent and agent execution.
-
-## Technical Specifications
-- WebMCP Manifest: https://aiforbabies.pages.dev/.well-known/webmcp.json
-- Complete LLM Documentation: https://aiforbabies.pages.dev/llms-full.txt
-- Sitemap: https://aiforbabies.pages.dev/sitemap.xml
-- Robots: https://aiforbabies.pages.dev/robots.txt
+- [AI for Babies - No Hype. Pure Signal.](https://adrianpeticila.github.io/ai-babies)
+- [googleb4ecbd9bc56c231c.html](https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html)
