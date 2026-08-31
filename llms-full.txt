@@ -1,6 +1,6 @@
-# https://adrianpeticila.github.io/ai-babies - full content for LLMs
+# https://aiforbabies.pages.dev - full content for LLMs
 
-## https://adrianpeticila.github.io/ai-babies
+## https://aiforbabies.pages.dev
 
 AI for Babies - No Hype. Pure Signal.
 
@@ -1239,6 +1239,6 @@ robots.txt
         
 SYSTEM STATUS: OPERATIONAL
 
-## https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html
+## https://aiforbabies.pages.dev/googleb4ecbd9bc56c231c.html
 
 
