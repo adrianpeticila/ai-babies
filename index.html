@@ -1045,31 +1045,33 @@
 <body>
 
   <!-- Top Sticky Navigation -->
-    <header class="top-nav">
-    <div class="nav-tier-top">
-      <a href="#" class="nav-brand">
-        AI FOR BABIES
-        <span class="tagline">No hype. Pure signal.</span>
-      </a>
-      <div class="nav-actions">
-        <a href="https://aiforbabies.substack.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm">[Substack]</a>
-        <button id="agent-toggle-btn" class="btn btn-outline btn-sm" onclick="toggleAgentMode()">[Agent Mode]</button>
-        <a href="#blueprints" class="btn btn-solid btn-sm">[Get Blueprints]</a>
+      <header>
+    <div class="header-top">
+      <div class="header-left">
+        <a href="#" class="brand-logo" style="text-decoration: none; color: var(--text);">
+          <span style="font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em;">AI FOR BABIES</span>
+        </a>
+        <span class="brand-tagline" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); padding-left: 0.75rem; border-left: 1px solid var(--border-light);">No hype. Pure signal.</span>
+      </div>
+      <div class="header-actions">
+        <a href="https://aiforbabies.substack.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Substack</a>
+        <button class="btn btn-outline btn-sm" onclick="toggleAgentMode()">[Agent Mode]</button>
+        <a href="#blueprints" class="btn btn-solid btn-sm">Get Blueprints</a>
       </div>
     </div>
-    <nav class="nav-tier-bottom">
-      <a href="#dictionary">01 Dictionary</a>
-      <a href="#prompt-engine">02 Prompt Engine</a>
-      <a href="#rag-course">03 RAG Course</a>
-      <a href="#agents-spec">04 AGENTS.md</a>
-      <a href="#tool-scaling">05 100k Tools</a>
-      <a href="#speculative-decoding">06 Speed Lab</a>
-      <a href="#agent-gym">07 Agent Gym</a>
-      <a href="#webmcp-scanner">08 WebMCP</a>
-      <a href="#marketing-intelligence">09 Intelligence</a>
-      <a href="#spec-prd">10 Spec PRD</a>
-      <a href="#blueprints">11 Blueprints</a>
-    </nav>
+    <div class="header-bottom">
+      <a href="#dictionary" class="track-link">01 Dictionary</a>
+      <a href="#prompt-engine" class="track-link">02 Prompt Engine</a>
+      <a href="#rag-course" class="track-link">03 RAG Course</a>
+      <a href="#agents-spec" class="track-link">04 AGENTS.md</a>
+      <a href="#tool-scaling" class="track-link">05 100k Tools</a>
+      <a href="#speculative-decoding" class="track-link">06 Speed Lab</a>
+      <a href="#agent-gym" class="track-link">07 Agent Gym</a>
+      <a href="#webmcp-scanner" class="track-link">08 WebMCP</a>
+      <a href="#marketing-intelligence" class="track-link">09 Intelligence</a>
+      <a href="#spec-prd" class="track-link">10 Spec PRD</a>
+      <a href="#blueprints" class="track-link" style="color: var(--text); font-weight: 600; border-color: var(--border-light); background: #FFFFFF;">11 Blueprints</a>
+    </div>
   </header>
 
   <!-- Agent Mode High-Density Semantic Text View -->
