@@ -1034,6 +1034,25 @@
       font-weight: 800;
       margin: 0.75rem 0;
     }
+
+  .nav-track-link {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #4b5563 !important;
+    text-decoration: none !important;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .nav-track-link:hover {
+    color: #111827 !important;
+    background: #ffffff;
+    border-color: #d1d5db;
+    text-decoration: none !important;
+  }
     
   </style>
   <meta property="og:image" content="https://aiforbabies.pages.dev/assets/ai-babies-banner.svg">
@@ -1045,32 +1064,34 @@
 <body>
 
   <!-- Top Sticky Navigation -->
-      <header>
-    <div class="header-top">
-      <div class="header-left">
-        <a href="#" class="brand-logo" style="text-decoration: none; color: var(--text);">
-          <span style="font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em;">AI FOR BABIES</span>
-        </a>
-        <span class="brand-tagline" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); padding-left: 0.75rem; border-left: 1px solid var(--border-light);">No hype. Pure signal.</span>
+  <header style="position: sticky; top: 0; z-index: 1000; background: #ffffff; border-bottom: 1px solid #e5e7eb; width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+    <!-- Row 1: Brand & Top Actions -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; border-bottom: 1px solid #f3f4f6; max-width: 1400px; margin: 0 auto; box-sizing: border-box;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <a href="#" style="font-weight: 900; font-size: 1.15rem; letter-spacing: -0.03em; color: #111827; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">AI FOR BABIES</a>
+        <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #6b7280; border-left: 1px solid #e5e7eb; padding-left: 12px;">No hype. Pure signal.</span>
       </div>
-      <div class="header-actions">
-        <a href="https://aiforbabies.substack.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Substack</a>
-        <button class="btn btn-outline btn-sm" onclick="toggleAgentMode()">[Agent Mode]</button>
-        <a href="#blueprints" class="btn btn-solid btn-sm">Get Blueprints</a>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="https://aiforbabies.substack.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size: 0.75rem;">Substack</a>
+        <button class="btn btn-outline btn-sm" onclick="toggleAgentMode()" style="padding: 4px 10px; font-size: 0.75rem;">[Agent Mode]</button>
+        <a href="#blueprints" class="btn btn-solid btn-sm" style="padding: 4px 12px; font-size: 0.75rem;">Get Blueprints</a>
       </div>
     </div>
-    <div class="header-bottom">
-      <a href="#dictionary" class="track-link">01 Dictionary</a>
-      <a href="#prompt-engine" class="track-link">02 Prompt Engine</a>
-      <a href="#rag-course" class="track-link">03 RAG Course</a>
-      <a href="#agents-spec" class="track-link">04 AGENTS.md</a>
-      <a href="#tool-scaling" class="track-link">05 100k Tools</a>
-      <a href="#speculative-decoding" class="track-link">06 Speed Lab</a>
-      <a href="#agent-gym" class="track-link">07 Agent Gym</a>
-      <a href="#webmcp-scanner" class="track-link">08 WebMCP</a>
-      <a href="#marketing-intelligence" class="track-link">09 Intelligence</a>
-      <a href="#spec-prd" class="track-link">10 Spec PRD</a>
-      <a href="#blueprints" class="track-link" style="color: var(--text); font-weight: 600; border-color: var(--border-light); background: #FFFFFF;">11 Blueprints</a>
+    <!-- Row 2: Module Subnav -->
+    <div style="background: #f9fafb; padding: 6px 16px; border-bottom: 1px solid #e5e7eb;">
+      <div style="display: flex; justify-content: center; align-items: center; gap: 6px; flex-wrap: wrap; max-width: 1400px; margin: 0 auto;">
+        <a href="#dictionary" class="nav-track-link">01 Dictionary</a>
+        <a href="#prompt-engine" class="nav-track-link">02 Prompt Engine</a>
+        <a href="#rag-course" class="nav-track-link">03 RAG Course</a>
+        <a href="#agents-spec" class="nav-track-link">04 AGENTS.md</a>
+        <a href="#tool-scaling" class="nav-track-link">05 100k Tools</a>
+        <a href="#speculative-decoding" class="nav-track-link">06 Speed Lab</a>
+        <a href="#agent-gym" class="nav-track-link">07 Agent Gym</a>
+        <a href="#webmcp-scanner" class="nav-track-link">08 WebMCP</a>
+        <a href="#marketing-intelligence" class="nav-track-link">09 Intelligence</a>
+        <a href="#spec-prd" class="nav-track-link">10 Spec PRD</a>
+        <a href="#blueprints" class="nav-track-link" style="background: #111827; color: #ffffff !important; font-weight: 700;">11 Blueprints</a>
+      </div>
     </div>
   </header>
 
