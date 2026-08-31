@@ -28,6 +28,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
+  <!-- Tally Forms Embed -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
+
   <style>
     /* Strict 2-Color Monochrome Palette */
     :root {
@@ -1967,6 +1970,41 @@ High-Level Goal: Deliver reliable, production-grade ${feat} without technical de
         }
       }
     };
+
+    // Dispatch Newsletter Subscription via Tally
+    function handleDispatchSubscribe(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const emailInput = document.getElementById('dispatch-email');
+      const feedback = document.getElementById('dispatch-feedback');
+      const email = emailInput ? emailInput.value.trim() : '';
+
+      if (!email) return;
+
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.style.color = 'var(--text)';
+        feedback.textContent = 'Opening dispatch registration...';
+      }
+
+      if (typeof window.Tally !== 'undefined' && window.Tally.openPopup) {
+        window.Tally.openPopup('44bKpk', {
+          layout: 'modal',
+          width: 500,
+          hiddenFields: {
+            email: email
+          }
+        });
+        if (feedback) {
+          feedback.textContent = 'Thank you! Complete your registration in the popup.';
+        }
+      } else {
+        const fallbackUrl = `https://tally.so/r/44bKpk?email=${encodeURIComponent(email)}`;
+        window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+        if (feedback) {
+          feedback.textContent = 'Thank you! Redirecting to registration...';
+        }
+      }
+    }
 
     // Expose aliases
     window.__webmcp = window.modelContext;
