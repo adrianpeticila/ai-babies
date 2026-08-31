@@ -1054,6 +1054,189 @@
     text-decoration: none !important;
   }
     
+  
+    /* Refined Developer Console Header */
+    header.main-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #FFFFFF;
+      border-bottom: 1px solid #E5E7EB;
+      width: 100%;
+    }
+    .header-row-1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 28px 8px 28px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .header-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-brand-title {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+      color: #111827;
+      text-decoration: none;
+    }
+    .header-brand-tagline {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      font-size: 0.78rem;
+      color: #6B7280;
+      border-left: 1px solid #E5E7EB;
+      padding-left: 12px;
+      font-weight: 400;
+    }
+    .header-meta-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+    }
+    .header-meta-link {
+      color: #4B5563;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+    .header-meta-link:hover {
+      color: #111827;
+      text-decoration: underline;
+    }
+    .header-meta-divider {
+      color: #D1D5DB;
+      font-size: 0.75rem;
+    }
+    .header-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #111827;
+      background: #F3F4F6;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      border: 1px solid #E5E7EB;
+      letter-spacing: 0.02em;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #10B981;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+    .header-row-2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 6px 28px 8px 28px;
+      max-width: 1400px;
+      margin: 0 auto;
+      border-top: 1px solid #F3F4F6;
+    }
+    .nav-modules-group {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      white-space: nowrap;
+    }
+    .nav-modules-group::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-bold-link {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #4B5563;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      white-space: nowrap;
+    }
+    .nav-bold-link:hover {
+      color: #111827;
+    }
+    .nav-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn-nav-outline {
+      font-family: "Space Mono", monospace;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border: 1px solid #D1D5DB;
+      background: #FFFFFF;
+      color: #111827;
+      text-decoration: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+    .btn-nav-outline:hover {
+      border-color: #111827;
+      background: #F9FAFB;
+    }
+    .btn-nav-solid {
+      font-family: "Space Mono", monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border: 1px solid #111827;
+      background: #111827;
+      color: #FFFFFF;
+      text-decoration: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+    .btn-nav-solid:hover {
+      background: #000000;
+      border-color: #000000;
+      color: #FFFFFF;
+    }
+    @media (max-width: 768px) {
+      .header-row-1 {
+        padding: 10px 16px;
+      }
+      .header-brand-tagline {
+        display: none;
+      }
+      .header-row-2 {
+        padding: 6px 16px;
+        gap: 12px;
+      }
+      .nav-modules-group {
+        gap: 12px;
+      }
+    }
   </style>
   <meta property="og:image" content="https://aiforbabies.pages.dev/assets/ai-babies-banner.svg">
   <meta name="twitter:image" content="https://aiforbabies.pages.dev/assets/ai-babies-banner.svg">
@@ -1064,33 +1247,36 @@
 <body>
 
   <!-- Top Sticky Navigation -->
-  <header style="position: sticky; top: 0; z-index: 1000; background: #ffffff; border-bottom: 1px solid #e5e7eb; width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
-    <!-- Row 1: Brand & Top Actions -->
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; border-bottom: 1px solid #f3f4f6; max-width: 1400px; margin: 0 auto; box-sizing: border-box;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <a href="#" style="font-weight: 900; font-size: 1.15rem; letter-spacing: -0.03em; color: #111827; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">AI FOR BABIES</a>
-        <span style="font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #6b7280; border-left: 1px solid #e5e7eb; padding-left: 12px;">No hype. Pure signal.</span>
+  <header class="main-header">
+    <div class="header-row-1">
+      <div class="header-brand-group">
+        <a href="#" class="header-brand-title">AI FOR BABIES</a>
+        <span class="header-brand-tagline">No hype. Pure signal.</span>
       </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <a href="https://aiforbabies.substack.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size: 0.75rem;">Substack</a>
-        <button class="btn btn-outline btn-sm" onclick="toggleAgentMode()" style="padding: 4px 10px; font-size: 0.75rem;">[Agent Mode]</button>
-        <a href="#blueprints" class="btn btn-solid btn-sm" style="padding: 4px 12px; font-size: 0.75rem;">Get Blueprints</a>
+      <div class="header-meta-group">
+        <a href="https://aiforbabies.substack.com" target="_blank" rel="noopener" class="header-meta-link">[Substack Dispatch]</a>
+        <span class="header-meta-divider">•</span>
+        <span class="header-status-badge">
+          <span class="status-dot"></span> LIVE v2.4
+        </span>
       </div>
     </div>
-    <!-- Row 2: Module Subnav -->
-    <div style="background: #f9fafb; padding: 6px 16px; border-bottom: 1px solid #e5e7eb;">
-      <div style="display: flex; justify-content: center; align-items: center; gap: 6px; flex-wrap: wrap; max-width: 1400px; margin: 0 auto;">
-        <a href="#dictionary" class="nav-track-link">01 Dictionary</a>
-        <a href="#prompt-engine" class="nav-track-link">02 Prompt Engine</a>
-        <a href="#rag-course" class="nav-track-link">03 RAG Course</a>
-        <a href="#agents-spec" class="nav-track-link">04 AGENTS.md</a>
-        <a href="#tool-scaling" class="nav-track-link">05 100k Tools</a>
-        <a href="#speculative-decoding" class="nav-track-link">06 Speed Lab</a>
-        <a href="#agent-gym" class="nav-track-link">07 Agent Gym</a>
-        <a href="#webmcp-scanner" class="nav-track-link">08 WebMCP</a>
-        <a href="#marketing-intelligence" class="nav-track-link">09 Intelligence</a>
-        <a href="#spec-prd" class="nav-track-link">10 Spec PRD</a>
-        <a href="#blueprints" class="nav-track-link" style="background: #111827; color: #ffffff !important; font-weight: 700;">11 Blueprints</a>
+    <div class="header-row-2">
+      <nav class="nav-modules-group">
+        <a href="#dictionary" class="nav-bold-link">Dictionary</a>
+        <a href="#prompt-engine" class="nav-bold-link">Prompt Engine</a>
+        <a href="#rag-course" class="nav-bold-link">RAG Course</a>
+        <a href="#agents-spec" class="nav-bold-link">AGENTS.md</a>
+        <a href="#tool-scaling" class="nav-bold-link">100k Tools</a>
+        <a href="#speculative-decoding" class="nav-bold-link">Speed Lab</a>
+        <a href="#agent-gym" class="nav-bold-link">Agent Gym</a>
+        <a href="#webmcp-scanner" class="nav-bold-link">WebMCP</a>
+        <a href="#marketing-intelligence" class="nav-bold-link">Intelligence</a>
+        <a href="#spec-prd" class="nav-bold-link">Spec PRD</a>
+      </nav>
+      <div class="nav-actions-group">
+        <button class="btn-nav-outline" onclick="toggleAgentMode()">[Agent Mode]</button>
+        <a href="#blueprints" class="btn-nav-solid">⚡ Blueprints $9</a>
       </div>
     </div>
   </header>
