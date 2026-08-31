@@ -1,5 +1,4 @@
-# https://aiforbabies.pages.dev/
+# https://adrianpeticila.github.io/ai-babies
 
-- [AI for Babies - No Hype. Pure Signal.](https://aiforbabies.pages.dev/)
-- [AI for Babies Substack Newsletter](https://aiforbabies.substack.com)
-- [googleb4ecbd9bc56c231c.html](https://aiforbabies.pages.dev/googleb4ecbd9bc56c231c.html)
+- [AI for Babies - No Hype. Pure Signal.](https://adrianpeticila.github.io/ai-babies)
+- [googleb4ecbd9bc56c231c.html](https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html)

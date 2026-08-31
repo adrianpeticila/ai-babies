@@ -1,6 +1,6 @@
-# https://aiforbabies.pages.dev - full content for LLMs
+# https://adrianpeticila.github.io/ai-babies - full content for LLMs
 
-## https://aiforbabies.pages.dev
+## https://adrianpeticila.github.io/ai-babies
 
 AI for Babies - No Hype. Pure Signal.
 
@@ -57,53 +57,80 @@ AI for Babies - No Hype. Pure Signal.
 
     
 
-      AI FOR BABIES
       
+
+        
+AI FOR BABIES
+
+        
 No hype. Pure signal.
 
+      
+
+      
+
+        
+[Substack Dispatch]
+
+        
+•
+
+        
+
+          
+
+ LIVE v2.4
+        
+
+      
+
     
 
     
 
       
-77 Terms
 
-      
+        
+Dictionary
+
+        
 Prompt Engine
 
-      
+        
 RAG Course
 
-      
+        
 AGENTS.md
 
-      
+        
 100k Tools
 
-      
-Speculative Lab
+        
+Speed Lab
 
-      
+        
 Agent Gym
 
-      
+        
 WebMCP
 
-      
+        
 Intelligence
 
-      
+        
 Spec PRD
 
-    
-
-    
+      
 
       
+
+        
 [Agent Mode]
 
+        
+⚡ Blueprints $9
+
       
-GitHub
 
     
 
@@ -360,6 +387,26 @@ Ready. Enter a prompt and click 'Run Diagnostic' to analyze.
             
 
           
+
+        
+
+      
+        
+
+        
+
+          
+
+            
+[ ARCHITECTURE AUDIT ]
+
+            
+Need enterprise-grade prompt hardening & token reduction? Book an Architecture Audit.
+
+          
+
+          
+Book Architecture Audit →
 
         
 
@@ -703,6 +750,26 @@ Click 'Compute Speedup' to run latency equations.
         
 
       
+        
+
+        
+
+          
+
+            
+[ CLUSTER OPTIMIZATION ]
+
+            
+Optimizing inference latency & GPU VRAM across private clusters? Request Production Hardening Sprint.
+
+          
+
+          
+Request Hardening Sprint →
+
+        
+
+      
 
     
 
@@ -777,6 +844,26 @@ Click 'Run Gym Trial' to execute synthetic environment test.
             
 
           
+
+        
+
+      
+        
+
+        
+
+          
+
+            
+[ AGENT BENCHMARKING ]
+
+            
+Deploying autonomous agent evaluation harnesses in CI/CD? Connect for Bespoke Agent Benchmarking.
+
+          
+
+          
+Connect for Benchmarking →
 
         
 
@@ -1041,6 +1128,248 @@ Click 'Build PRD Specification' to generate structured artifact.
   
 
   
+  
+
+  
+
+    
+
+      
+×
+
+      
+[ SECURE CHECKOUT // LIVE ACCESS ]
+
+      
+Get Production Blueprints
+
+      
+
+        Instant unlock for production-grade agent architectures, hybrid RAG retrievers, and CI/CD harnesses. Delivered with full source code, specs, and future updates.
+      
+
+      
+
+        
+
+        
+
+          
+
+            
+SINGLE PASS
+
+            
+Single Blueprint Pass
+
+            
+
+              Full unlock for any 1 selected blueprint + execution code + future v1.x revisions.
+            
+
+            
+$9 
+/ one-time
+
+            
+
+              
+Full deep dive specification
+
+              
+Production Python & TypeScript code
+
+              
+Docker sandbox configs
+
+              
+Lifetime updates for chosen blueprint
+
+            
+
+          
+
+          
+
+            Buy Single Pass ($9) →
+          
+
+        
+
+        
+
+        
+
+          
+
+            
+
+              
+BEST VALUE
+
+              
+★ ALL BLUEPRINTS
+
+            
+
+            
+All-Access Blueprint Pass
+
+            
+
+              Full lifetime access to all 3 current blueprints + all upcoming enterprise architectures.
+            
+
+            
+$19 
+/ one-time
+
+            
+
+              
+
+All 3 production blueprints
+
+              
+All future v1.x blueprints included
+
+              
+Private AGENTS.md template repo access
+
+              
+Priority Engineering Dispatch
+
+            
+
+          
+
+          
+
+            Get All-Access Pass ($19) →
+          
+
+        
+
+      
+
+      
+
+        
+
+          Already purchased? Test unlock key: 
+BABY-ARCH-2026
+
+        
+
+        
+Enterprise Inquiries →
+
+      
+
+    
+
+  
+
+  
+
+  
+
+    
+
+      
+×
+
+      
+[ ENTERPRISE INQUIRY // ARCHITECTURE SPRINT ]
+
+      
+Enterprise Architecture Engagement
+
+      
+
+        Direct advisory and engineering sprints for prompt hardening, GPU latency optimization, and autonomous agent evaluation harnesses.
+      
+
+      
+
+        
+
+          
+Full Name & Role
+
+          
+
+        
+
+        
+
+          
+Work Email
+
+          
+
+        
+
+        
+
+          
+Company & Team Size
+
+          
+
+        
+
+        
+
+          
+Engagement Track
+
+          
+
+            
+Architecture Audit & Prompt Hardening (Module 02)
+
+            
+Production Hardening Sprint (Inference & VRAM) (Module 06)
+
+            
+Bespoke Agent Benchmarking & Evaluation (Module 07)
+
+            
+Custom Multi-Agent Architecture & Blueprints (Module 11)
+
+          
+
+        
+
+        
+
+          
+System Architecture Details & Constraints
+
+          
+
+        
+
+        
+
+          
+Submit Architecture Inquiry →
+
+          
+Cancel
+
+        
+
+      
+
+      
+
+    
+
+  
+
+  
 
     
 
@@ -1096,149 +1425,233 @@ Production Tip & Best Practice
   
 
   
-
-    
-
-      
-[ PRIVATE PROTOCOL ]
-
-      
-THE ENGINEERING DISPATCH
-
-      
-
-        Weekly deep dives into production multi-agent architectures, speculative decoding speedups, and prompt optimization benchmarks. Zero fluff. Pure signal.
-      
-
-      
-      
-
-        
-
-        
-
-          SUBSCRIBE
-        
-
-      
-
-      
-
-    
-
-  
-
-  
-
-  
-
-    
-
-      
-
-        
-🤖 AI FOR BABIES
-
-        
-AI explained for people with actual jobs. High-contrast, fluff-free engineering suite and conceptual repository.
-
-      
-
-      
-
-        
-MODULES
-
-        
-
-          
-
-77+ Dictionary
-
-          
-
-Prompt Engine
-
-          
-
-RAG Course
-
-          
-
-AGENTS.md Spec
-
-        
-
-      
-
-      
-
-        
-SIMULATORS
-
-        
-
-          
-
-Speculative Decoding
-
-          
-
-Agent Gym
-
-          
-
-WebMCP Scanner
-
-          
-
-Marketing Intelligence
-
-        
-
-      
-
-      
-
-        
-MACHINE ENDPOINTS
-
-        
-
-          
-
-llms.txt
-
-          
-
-llms-full.txt
-
-          
-
-sitemap.xml
-
-          
-
-robots.txt
-
-        
-
-      
-
     
 
     
 
       
-© 2026 AI for Babies. All rights reserved. Zero hype. 100% engineering.
 
-      
+        
+
+          
+Module 11 // Architecture Blueprints
+
+          
+Production Architecture Blueprints
+
+          
+
+            Complete, end-to-end production architecture specifications, deployment topologies, deterministic state machines, and copy-paste code harnesses for enterprise systems.
+          
 
         
 
         
-SYSTEM STATUS: OPERATIONAL
 
-## https://aiforbabies.pages.dev/googleb4ecbd9bc56c231c.html
+        
+
+          
+BP-01: Autonomous Agentic Architecture v1.0
+
+          
+BP-02: Production RAG with Hybrid RRF Retrieval v1.2
+
+          
+BP-03: Multi-Agent CI/CD Test Harness v1.0
+
+        
+
+        
+
+        
+
+          
+
+            
+
+              
+
+                
+BP-01 // PRODUCTION AGENT CORE
+
+                
+Autonomous Agentic Architecture v1.0
+
+                
+
+                  Deterministic multi-loop agent execution harness with partitioned Planner, Worker Pool, Sandboxed Tool Bus, and persistent RocksDB / SQLite state snapshots.
+                
+
+              
+
+              
+
+                
+Unlock Full Blueprint ($9)
+
+                
+Enterprise Deployment
+
+              
+
+            
+
+            
+
+            
+
+              
+[ 1. Architecture Topology & Metrics ]
+
+              
+
+                
+
+                  
+Loop Tick Latency
+
+                  
+< 240ms P95
+
+                
+
+                
+
+                  
+State Recovery
+
+                  
+Deterministic Replay
+
+                
+
+                
+
+                  
+Tool Execution Fidelity
+
+                  
+99.4% (Zero Leaks)
+
+                
+
+                
+
+                  
+Concurrency Capacity
+
+                  
+500+ Worker Threads
+
+                
+
+              
+
+              
+
+                
+Topology Overview
+
+                
+
+[ USER / CLIENT API ]
+         │ (gRPC / WebSocket)
+         ▼
+┌────────────────────────────────────────────────────────┐
+│               EXECUTIVE AGENT PLANNER                  │
+│  - Goal Decomposition  - Task DAG Generation          │
+│  - Token Budget Guard  - AST Safety Filter             │
+└─────────────────────────┬──────────────────────────────┘
+                          │ (Dispatched Tasks)
+                          ▼
+┌────────────────────────────────────────────────────────┐
+│             DISTRIBUTED WORKER POOL                    │
+│  - Subagent 1 (Search)  - Subagent 2 (Code Analysis)   │
+│  - Subagent 3 (Execute) - Subagent N (Verifier)        │
+└─────────────────────────┬──────────────────────────────┘
+                          │ (RPC Sandboxed Tools)
+                          ▼
+┌────────────────────────────────────────────────────────┐
+│            DETERMINISTIC TOOL SANDBOX                  │
+│  - Ephemeral Docker Container - Local FS Memory        │
+│  - RocksDB Snapshot Checkpoints - OpenTelemetry Traces │
+└────────────────────────────────────────────────────────┘
+                
+
+              
+
+            
+
+            
+
+            
+
+              
+
+                
+[ ACCESS RESTRICTED ]
+
+                
+Unlock BP-01 Complete Code & Implementation
+
+                
+
+                  Get the complete AGENTS.md execution engine, Docker sandbox harness, state machine recovery, and unit test suites.
+                
+
+                
+
+                  
+Get Blueprint Pass ($9) →
+
+                  
+All-Access Pass ($19)
+
+                
+
+                
+
+                  
+
+                  
+Unlock
+
+                
+
+                
+Instant test unlock: Use key 
+BABY-ARCH-2026
+ or 
+ALL-ACCESS
+
+              
+
+              
+
+                
+[ UNLOCKED: Production State Machine & Worker Engine ]
+
+                
+
+# =====================================================================
+# BP-01: PRODUCTION AGENT STATE MACHINE ENGINE (v1.0.4)
+# =====================================================================
+import asyncio
+import uuid
+import time
+from typing import Dict, Any, List, Optional
+from dataclasses import dataclass, field
+
+@dataclass
+class AgentState:
+    session_id: str
+    task_dag: List[Dict[str, Any]] = field(default_factory=list)
+    active_worker_id: Optional[str] = None
+    step_count: int = 0
+    max_steps: int = 25
+    kv_memory: Dict[str, Any] = field(default_factory=dict)
+    token_usage_total
+
+## https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html
 
 
