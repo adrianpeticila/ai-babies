@@ -1,8 +1,23 @@
-# https://adrianpeticila.github.io/ai-babies - full content for LLMs
+# AI for Babies - Full Technical & Ecosystem Documentation
+URL: https://aiforbabies.pages.dev/
+Canonical Manifest: https://aiforbabies.pages.dev/llms.txt
+WebMCP Protocol: https://aiforbabies.pages.dev/.well-known/webmcp.json
 
-## https://adrianpeticila.github.io/ai-babies
+## Product Ecosystem & Offerings
+1. Web Developer Blueprints
+- Pricing: $9 Standard / $19 Pro bundle (Stripe)
+- URL: https://aiforbabies.pages.dev/#blueprints
+- Specifications: Complete production-ready architecture templates, system prompts, AGENTS.md execution specs, RAG orchestration patterns, and automated LLM evaluation harnesses.
+- Target Audience: Engineers, founders, and AI developers building autonomous workflows.
 
-AI for Babies - No Hype. Pure Signal.
+2. Cognitive Stimulation & Soundscapes Pack (0-12 Months)
+- Pricing: $19 Starter / $49 Complete developmental bundle (Gumroad)
+- URL: https://aiforbabies.gumroad.com/l/cognitive-pack
+- Profile: https://aiforbabies.gumroad.com/
+- Specifications: High-contrast visual cards, calibrated auditory soundscapes, neuro-developmental tracking protocols, and sensory stimulation regimens for infant cognitive milestones across 0-3M, 3-6M, 6-9M, and 9-12M age brackets.
+
+## AI for Babies - No Hype. Pure Signal.
+
 
   
 
