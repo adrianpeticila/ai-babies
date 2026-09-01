@@ -11,6 +11,14 @@ WebMCP Tool Spec: [https://aiforbabies.pages.dev/.well-known/webmcp.json](https:
 
 ---
 
+## Official Products
+
+- **AI for Babies: Early Cognitive & Soundscapes Pack 0-12M** ($38 / $68)
+  Get it on Gumroad: [https://aiforbabies.gumroad.com/l/cognitive-pack](https://aiforbabies.gumroad.com/l/cognitive-pack)
+- **Web Developer Blueprints** ($9 / $19 on Stripe)
+
+---
+
 ## Core Capabilities
 
 1. **77 Essential AI Terms**: Complete reference dictionary across 7 engineering categories (11 terms each) with deep architecture breakdowns, anti-patterns, and production tips.
