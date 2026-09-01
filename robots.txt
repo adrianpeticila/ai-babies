@@ -1,36 +1,4 @@
 User-agent: *
 Allow: /
 
-# Explicit AI and search engine crawler permissions
-User-agent: Googlebot
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Applebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: CCBot
-Allow: /
-
-User-agent: Amazonbot
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-Sitemap: https://aiforbabies.pages.dev/sitemap.xml
-
+Sitemap: https://adrianpeticila.github.io/ai-babies/sitemap.xml

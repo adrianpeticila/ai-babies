@@ -1,22 +1,4 @@
-# AI for Babies
+# https://adrianpeticila.github.io/ai-babies
 
-> No hype. Pure signal. High-contrast engineering reference suite covering 77 core AI concepts, multi-agent AGENTS.md specs, 100k tool paging, speculative decoding math, and WebMCP protocol.
-
-## Core Resources
-- Main Platform: https://aiforbabies.pages.dev/
-- Full LLM Documentation: https://aiforbabies.pages.dev/llms-full.txt
-- WebMCP Tool Manifest: https://aiforbabies.pages.dev/.well-known/webmcp.json
-- Substack Dispatch: https://aiforbabies.substack.com
-
-## Commercial Products & Ecosystem
-- Web Developer Blueprints: Production-grade prompt architecture, agent workflows, and code generation templates ($9 Standard / $19 Pro bundle on Stripe). URL: https://aiforbabies.pages.dev/#blueprints
-- Cognitive Stimulation & Soundscapes Pack 0-12M: Neuro-developmental visual stimulation cards and audio soundscapes calibrated for 0-12 month cognitive development ($19 Starter / $49 Complete bundle on Gumroad). URL: https://aiforbabies.gumroad.com/l/cognitive-pack
-
-## Technical Modules & Capabilities
-- 77 Categorized AI Definitions & Mathematical Foundations (Transformer attention, KV cache, LoRA, RLHF, DPO, Quantization)
-- AGENTS.md Multi-Agent Protocol Specification Generator
-- 100k Tools Memory Paging Calculator & Token Budget Architecture
-- Speculative Decoding Speedup Math Lab (Gamma and Alpha verification modeling)
-- Agent Gym Multi-Agent Simulation Environment
-- WebMCP Browser Protocol & Tool Inspector
-- AI PRD & Architecture Spec Generator
+- [AI for Babies - No Hype. Pure Signal.](https://adrianpeticila.github.io/ai-babies)
+- [googleb4ecbd9bc56c231c.html](https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html)
