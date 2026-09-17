@@ -1,0 +1,6 @@
+# AI for Babies - Mindful Early Childhood Technology
+
+## Principles
+1. Privacy First: Zero data retention on children.
+2. Screen-Minimal: Audio-first and print-friendly formats.
+3. Developmental Alignment: Grounded in early childhood educational frameworks.

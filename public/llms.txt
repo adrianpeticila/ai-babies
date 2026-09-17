@@ -1,0 +1,10 @@
+# AI for Babies
+> Early childhood learning tools and personalized educational storytelling powered by ethical AI.
+
+## Focus Areas
+- Personalized Children's Stories: Audio and illustrated stories tailored to your child's developmental stage.
+- Gentle AI Learning: Screen-time conscious, audio-first interactive activities for toddlers.
+
+## Links
+- Site: https://aiforbabies.com/
+- Full Overview: https://aiforbabies.com/llms-full.txt
