@@ -70,16 +70,27 @@ external Node daemon). Before they work in production, the operator must:
 - [ ] Optional: set **`X402_PAYTO_ADDRESS`** so 402 responses carry a real
       settlement address. Until then the 402 body says so explicitly and
       recommends the `stripe_hosted` rail.
-- [ ] Deploy: `npx wrangler pages deploy site --project-name=aiforbabies`
-      (the Pages project is **not** git-connected — `git push` alone does not
-      deploy).
-- [ ] Verify after deploy: `bash tests/verify_agent_flow.sh` (84 checks, boots
-      its own isolated instance) and
-      `curl -s https://aiforbabies.pages.dev/api/catalog.json`.
+- [ ] Deploy: `npx wrangler pages deploy site --project-name=aiforbabies`.
+      The `aiforbabies` project **is** git-connected to this repo (branch
+      `main`), but its last production deployment is commit `4e82239` — six
+      commits behind `main` as of 2026-09-23 — so `git push` alone has not been
+      publishing. The direct upload above is deterministic; if you prefer the
+      git integration, repair/confirm it in the dashboard first. Deploying also
+      publishes the current `site/` content, which is newer than what live
+      serves today.
+- [ ] Verify the deployment actually landed. Pages answers missing paths with a
+      `200 text/html` fallback, so status codes alone prove nothing:
+      `curl -s https://aiforbabies.pages.dev/api/catalog.json | head -c 40`
+      must print JSON, not `<!DOCTYPE html>`, and
+      `curl -sI https://aiforbabies.pages.dev/index.md` must say
+      `content-type: text/markdown`. Then run
+      `bash tests/verify_agent_flow.sh` (84 checks, boots its own isolated
+      instance).
 
 Local development and the verification harness need none of the above:
 `wrangler pages dev` with `--kv AGENT_STORE` and
 `--binding PAYMENT_WEBHOOK_SECRET=...` is sufficient.
+
 
 ---
 
