@@ -52,6 +52,37 @@ The platform natively implements 4 client-side WebMCP tools:
 
 ---
 
+## Operations — production activation checklist (agent commerce)
+
+The agent commerce endpoints — `/api/catalog.json`, `/api/agent/buy`,
+`/api/agent/deliveries/{token}`, `/api/agent/payments/webhook` — run as
+Cloudflare Pages Functions on the `aiforbabies` project (edge-native, no
+external Node daemon). Before they work in production, the operator must:
+
+- [ ] Create a KV namespace and bind it to the Pages project as **`AGENT_STORE`**
+      (Dashboard → Workers & Pages → `aiforbabies` → Settings → Functions → KV
+      namespace bindings). Without it every commerce endpoint answers
+      **503 `storage_unavailable`** — fail-closed by design, never silent memory.
+- [ ] Set the secret **`PAYMENT_WEBHOOK_SECRET`** (Settings → Environment
+      variables → Production). Without it the webhook answers
+      **503 `secret_not_configured`** (fail-closed). Signatures are
+      `X-Signature: sha256=<hex HMAC-SHA256 of the raw request body>`.
+- [ ] Optional: set **`X402_PAYTO_ADDRESS`** so 402 responses carry a real
+      settlement address. Until then the 402 body says so explicitly and
+      recommends the `stripe_hosted` rail.
+- [ ] Deploy: `npx wrangler pages deploy site --project-name=aiforbabies`
+      (the Pages project is **not** git-connected — `git push` alone does not
+      deploy).
+- [ ] Verify after deploy: `bash tests/verify_agent_flow.sh` (84 checks, boots
+      its own isolated instance) and
+      `curl -s https://aiforbabies.pages.dev/api/catalog.json`.
+
+Local development and the verification harness need none of the above:
+`wrangler pages dev` with `--kv AGENT_STORE` and
+`--binding PAYMENT_WEBHOOK_SECRET=...` is sufficient.
+
+---
+
 ## License
 
 MIT License. Open engineering standard.

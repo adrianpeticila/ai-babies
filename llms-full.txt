@@ -1,6 +1,6 @@
-# https://adrianpeticila.github.io/ai-babies - full content for LLMs
+# https://aiforbabies.pages.dev - full content for LLMs
 
-## https://adrianpeticila.github.io/ai-babies
+## https://aiforbabies.pages.dev
 
 AI for Babies - No Hype. Pure Signal.
 
@@ -1652,6 +1652,63 @@ class AgentState:
     kv_memory: Dict[str, Any] = field(default_factory=dict)
     token_usage_total
 
-## https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html
+## https://aiforbabies.pages.dev/googleb4ecbd9bc56c231c.html
 
 
+
+
+## Agent commerce protocol (AI for Babies)
+
+Agent entrypoint: https://aiforbabies.pages.dev/.well-known/agent.json
+
+### Catalog
+
+GET https://aiforbabies.pages.dev/api/catalog.json returns a JSON array.
+Every item has exactly these 7 keys: id, name, price_cents, currency,
+description, sample_output_url, checkout_type.
+
+| id | name | price_cents | checkout_type | sample_output_url |
+|---|---|---|---|---|
+| single-blueprint | Single Blueprint Pass | 900 | stripe_hosted | /samples/blueprint-sample.md |
+| all-access | All-Access Pass | 1900 | stripe_hosted | /samples/all-access-sample.md |
+| concept-explainer-api | On-Demand Cynical Concept Explainer | 100 | x402 | /samples/agents-sample.md |
+| sample-concept | Free AI Concept Sample (RAG Breakdown) | 0 | free | /samples/rag-sample.md |
+
+(sample_output_url values are absolute on https://aiforbabies.pages.dev, prices are fixed in USD, no negotiation.)
+
+### Purchase
+
+POST https://aiforbabies.pages.dev/api/agent/buy
+Body: {"product_id": "...", "agent_id" or "email": "...", "rail": "...", "concept": "..."}
+Optional header: Idempotency-Key: <unique string per purchase intent>
+
+Responses:
+- 402 — programmatic rails (x402, zeroclick, 1f916_base): JSON payment instructions with order_token, price_cents, currency and the USD 20/day cap. The order stays awaiting_payment until the webhook confirms settlement.
+- 200 — stripe_hosted: {"checkout_type": "stripe_hosted", "order_token": "...", "checkout_url": "https://buy.stripe.com/..."}. Hosted checkout is exempt from the cap (unlimited).
+- 200 — free: {"checkout_type": "free", "order_token": "...", "status": "paid"} with an immediate delivery URL.
+- 400 malformed JSON / missing agent_id+email / rail unsupported by the product / concept required but absent.
+- 404 unknown product_id. 429 more than 3 buy attempts per agent+IP per 10 minutes.
+Replaying the same Idempotency-Key returns the identical order (Idempotency-Replayed: true).
+
+### Delivery
+
+GET https://aiforbabies.pages.dev/api/agent/deliveries/{token}
+- 402 awaiting_payment (settle first), 403 held_for_review (over the daily cap, manual release), 404 unknown token, 200 paid.
+- 200 returns JSON by default; Accept: text/markdown returns the deliverable as clean markdown.
+
+### Settlement webhook
+
+POST https://aiforbabies.pages.dev/api/agent/payments/webhook
+Headers: Content-Type: application/json and X-Signature: sha256=<hex>
+where hex = HMAC-SHA256(PAYMENT_WEBHOOK_SECRET, raw_request_body_bytes).
+Body: {"order_token": "...", "status": "succeeded", "provider": "x402", "reference": "..."}
+- 401 invalid signature (constant-time compare), 404 unknown order, 400 malformed payload, 503 secret unset (fail-closed).
+- Programmatic orders: price_cents is added to the UTC-day ledger; crossing USD 20 marks the order held_for_review instead of paid.
+- stripe_hosted orders settle paid without cap accounting (unlimited).
+- Replaying a webhook for an already-paid or held order is idempotent: same 200, state unchanged.
+
+### Guardrails (hard-coded)
+
+- daily_programmatic_cap_usd: 20 — over-cap programmatic settlements become held_for_review (deliveries answer 403 with the reason)
+- rate limit: max 3 buy attempts per agent_id+IP per 10 minutes → HTTP 429
+- idempotent order tokens; no admin endpoints; prices fixed in USD

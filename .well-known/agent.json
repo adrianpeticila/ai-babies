@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "name": "AI for Babies",
+  "description": "Agent entrypoint for the AI for Babies B2B glossary. Lets external AI agents discover the product catalog, initiate purchases over HTTP 402, and retrieve paid deliverables machine-readably.",
+  "brand_url": "https://aiforbabies.pages.dev/",
+  "operator": {
+    "name": "Adrian Peticila",
+    "url": "https://aiforbabies.pages.dev/",
+    "contact": "adrian@aiforbabies.com"
+  },
+  "endpoints": {
+    "catalog": "https://aiforbabies.pages.dev/api/catalog.json",
+    "buy": "https://aiforbabies.pages.dev/api/agent/buy",
+    "deliveries": "https://aiforbabies.pages.dev/api/agent/deliveries/{token}",
+    "payments_webhook": "https://aiforbabies.pages.dev/api/agent/payments/webhook",
+    "llms": "https://aiforbabies.pages.dev/llms.txt",
+    "llms_full": "https://aiforbabies.pages.dev/llms-full.txt",
+    "markdown_sitemap": "https://aiforbabies.pages.dev/sitemap-markdown.xml"
+  },
+  "content_negotiation": {
+    "accept_header": "text/markdown",
+    "bot_user_agents": ["GPTBot", "ClaudeBot", "PerplexityBot", "AgentReach"],
+    "mirror_pattern": "<page>.md"
+  },
+  "payment_rails": ["stripe_hosted", "zeroclick", "1f916_base"],
+  "schemas": {
+    "catalog_item": {
+      "type": "object",
+      "required": ["checkout_type", "currency", "description", "id", "name", "price_cents", "sample_output_url"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "price_cents": { "type": "integer", "minimum": 0 },
+        "currency": { "type": "string", "enum": ["USD"] },
+        "description": { "type": "string" },
+        "sample_output_url": { "type": "string", "format": "uri" },
+        "checkout_type": { "type": "string", "enum": ["stripe_hosted", "x402", "free"] }
+      }
+    },
+    "buy_request": {
+      "type": "object",
+      "required": ["product_id"],
+      "properties": {
+        "product_id": { "type": "string" },
+        "agent_id": { "type": "string", "description": "Identifies the buying agent; agent_id or email is required." },
+        "email": { "type": "string" },
+        "rail": { "type": "string", "enum": ["x402", "zeroclick", "1f916_base", "stripe_hosted"] },
+        "concept": { "type": "string", "description": "Concept slug; required when product_id is concept-explainer-api." }
+      }
+    },
+    "webhook_payload": {
+      "type": "object",
+      "required": ["order_token", "status"],
+      "description": "Posted to the payments_webhook endpoint. Authenticated with X-Signature: sha256=<hex HMAC-SHA256 of the raw body> using PAYMENT_WEBHOOK_SECRET.",
+      "properties": {
+        "order_token": { "type": "string" },
+        "status": { "type": "string", "enum": ["succeeded"] },
+        "provider": { "type": "string" },
+        "reference": { "type": "string" }
+      }
+    }
+  },
+  "checkout": {
+    "protocol": "POST /api/agent/buy -> HTTP 402 Payment Required with payment instructions (programmatic settlement over x402/zeroclick/1f916), HTTP 200 with a Stripe hosted checkout URL (stripe_hosted), or HTTP 200 with an immediate delivery token (free sample)",
+    "idempotency_header": "Idempotency-Key",
+    "buyer_fields": ["agent_id", "email"]
+  },
+  "guardrails": {
+    "daily_programmatic_cap_usd": 20,
+    "rate_limit": "max 3 buy attempts per agent_id+IP per 10 minutes (HTTP 429)",
+    "currency_note": "Product prices are fixed in USD; the USD cap applies to programmatic (x402/zeroclick/1f916) settlement value per UTC day. Stripe hosted checkout is exempt (unlimited). Orders pushed over the cap settle as held_for_review (HTTP 403 on delivery) instead of paid."
+  },
+  "version": "2026-09-23"
+}

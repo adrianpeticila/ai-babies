@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://adrianpeticila.github.io/ai-babies/sitemap.xml
+Sitemap: https://aiforbabies.pages.dev/sitemap.xml
+Sitemap: https://aiforbabies.pages.dev/sitemap-markdown.xml
+
