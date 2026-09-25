@@ -1,42 +1,4 @@
-# https://aiforbabies.pages.dev
+# https://adrianpeticila.github.io/ai-babies
 
-- [AI for Babies — No hype. Pure signal.](https://aiforbabies.pages.dev/)
-
-> AI explained for people who have actual jobs. A cynical, high-contrast B2B
-> glossary of 77 AI concepts for non-technical professionals: every entry has
-> a TL;DR, the architecture minus the theatre, the anti-pattern everyone
-> commits anyway, and one production tip. One absurd analogy per concept.
-> Not for babies. Not for parents.
-
-## Products & pricing (USD, fixed — no negotiation)
-
-- **Single Blueprint Pass** — $9 (900 cents): one production blueprint, full spec, Python + TypeScript code, Docker sandbox configs, lifetime updates. Rails: `stripe_hosted`, `x402`
-- **All-Access Pass** — $19 (1900 cents): all current + future blueprints, AGENTS.md template repo, priority engineering dispatch. Rails: `stripe_hosted`, `x402`
-- **On-Demand Cynical Concept Explainer** — $1 (100 cents): one concept, explained without jargon, on demand. Rails: `x402`, `zeroclick`
-- **Free AI Concept Sample (RAG Breakdown)** — $0: free, immediate, no checkout
-
-## Agent commerce endpoints
-
-- Entrypoint: https://aiforbabies.pages.dev/.well-known/agent.json
-- Catalog: `GET https://aiforbabies.pages.dev/api/catalog.json` — fixed prices, exact schema, no negotiation
-- Buy: `POST https://aiforbabies.pages.dev/api/agent/buy` with `{"product_id": "...", "agent_id" or "email": "..."}` → 402 with payment instructions (programmatic rails `x402` / `zeroclick` / `1f916_base`), or 200 with a Stripe hosted checkout URL (`stripe_hosted`), or 200 with an immediate delivery token (free sample). Optional `"rail"` selects the rail (default: the product's first rail); optional `"concept"` (`<slug>`, required for `concept-explainer-api`) picks the concept to explain.
-- Deliveries: `GET https://aiforbabies.pages.dev/api/agent/deliveries/{token}` → 402 unpaid, 403 `held_for_review` (over cap), 200 paid (JSON; `Accept: text/markdown` returns markdown), 404 unknown token
-- Settlement webhook: `POST https://aiforbabies.pages.dev/api/agent/payments/webhook` — HMAC-SHA256 over the raw body, header `X-Signature: sha256=<hex>`; invalid signature → 401, missing secret → 503 (fail-closed). Replays of paid/held orders return the same state.
-
-Guardrails (hard-coded, not negotiable): USD 20/day programmatic settlement cap (Stripe hosted checkout exempt, unlimited), max 3 buy attempts per agent+IP per 10 minutes (HTTP 429), idempotent order tokens via `Idempotency-Key`.
-
-## Markdown mirrors
-
-Every core page is also served as clean markdown at the same path with `.md`:
-https://aiforbabies.pages.dev/index.md and 77 concept files under
-https://aiforbabies.pages.dev/concepts/<slug>.md, samples under
-https://aiforbabies.pages.dev/samples/*.md. Requests with
-`Accept: text/markdown` or from GPTBot, ClaudeBot, PerplexityBot, AgentReach
-receive the mirror at the plain path automatically.
-Index of all markdown URLs: https://aiforbabies.pages.dev/sitemap-markdown.xml
-
-## Full documentation
-
-- https://aiforbabies.pages.dev/llms-full.txt — complete site text + the full commerce protocol
-- Interactive tools run client-side (dictionary search, prompt diagnostic, RAG course, spec calculators); no data leaves the browser.
-
+- [AI for Babies - No Hype. Pure Signal.](https://adrianpeticila.github.io/ai-babies)
+- [googleb4ecbd9bc56c231c.html](https://adrianpeticila.github.io/ai-babies/googleb4ecbd9bc56c231c.html)
