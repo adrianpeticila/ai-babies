@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="google-site-verification" content="4I-NTdG1cPZizZAaH90QeFKpdbPLJxbHruKEZZ0YfUs" />
+  <meta name="google-site-verification" content="googleb4ecbd9bc56c231c" />
+  <meta name="google-site-verification" content="b4ecbd9bc56c231c" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - AI for Babies - No Hype. Pure Signal.</title>
+  <meta name="description" content="Strict monochrome AI engineering suite: 77 essential terms, AGENTS.md multi-agent standard, RAG masterclass, 100k tool scaling, Speculative Decoding lab, Agent Gym, WebMCP protocol, and PRD framework.">
+  <link rel="canonical" href="https://aiforbabies.pages.dev/faq/">
+  <meta name="webmcp" content="/.well-known/webmcp.json">
+
+  <!-- OpenGraph / Social Meta -->
+  <meta property="og:title" content="AI for Babies - No Hype. Pure Signal.">
+  <meta property="og:description" content="High-contrast engineering suite explaining LLMs, RAG, multi-agent specs, inference speedups, and WebMCP tools without fluff.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aiforbabies.pages.dev/faq/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI for Babies - No Hype. Pure Signal.">
+  <meta name="twitter:description" content="77 Essential AI Terms, Prompt Diagnostic, RAG Masterclass, AGENTS.md Spec Generator, 100k Tool Scaling, Speculative Decoding Lab.">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+
+  <!-- Fonts: Space Mono & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tally Forms Embed -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
+
+  
+<style>
+    /* Strict 2-Color Monochrome Palette */
+    :root {
+      --bg: #FFFFFF;
+      --bg-alt: #F9FAFB;
+      --bg-card: #FFFFFF;
+      --border: #E5E7EB;
+      --border-dark: #111827;
+      --text: #111827;
+      --text-muted: #4B5563;
+      --text-light: #6B7280;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    a:hover {
+      opacity: 0.75;
+    }
+
+    code, pre, .mono {
+      font-family: var(--mono);
+    }
+
+    /* Sticky Navigation */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-brand span.tagline {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-left: 1px solid var(--border);
+      padding-left: 0.75rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      opacity: 1;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      border-radius: 0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-solid {
+      background: var(--text);
+      color: #FFFFFF !important;
+      border: 1px solid var(--text);
+    }
+    .btn-solid:hover {
+      background: #000000;
+      border-color: #000000;
+      opacity: 1;
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--text) !important;
+      border: 1px solid var(--border-dark);
+    }
+    .btn-outline:hover {
+      background: var(--bg-alt);
+      opacity: 1;
+    }
+
+    .btn-sm {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+    }
+
+    /* Container Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 0 3.5rem;
+      background: #FFFFFF;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 750px;
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .metric-card {
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      background: var(--bg-alt);
+    }
+
+    .metric-value {
+      font-family: var(--mono);
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Section Headers */
+    .section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--border-dark);
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 0.75rem;
+      background: #FFFFFF;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 800px;
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cat-tab {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .cat-tab:hover {
+      border-color: var(--border-dark);
+      color: var(--text);
+    }
+
+    .cat-tab.active {
+      background: var(--text);
+      color: #FFFFFF;
+      border-color: var(--text);
+    }
+
+    /* Search Input */
+    .search-box {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      border: 1px solid var(--border-dark);
+      background: #FFFFFF;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-width: 2px;
+      margin-bottom: calc(1.5rem - 1px);
+    }
+
+    /* Compact Grid View for 77 Terms */
+    .terms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    .term-card {
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.15s ease, background 0.15s ease;
+      cursor: pointer;
+    }
+
+    .term-card:hover {
+      border-color: var(--border-dark);
+      background: var(--bg-alt);
+    }
+
+    .term-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .term-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .term-cat-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.4rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      background: var(--bg-alt);
+    }
+
+    .term-tldr {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 1rem;
+    }
+
+    .term-footer {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px dashed var(--border);
+      padding-top: 0.75rem;
+    }
+
+    /* Term Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      border: 2px solid var(--border-dark);
+      max-width: 750px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-family: var(--mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      cursor: pointer;
+    }
+    .modal-close:hover {
+      background: var(--text);
+      color: #FFFFFF;
+    }
+
+    .modal-cat {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .modal-section {
+      margin-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    .modal-sec-title {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .modal-sec-body {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Interactive Module Panels */
+    .module-panel {
+      border: 1px solid var(--border-dark);
+      background: #FFFFFF;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .module-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 850px) {
+      .module-split {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 2.25rem;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      background: var(--bg-alt);
+      color: var(--text);
+      outline: none;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--border-dark);
+      background: #FFFFFF;
+    }
+
+    .code-preview {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      max-height: 450px;
+    }
+
+    /* Agent Mode High-Density Semantic Text View */
+    body.agent-view {
+      background: #FFFFFF;
+      color: #000000;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    body.agent-view .top-nav,
+    body.agent-view .hero-metrics,
+    body.agent-view .category-tabs,
+    body.agent-view .terms-grid {
+      display: none !important;
+    }
+
+    body.agent-view #agent-semantic-view {
+      display: block !important;
+    }
+
+    #agent-semantic-view {
+      display: none;
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Callout Card */
+    .callout {
+      border-left: 3px solid var(--border-dark);
+      background: var(--bg-alt);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .callout strong {
+      color: var(--text);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 2px solid var(--border-dark);
+      padding: 3.5rem 1.5rem 2rem 1.5rem;
+      background: var(--bg-alt);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    .footer-col-title {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      margin-bottom: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.825rem;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    .footer-brand-title {
+      font-family: var(--mono);
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-brand-desc {
+      font-size: 0.825rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      max-width: 320px;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2.5rem auto 0 auto;
+      padding-top: 1.5rem;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-family: var(--mono);
+      font-size: 0.725rem;
+      color: var(--text-light);
+    }
+
+    .footer-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .footer-status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10B981;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  
+    /* 2-Column Brutalist Dictionary Layout */
+    .dict-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .dict-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .dict-sidebar {
+      background: var(--bg-alt);
+      border: 2px solid var(--border-dark);
+      padding: 1.25rem;
+      position: sticky;
+      top: 80px;
+    }
+    .dict-sidebar-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    .dict-search-box {
+      width: 100%;
+      margin-bottom: 1.25rem;
+    }
+    .dict-categories-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .dict-cat-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--border-dark);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .dict-cat-btn:hover {
+      background: #f0f0f0;
+    }
+    .dict-cat-btn.active {
+      background: var(--border-dark);
+      color: #ffffff;
+    }
+    .dict-cat-btn.active .cat-pill {
+      background: #ffffff;
+      color: var(--border-dark);
+    }
+    .cat-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #e5e7eb;
+      color: #111827;
+      padding: 2px 6px;
+      border-radius: 0px;
+    }
+    .dict-status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid var(--border-dark);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .dict-view-title {
+      font-family: var(--font);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .dict-view-counter {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .dict-see-more-box {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .dict-see-more-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+  
+    /* --- 2-Tier Navigation --- */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-dark);
+      padding: 0;
+    }
+
+    .nav-tier-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-tier-bottom {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.5rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      background: var(--bg-alt);
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: var(--mono);
+      scrollbar-width: thin;
+    }
+
+    .nav-tier-bottom a {
+      text-decoration: none;
+      color: var(--text-muted);
+      padding: 0.25rem 0.5rem;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      display: inline-block;
+    }
+
+    .nav-tier-bottom a:hover {
+      color: var(--text);
+      border-color: var(--border-dark);
+      background: #FFFFFF;
+      opacity: 1;
+    }
+
+    /* --- Consulting CTA Banners --- */
+    .consulting-cta-banner {
+      margin-top: 1.75rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border-dark);
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .consulting-cta-banner .cta-tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .consulting-cta-banner .cta-text {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* --- Blueprints Section --- */
+    .blueprint-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--border-dark);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .bp-tab-btn {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.75rem 1.25rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .bp-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--text);
+      border-color: var(--border-dark);
+      border-bottom: 2px solid #FFFFFF;
+      margin-bottom: -2px;
+    }
+
+    .bp-tab-btn:hover:not(.active) {
+      background: #E5E7EB;
+      color: var(--text);
+    }
+
+    .bp-card {
+      border: 1px solid var(--border-dark);
+      background: #FFFFFF;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .bp-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .bp-badge {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      background: var(--text);
+      color: #FFFFFF;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .bp-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .bp-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    .bp-spec-item {
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      background: var(--bg-alt);
+    }
+
+    .bp-spec-k {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .bp-spec-v {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 0.2rem;
+    }
+
+    .gated-deep-dive-box {
+      position: relative;
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      background: var(--bg-alt);
+      padding: 1.5rem;
+    }
+
+    .gated-content {
+      transition: filter 0.3s ease;
+    }
+
+    .gated-content.locked {
+      filter: blur(5px);
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .gate-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(3px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      z-index: 10;
+    }
+
+    .gate-overlay.hidden {
+      display: none !important;
+    }
+
+    .checkout-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 700px) {
+      .checkout-modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pricing-card {
+      border: 1px solid var(--border-dark);
+      padding: 1.5rem;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pricing-card.featured {
+      background: var(--bg-alt);
+      border: 2px solid var(--text);
+      position: relative;
+    }
+
+    .pricing-card .price-tag {
+      font-family: var(--mono);
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin: 0.75rem 0;
+    }
+
+  .nav-track-link {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #4b5563 !important;
+    text-decoration: none !important;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .nav-track-link:hover {
+    color: #111827 !important;
+    background: #ffffff;
+    border-color: #d1d5db;
+    text-decoration: none !important;
+  }
+    
+  
+    /* Refined Developer Console Header */
+    header.main-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #FFFFFF;
+      border-bottom: 1px solid #E5E7EB;
+      width: 100%;
+    }
+    .header-row-1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 28px 8px 28px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .header-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-brand-title {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+      color: #111827;
+      text-decoration: none;
+    }
+    .header-brand-tagline {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      font-size: 0.78rem;
+      color: #6B7280;
+      border-left: 1px solid #E5E7EB;
+      padding-left: 12px;
+      font-weight: 400;
+    }
+    .header-meta-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+    }
+    .header-meta-link {
+      color: #4B5563;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+    .header-meta-link:hover {
+      color: #111827;
+      text-decoration: underline;
+    }
+    .header-meta-divider {
+      color: #D1D5DB;
+      font-size: 0.75rem;
+    }
+    .header-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #111827;
+      background: #F3F4F6;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      border: 1px solid #E5E7EB;
+      letter-spacing: 0.02em;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #10B981;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+    .header-row-2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 6px 28px 8px 28px;
+      max-width: 1400px;
+      margin: 0 auto;
+      border-top: 1px solid #F3F4F6;
+    }
+    .nav-modules-group {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      white-space: nowrap;
+    }
+    .nav-modules-group::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-bold-link {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #4B5563;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      white-space: nowrap;
+    }
+    .nav-bold-link:hover {
+      color: #111827;
+    }
+    .nav-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn-nav-outline {
+      font-family: "Space Mono", monospace;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border: 1px solid #D1D5DB;
+      background: #FFFFFF;
+      color: #111827;
+      text-decoration: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+    .btn-nav-outline:hover {
+      border-color: #111827;
+      background: #F9FAFB;
+    }
+    .btn-nav-solid {
+      font-family: "Space Mono", monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border: 1px solid #111827;
+      background: #111827;
+      color: #FFFFFF;
+      text-decoration: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+    .btn-nav-solid:hover {
+      background: #000000;
+      border-color: #000000;
+      color: #FFFFFF;
+    }
+    @media (max-width: 768px) {
+      .header-row-1 {
+        padding: 10px 16px;
+      }
+      .header-brand-tagline {
+        display: none;
+      }
+      .header-row-2 {
+        padding: 6px 16px;
+        gap: 12px;
+      }
+      .nav-modules-group {
+        gap: 12px;
+      }
+    }
+  </style>
+
+<style>
+
+    /* FAQ additions: native tokens only */
+    .faq-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .faq-entry { background: var(--bg-card); padding: 1.25rem 1.3rem; }
+    .faq-entry h2 { font-family: var(--mono); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+    .faq-entry p { color: var(--text-muted); font-size: 0.93rem; }
+    @media (max-width: 640px) {
+      .nav-modules-group { display: none; }
+      .hero { padding: 2.5rem 0 1.5rem; }
+    }
+  </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://aiforbabies.pages.dev/#website",
+      "url": "https://aiforbabies.pages.dev/",
+      "name": "AI for Babies"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://aiforbabies.pages.dev/faq/",
+      "url": "https://aiforbabies.pages.dev/faq/",
+      "name": "FAQ - AI for Babies",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://aiforbabies.pages.dev/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "inLanguage": "en",
+      "url": "https://aiforbabies.pages.dev/faq/",
+      "isPartOf": {
+        "@id": "https://aiforbabies.pages.dev/#website"
+      },
+      "about": {
+        "@id": "https://aiforbabies.pages.dev/#organization"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who is AI for Babies for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Non-technical leaders who sit in AI meetings: CMOs, HR directors, founders, managers. People who need working understanding, not math."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a technical background?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Every concept is 150 words max plus one absurd analogy plus one job scenario. Zero jargon; jargon links to its own page."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I get for $9 vs $19?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Single Blueprint Pass ($9): one complete prompt/agent workflow. All-Access ($19): every blueprint, interactive tools (Prompt Engine, AGENTS.md Generator, Speed Lab, Agent Gym) plus updates."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data collected?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No sensitive data collection. Static glossary plus newsletter; no account needed to read. Payment via Stripe/Gumroad only."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is this different from an AI course?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No 40-hour course. One concept per page you can use in tomorrow's meeting. Newsletter: aah.monster-free, fluff-free."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where do I read: site or Substack?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both: site (aiforbabies.pages.dev) for glossary and tools, Substack (aiforbabies.substack.com) for the weekly dispatch."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I expense this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes: $9/$19 one-time passes with receipts from Stripe/Gumroad. Most managers expense it as training under $25."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you cover agents, RAG, evals?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes: 77 terms plus RAG masterclass, AGENTS.md spec generator, 100k tool scaling notes, speculative decoding lab, WebMCP scanner, PRD framework."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a team plan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No team seat yet. All-Access is per-person; forward the expense receipt to your manager. Teams usually buy 3-5 singles."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get help?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Substack reply or site contact. No calls, async answers. Start with the Dictionary, then Prompt Engine."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script></head>
+<body>
+
+<header class="main-header">
+    <div class="header-row-1">
+      <div class="header-brand-group">
+        <a href="#" class="header-brand-title">AI FOR BABIES</a>
+        <span class="header-brand-tagline">No hype. Pure signal.</span>
+      </div>
+      <div class="header-meta-group">
+        <a href="https://aiforbabies.substack.com" target="_blank" rel="noopener" class="header-meta-link">[Substack Dispatch]</a>
+        <span class="header-meta-divider">•</span>
+        <span class="header-status-badge">
+          <span class="status-dot"></span> LIVE v2.4
+        </span>
+      </div>
+    </div>
+    <div class="header-row-2">
+      <nav class="nav-modules-group">
+        <a href="/#dictionary" class="nav-bold-link">Dictionary</a>
+        <a href="/#prompt-engine" class="nav-bold-link">Prompt Engine</a>
+        <a href="/#rag-course" class="nav-bold-link">RAG Course</a>
+        <a href="/#agents-spec" class="nav-bold-link">AGENTS.md</a>
+        <a href="/#tool-scaling" class="nav-bold-link">100k Tools</a>
+        <a href="/#speculative-decoding" class="nav-bold-link">Speed Lab</a>
+        <a href="/#agent-gym" class="nav-bold-link">Agent Gym</a>
+        <a href="/#webmcp" class="nav-bold-link">WebMCP</a>
+        <a href="/#marketing-intelligence" class="nav-bold-link">Intelligence</a>
+        <a href="/#spec-prd" class="nav-bold-link">Spec PRD</a>
+      </nav>
+      <div class="nav-actions-group">
+       <button class="btn-nav-outline">[Agent Mode]</button>
+        <a href="/#blueprints" class="btn-nav-solid">⚡ Blueprints $9</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="standard-view">
+    <section class="hero">
+      <div class="container" style="padding-top: 0;">
+        <h1 class="hero-title" style="font-size: clamp(2rem, 5vw, 3rem);">Frequently asked questions</h1>
+        <p class="hero-subtitle">AI explained for people with actual jobs. 150 words, one absurd analogy, one job scenario.</p>
+      </div>
+    </section>
+    <section class="container">
+      <div class="faq-list">
+        <div class="faq-entry"><h2>1. Who is AI for Babies for?</h2><p>Non-technical leaders who sit in AI meetings: CMOs, HR directors, founders, managers. People who need working understanding, not math.</p></div>
+        <div class="faq-entry"><h2>2. Do I need a technical background?</h2><p>No. Every concept is 150 words max plus one absurd analogy plus one job scenario. Zero jargon; jargon links to its own page.</p></div>
+        <div class="faq-entry"><h2>3. What do I get for $9 vs $19?</h2><p>Single Blueprint Pass ($9): one complete prompt/agent workflow. All-Access ($19): every blueprint, interactive tools (Prompt Engine, AGENTS.md Generator, Speed Lab, Agent Gym) plus updates.</p></div>
+        <div class="faq-entry"><h2>4. Is my data collected?</h2><p>No sensitive data collection. Static glossary plus newsletter; no account needed to read. Payment via Stripe/Gumroad only.</p></div>
+        <div class="faq-entry"><h2>5. How is this different from an AI course?</h2><p>No 40-hour course. One concept per page you can use in tomorrow's meeting. Newsletter: aah.monster-free, fluff-free.</p></div>
+        <div class="faq-entry"><h2>6. Where do I read: site or Substack?</h2><p>Both: site (aiforbabies.pages.dev) for glossary and tools, Substack (aiforbabies.substack.com) for the weekly dispatch.</p></div>
+        <div class="faq-entry"><h2>7. Can I expense this?</h2><p>Yes: $9/$19 one-time passes with receipts from Stripe/Gumroad. Most managers expense it as training under $25.</p></div>
+        <div class="faq-entry"><h2>8. Do you cover agents, RAG, evals?</h2><p>Yes: 77 terms plus RAG masterclass, AGENTS.md spec generator, 100k tool scaling notes, speculative decoding lab, WebMCP scanner, PRD framework.</p></div>
+        <div class="faq-entry"><h2>9. Is there a team plan?</h2><p>No team seat yet. All-Access is per-person; forward the expense receipt to your manager. Teams usually buy 3-5 singles.</p></div>
+        <div class="faq-entry"><h2>10. How do I get help?</h2><p>Substack reply or site contact. No calls, async answers. Start with the Dictionary, then Prompt Engine.</p></div>
+      </div>
+    </section>
+  </main>
+
+<footer>
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand-title">🤖 AI FOR BABIES</div>
+        <p class="footer-brand-desc">AI explained for people with actual jobs. High-contrast, fluff-free engineering suite and conceptual repository.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">MODULES</div>
+        <ul class="footer-links">
+          <li><a href="/#dictionary">77+ Dictionary</a></li>
+          <li><a href="/#prompt-engine">Prompt Engine</a></li>
+          <li><a href="/#rag-course">RAG Course</a></li>
+          <li><a href="/#agents-spec">AGENTS.md Spec</a></li>
+          <li><a href="/#blueprints">11 Blueprints</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">SIMULATORS</div>
+        <ul class="footer-links">
+          <li><a href="/#speculative-decoding">Speculative Decoding</a></li>
+          <li><a href="/#agent-gym">Agent Gym</a></li>
+          <li><a href="/#webmcp-scanner">WebMCP Scanner</a></li>
+          <li><a href="/#marketing-intelligence">Marketing Intelligence</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">MACHINE ENDPOINTS</div>
+        <ul class="footer-links">
+          <li><a href="/llms.txt">llms.txt</a></li>
+          <li><a href="/llms-full.txt">llms-full.txt</a></li>
+          <li><a href="/sitemap.xml">sitemap.xml</a></li>
+          <li><a href="/robots.txt">robots.txt</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 AI for Babies. All rights reserved. Zero hype. 100% engineering.</div>
+      <div class="footer-status">
+        <span class="footer-status-dot"></span>
+        <span>SYSTEM STATUS: OPERATIONAL</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

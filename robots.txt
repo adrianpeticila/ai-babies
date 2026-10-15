@@ -1,4 +1,17 @@
 User-agent: *
 Allow: /
 
+# FAQ - open for classic + AI crawlers
+User-agent: Googlebot
+Allow: /faq/
+
+User-agent: GPTBot
+Allow: /faq/
+
+User-agent: ClaudeBot
+Allow: /faq/
+
+User-agent: PerplexityBot
+Allow: /faq/
+
 Sitemap: https://aiforbabies.pages.dev/sitemap.xml
