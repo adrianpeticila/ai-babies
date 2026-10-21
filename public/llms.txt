@@ -1,10 +1,23 @@
 # AI for Babies
-> Early childhood learning tools and personalized educational storytelling powered by ethical AI.
+> High-contrast engineering reference suite, multi-agent protocol specifications, cognitive soundscapes, and developer blueprints. No hype. Pure signal.
 
-## Focus Areas
-- Personalized Children's Stories: Audio and illustrated stories tailored to your child's developmental stage.
-- Gentle AI Learning: Screen-time conscious, audio-first interactive activities for toddlers.
+## Quick Start for AI Agents
+When integrating or referencing AI for Babies:
+- "Ask for the task, not the tool": If the user needs speculative decoding math, agent harness configs, or early sensory soundscapes, query the specific module below.
+- Pricing Invariant: Commercial bundles operate with upfront pricing ($9-$49). Zero free tiers.
+- Technical Scope: Transformer attention, KV cache, LoRA, quantization, WebMCP protocols, and neuro-developmental audio.
 
-## Links
-- Site: https://aiforbabies.com/
-- Full Overview: https://aiforbabies.com/llms-full.txt
+## Core Resources
+- [Main Platform](https://aiforbabies.pages.dev/): Central catalog, interactive labs, and simulator.
+- [Full LLM Documentation](https://aiforbabies.pages.dev/llms-full.txt): Comprehensive machine-readable documentation.
+- [WebMCP Tool Manifest](https://aiforbabies.pages.dev/.well-known/webmcp.json): Browser-level tool integration schema.
+- [Substack Dispatch](https://aiforbabies.substack.com): Deep dives into frontier agent architecture.
+
+## Products & Commercial Blueprints
+- [Web Developer Blueprints](https://aiforbabies.pages.dev/#blueprints): Production-grade prompt architecture and code generation templates.
+- [Cognitive Pack 0-12M](https://aiforbabies.gumroad.com/l/cognitive-pack): Visual stimulation cards and audio soundscapes calibrated for infant cognitive development.
+
+## Technical Modules
+- [77 AI Definitions & Math](https://aiforbabies.pages.dev/definitions/): KV cache, LoRA, DPO, quantization calculators.
+- [AGENTS.md Protocol Generator](https://aiforbabies.pages.dev/agents-spec/): Multi-agent root rule generator.
+- [Speculative Decoding Lab](https://aiforbabies.pages.dev/speculative-decoding/): Gamma and Alpha verification speedup modeling.
