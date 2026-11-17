@@ -3,3 +3,8 @@
 - [AI for Babies - No Hype. Pure Signal.](https://aiforbabies.pages.dev)
 - [FAQ - AI for Babies - No Hype. Pure Signal.](https://aiforbabies.pages.dev/faq/)
 - [googleb4ecbd9bc56c231c.html](https://aiforbabies.pages.dev/googleb4ecbd9bc56c231c.html)
+
+## Related
+- [grai: local-first voice workbench](https://grai.page)
+- [grai free cadence test](https://grai.page/#test)
+- [grai comparisons](https://grai.page/vs/)
